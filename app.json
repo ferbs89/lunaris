@@ -1,0 +1,10 @@
+{
+  "expo": {
+    "name": "lunaris",
+    "slug": "lunaris",
+    "version": "1.0.0",
+    "assetBundlePatterns": [
+      "**/*"
+    ]
+  }
+}
