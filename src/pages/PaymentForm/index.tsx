@@ -12,20 +12,23 @@ import { Controller, useForm } from "react-hook-form";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import dayjs from "dayjs";
 
+import { supabase } from "../../config/supabase";
 import ActionButton from "../../components/ActionButton";
 import Container from "../../components/Container";
 import Header from "../../components/Header";
-import { supabase } from "../../config/supabase";
 
 type FormData = {
   description: string;
   value: string;
 };
 
-export default function PaymentForm({ navigation }) {
+export default function PaymentForm({ navigation, route }) {
   const [datePickerValue, setDatePickerValue] = useState(new Date());
   const [datePickerShow, setDatePickerShow] = useState(false);
   const [confirmed, setConfirmed] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const { params } = route;
 
   const {
     control,
@@ -34,9 +37,21 @@ export default function PaymentForm({ navigation }) {
     formState: { errors },
   } = useForm<FormData>();
 
-  async function addPayment() {
-    // await supabase.from("todos").insert([{ user_id: user.id, task: "teste" }]);
-  }
+  useEffect(() => {
+    if (params?.item) {
+      reset({
+        description: params.item.description,
+        value: params.item.value.toString(),
+      });
+
+      setDatePickerValue(params.item.due);
+      setConfirmed(!!params.item.is_paid);
+    }
+
+    return () => {
+      resetFields();
+    };
+  }, [params]);
 
   function renderItem(item: string) {
     return (
@@ -46,29 +61,47 @@ export default function PaymentForm({ navigation }) {
     );
   }
 
-  const onChangeDatePicker = (event: any, selectedDate: Date) => {
+  function onChangeDatePicker(event: any, selectedDate: Date) {
     setDatePickerShow(false);
     setDatePickerValue(selectedDate);
-  };
+  }
 
-  const onSubmit = (data: FormData) => {
-    console.log(data);
-    console.log(datePickerValue);
-    console.log(confirmed);
+  async function onSubmit(data: FormData) {
+    setIsLoading(true);
 
+    const payload = {
+      description: data.description,
+      value: data.value,
+      due: datePickerValue,
+      is_paid: confirmed,
+    };
+
+    if (params?.item.id) {
+      await supabase.from("payments").update(payload).eq("id", params.item.id);
+    } else {
+      await supabase.from("payments").insert([payload]);
+    }
+
+    resetFields();
+    navigation.navigate("Payments");
+  }
+
+  function resetFields() {
     reset({
       description: "",
       value: "",
     });
 
-    navigation.navigate("Payments");
-  };
+    setDatePickerValue(new Date());
+    setConfirmed(false);
+    setIsLoading(false);
+  }
 
   return (
     <Container>
       <Header
         navigation={navigation}
-        title="Pagamento"
+        title={params?.item.id ? "Editar pagamento" : "Novo pagamento"}
         onBack={() => navigation.navigate("Payments")}
       />
 
@@ -146,12 +179,21 @@ export default function PaymentForm({ navigation }) {
           </FormControl.ErrorMessage>
         </FormControl>
 
-        <Checkbox value="two" m="4">
+        <Checkbox
+          value="confirmed"
+          isChecked={confirmed}
+          onChange={() => setConfirmed((prevState) => !prevState)}
+          m="4"
+        >
           <Text>Pagamento realizado</Text>
         </Checkbox>
       </ScrollView>
 
-      <ActionButton title="Adicionar" onPress={handleSubmit(onSubmit)} />
+      <ActionButton
+        title="Salvar"
+        isLoading={isLoading}
+        onPress={handleSubmit(async (data) => await onSubmit(data))}
+      />
     </Container>
   );
 }

@@ -47,7 +47,7 @@ export default function Header({ navigation, title, onBack }: HeaderType) {
             />
           )}
 
-          <Heading size="md" mx="2" isTruncated>
+          <Heading flex="1" size="md" mx="2" isTruncated>
             {title}
           </Heading>
         </HStack>

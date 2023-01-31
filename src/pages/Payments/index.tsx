@@ -9,41 +9,47 @@ import {
   HStack,
   Icon,
   Pressable,
+  Spinner,
   Text,
 } from "native-base";
 import { MaterialIcons } from "@expo/vector-icons";
 import { useQuery } from "react-query";
+import { useFocusEffect } from "@react-navigation/native";
+import dayjs from "dayjs";
 
 import Container from "../../components/Container";
 import Header from "../../components/Header";
 import { supabase } from "../../config/supabase";
-import dayjs from "dayjs";
 
 export default function Payments({ navigation }) {
   const [refreshing, setRefreshing] = useState(false);
 
-  const { data, refetch } = useQuery(
-    "payments",
-    async () => {
-      let { data: payments } = await supabase
-        .from("payments")
-        .select("*")
-        .order("due", { ascending: false })
-        .order("is_paid")
-        .order("description");
+  const { isLoading, data, refetch } = useQuery("payments", fetchData);
 
-      return payments;
-    },
-    {
-      staleTime: 1000 * 60 * 10, // 10 minutes
-    }
-  );
+  useFocusEffect(() => {
+    refetch();
+  });
+
+  async function fetchData() {
+    const { data } = await supabase
+      .from("payments")
+      .select("*")
+      .order("due", { ascending: false })
+      .order("is_paid")
+      .order("description");
+
+    return data;
+  }
 
   function renderItem(item) {
     return (
       <>
         <Pressable
-          onPress={() => navigation.navigate("PaymentForm", { id: item.id })}
+          onPress={() =>
+            navigation.navigate("PaymentForm", {
+              item,
+            })
+          }
         >
           <Box p="4">
             <HStack justifyContent="space-between" mb="2">
@@ -70,22 +76,29 @@ export default function Payments({ navigation }) {
 
   return (
     <Container>
-      <Header navigation={navigation} title="Pagamentos" />
+      <Header navigation={navigation} title="Lista de pagamentos" />
 
-      <FlatList
-        data={data}
-        renderItem={({ item }) => renderItem(item)}
-        ListFooterComponent={() => <Box pt="16" />}
-        onRefresh={refetch}
-        refreshing={refreshing}
-      />
+      {isLoading ? (
+        <Box flex="1" alignItems="center" justifyContent="center">
+          <Spinner size="lg" />
+        </Box>
+      ) : (
+        <>
+          <FlatList
+            data={data}
+            renderItem={({ item }) => renderItem(item)}
+            ListFooterComponent={() => <Box pt="24" />}
+            onRefresh={refetch}
+            refreshing={refreshing}
+          />
 
-      <Fab
-        renderInPortal={false}
-        icon={<Icon as={MaterialIcons} name="add" size="lg" />}
-        size="lg"
-        onPress={() => navigation.navigate("PaymentForm")}
-      />
+          <Fab
+            renderInPortal={false}
+            icon={<Icon as={MaterialIcons} name="add" size="lg" />}
+            onPress={() => navigation.navigate("PaymentForm")}
+          />
+        </>
+      )}
     </Container>
   );
 }
