@@ -5,14 +5,18 @@ import { QueryClientProvider } from "react-query";
 import { colorModeManager } from "./config/colorModeManager";
 import { queryClient } from "./config/queryClient";
 
+import { AuthProvider } from "./hooks/useAuth";
+
 import DrawerNavigator from "./routes/drawer";
 
 export default function () {
   return (
-    <NativeBaseProvider colorModeManager={colorModeManager}>
+    <AuthProvider>
       <QueryClientProvider client={queryClient}>
-        <DrawerNavigator />
+        <NativeBaseProvider colorModeManager={colorModeManager}>
+          <DrawerNavigator />
+        </NativeBaseProvider>
       </QueryClientProvider>
-    </NativeBaseProvider>
+    </AuthProvider>
   );
 }

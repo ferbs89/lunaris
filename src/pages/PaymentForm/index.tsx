@@ -12,10 +12,13 @@ import { Controller, useForm } from "react-hook-form";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import dayjs from "dayjs";
 
-import { supabase } from "../../config/supabase";
 import ActionButton from "../../components/ActionButton";
 import Container from "../../components/Container";
 import Header from "../../components/Header";
+
+import { supabase } from "../../config/supabase";
+
+import { useAuth } from "../../hooks/useAuth";
 
 type FormData = {
   description: string;
@@ -23,6 +26,8 @@ type FormData = {
 };
 
 export default function PaymentForm({ navigation, route }) {
+  const { user } = useAuth();
+
   const [datePickerValue, setDatePickerValue] = useState(new Date());
   const [datePickerShow, setDatePickerShow] = useState(false);
   const [confirmed, setConfirmed] = useState(false);
@@ -44,7 +49,7 @@ export default function PaymentForm({ navigation, route }) {
         value: params.item.value.toString(),
       });
 
-      setDatePickerValue(params.item.due);
+      setDatePickerValue(new Date(params.item.due));
       setConfirmed(!!params.item.is_paid);
     }
 
@@ -70,6 +75,7 @@ export default function PaymentForm({ navigation, route }) {
     setIsLoading(true);
 
     const payload = {
+      user_id: user.id,
       description: data.description,
       value: data.value,
       due: datePickerValue,

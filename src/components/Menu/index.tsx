@@ -14,7 +14,10 @@ import {
 } from "native-base";
 import { MaterialIcons } from "@expo/vector-icons";
 
+import { useAuth } from "../../hooks/useAuth";
+
 export default function Menu({ navigation }) {
+  const { handleLogout } = useAuth();
   const { toggleColorMode } = useColorMode();
 
   const bg = useColorModeValue("warmGray.50", "warmGray.800");
@@ -52,14 +55,6 @@ export default function Menu({ navigation }) {
           <Divider />
 
           <MenuItem
-            title="Home"
-            icon={<Icon as={MaterialIcons} name="home" size="lg" />}
-            onPress={() => navigation.navigate("Home")}
-          />
-
-          <Divider />
-
-          <MenuItem
             title="Pagamentos"
             icon={<Icon as={MaterialIcons} name="attach-money" size="lg" />}
             onPress={() => navigation.navigate("Payments")}
@@ -92,7 +87,10 @@ export default function Menu({ navigation }) {
         <MenuItem
           title="Sair"
           icon={<Icon as={MaterialIcons} name="exit-to-app" size="lg" />}
-          onPress={() => {}}
+          onPress={async () => {
+            await handleLogout();
+            navigation.closeDrawer();
+          }}
         />
       </Box>
     </Box>

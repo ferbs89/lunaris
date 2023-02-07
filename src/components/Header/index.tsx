@@ -1,4 +1,4 @@
-import React from "react";
+import React, { ReactNode } from "react";
 import {
   Divider,
   Heading,
@@ -13,10 +13,16 @@ import { MaterialIcons } from "@expo/vector-icons";
 type HeaderType = {
   navigation: any;
   title?: string;
+  leftIcon?: ReactNode;
   onBack?: () => void;
 };
 
-export default function Header({ navigation, title, onBack }: HeaderType) {
+export default function Header({
+  navigation,
+  title,
+  leftIcon,
+  onBack,
+}: HeaderType) {
   const bgHeader = useColorModeValue("warmGray.100", "warmGray.900");
   const bgStatusBar = useColorModeValue("#f5f5f4", "#1c1917");
   const styleStatusBar = useColorModeValue("dark-content", "light-content");
@@ -50,6 +56,8 @@ export default function Header({ navigation, title, onBack }: HeaderType) {
           <Heading flex="1" size="md" mx="2" isTruncated>
             {title}
           </Heading>
+
+          {leftIcon}
         </HStack>
       </HStack>
 
