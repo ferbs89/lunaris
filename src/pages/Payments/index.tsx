@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Badge,
   Box,
@@ -17,23 +17,28 @@ import {
 } from "native-base";
 import { MaterialIcons } from "@expo/vector-icons";
 import { useQuery } from "react-query";
-import { useFocusEffect } from "@react-navigation/native";
 import dayjs from "dayjs";
+import { formatNumber } from "react-native-currency-input";
 
 import Container from "../../components/Container";
 import Header from "../../components/Header";
 import { supabase } from "../../config/supabase";
 
+import { useRefetchOnFocus } from "../../hooks/useRefetchOnFocus";
+
 export default function Payments({ navigation }) {
   const [refreshing, setRefreshing] = useState(false);
   const [showFilter, setShowFilter] = useState(false);
-  const [groupValues, setGroupValues] = useState(["confirmed", "pending"]);
+  const [paid, setPaid] = useState(true);
+  const [pending, setPending] = useState(true);
 
   const { isLoading, data, refetch } = useQuery("payments", fetchData);
 
-  useFocusEffect(() => {
+  useRefetchOnFocus(refetch);
+
+  useEffect(() => {
     refetch();
-  });
+  }, [paid, pending]);
 
   async function fetchData() {
     const { data } = await supabase
@@ -43,10 +48,18 @@ export default function Payments({ navigation }) {
       .order("due")
       .order("description");
 
-    const pending = data.filter((item) => !item.is_paid);
-    const paid = data.filter((item) => item.is_paid).reverse();
+    const pendingList = data.filter((item) => !item.is_paid);
+    const paidList = data.filter((item) => item.is_paid).reverse();
 
-    return [...pending, ...paid];
+    if (paid && pending) {
+      return [...pendingList, ...paidList];
+    } else if (paid) {
+      return [...paidList];
+    } else if (pending) {
+      return [...pendingList];
+    } else {
+      return [];
+    }
   }
 
   function renderItem(item) {
@@ -62,7 +75,14 @@ export default function Payments({ navigation }) {
           <Box p="4">
             <HStack justifyContent="space-between" mb="2">
               <Heading fontSize="md">{item.description}</Heading>
-              <Heading fontSize="md">R$ {item.value}</Heading>
+              <Heading fontSize="md">
+                {formatNumber(item.value, {
+                  prefix: "R$ ",
+                  delimiter: ".",
+                  separator: ",",
+                  precision: 2,
+                })}
+              </Heading>
             </HStack>
 
             <HStack justifyContent="space-between">
@@ -120,30 +140,30 @@ export default function Payments({ navigation }) {
             </>
           ) : (
             <Box p="4">
-              <Checkbox value="confirmed" mb="4">
+              <Checkbox
+                value="paid"
+                mb="4"
+                onChange={() => setPaid((prevState) => !prevState)}
+                isChecked={paid}
+              >
                 Pago
               </Checkbox>
 
-              <Checkbox value="pending" mb="4">
+              <Checkbox
+                value="pending"
+                mb="4"
+                onChange={() => setPending((prevState) => !prevState)}
+                isChecked={pending}
+              >
                 Pendente
               </Checkbox>
 
               <Button
-                mb="2"
                 onPress={() => {
                   setShowFilter(false);
                 }}
               >
-                Filtrar
-              </Button>
-
-              <Button
-                variant={"ghost"}
-                onPress={() => {
-                  setShowFilter(false);
-                }}
-              >
-                Cancelar
+                Ok
               </Button>
             </Box>
           )}

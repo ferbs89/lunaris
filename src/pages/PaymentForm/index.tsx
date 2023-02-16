@@ -7,10 +7,12 @@ import {
   Input,
   ScrollView,
   Text,
+  useToast,
 } from "native-base";
 import { Controller, useForm } from "react-hook-form";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import dayjs from "dayjs";
+import CurrencyInput from "react-native-currency-input";
 
 import ActionButton from "../../components/ActionButton";
 import Container from "../../components/Container";
@@ -27,6 +29,7 @@ type FormData = {
 
 export default function PaymentForm({ navigation, route }) {
   const { user } = useAuth();
+  const toast = useToast();
 
   const [datePickerValue, setDatePickerValue] = useState(new Date());
   const [datePickerShow, setDatePickerShow] = useState(false);
@@ -84,8 +87,18 @@ export default function PaymentForm({ navigation, route }) {
 
     if (params?.item.id) {
       await supabase.from("payments").update(payload).eq("id", params.item.id);
+
+      toast.show({
+        description: "Pagamento editado com sucesso",
+        placement: "top",
+      });
     } else {
       await supabase.from("payments").insert([payload]);
+
+      toast.show({
+        description: "Novo pagamento adicionado",
+        placement: "top",
+      });
     }
 
     resetFields();
@@ -147,11 +160,17 @@ export default function PaymentForm({ navigation, route }) {
             control={control}
             rules={{ required: true }}
             render={({ field: { onChange, onBlur, value } }) => (
-              <Input
-                value={value}
-                onChangeText={onChange}
+              <CurrencyInput
+                value={Number(value)}
+                onChangeValue={onChange}
                 onBlur={onBlur}
-                size="md"
+                renderTextInput={(textInputProps) => (
+                  <Input {...textInputProps} size="md" />
+                )}
+                prefix="R$ "
+                delimiter="."
+                separator=","
+                precision={2}
               />
             )}
             name="value"

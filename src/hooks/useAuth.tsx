@@ -38,8 +38,11 @@ export function AuthProvider({ children }) {
         password,
       });
 
-    if (sessionData.user) {
+    if (sessionError) {
+      return false;
+    } else if (sessionData.user) {
       setUser(sessionData.user);
+      return true;
     }
   }
 

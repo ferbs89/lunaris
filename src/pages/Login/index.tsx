@@ -1,5 +1,5 @@
 import React from "react";
-import { Box, Button, FormControl, Input } from "native-base";
+import { Box, Button, FormControl, Input, useToast } from "native-base";
 import { Controller, useForm } from "react-hook-form";
 
 import Container from "../../components/Container";
@@ -12,6 +12,7 @@ type FormData = {
 
 export default function Login() {
   const { handleLogin } = useAuth();
+  const toast = useToast();
 
   const {
     control,
@@ -21,14 +22,23 @@ export default function Login() {
   } = useForm<FormData>();
 
   async function onSubmit(data: FormData) {
-    await handleLogin(data.login.trim(), data.password);
+    const isLoginDone = await handleLogin(data.login.trim(), data.password);
+
+    if (!isLoginDone) {
+      if (!toast.isActive("login-toast")) {
+        toast.show({
+          id: "login-toast",
+          description: "E-mail e/ou senha inválidos",
+        });
+      }
+    }
   }
 
   return (
     <Container>
       <Box flex="1" alignItems="center" justifyContent="center">
         <FormControl isRequired isInvalid={!!errors.login} px="4" mb="2">
-          <FormControl.Label>Login </FormControl.Label>
+          <FormControl.Label>E-mail </FormControl.Label>
 
           <Controller
             control={control}
