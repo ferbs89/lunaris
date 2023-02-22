@@ -5,7 +5,6 @@ import {
   HStack,
   Icon,
   IconButton,
-  StatusBar,
   useColorModeValue,
 } from "native-base";
 import { MaterialIcons } from "@expo/vector-icons";
@@ -24,13 +23,9 @@ export default function Header({
   onBack,
 }: HeaderType) {
   const bgHeader = useColorModeValue("warmGray.100", "warmGray.900");
-  const bgStatusBar = useColorModeValue("#f5f5f4", "#1c1917");
-  const styleStatusBar = useColorModeValue("dark-content", "light-content");
 
   return (
     <>
-      <StatusBar backgroundColor={bgStatusBar} barStyle={styleStatusBar} />
-
       <HStack
         bg={bgHeader}
         px="2"

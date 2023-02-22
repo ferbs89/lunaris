@@ -1,13 +1,23 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
+import { User as UserType } from "@supabase/supabase-js";
 
 import { queryClient } from "../config/queryClient";
 import { supabase } from "../config/supabase";
 
-const AuthContext = createContext({} as any);
+type AuthContextType = {
+  user: UserType;
+  loadingSession: boolean;
+  loadingLogin: boolean;
+  handleLogin: (email: string, password: string) => Promise<boolean>;
+  handleLogout: () => void;
+};
+
+const AuthContext = createContext({} as AuthContextType);
 
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const [loadingSession, setLoadingSession] = useState(true);
+  const [loadingLogin, setLoadingLogin] = useState(false);
 
   useEffect(() => {
     loadSession();
@@ -24,19 +34,23 @@ export function AuthProvider({ children }) {
       setUser(null);
     }
 
-    setLoading(false);
+    setLoadingSession(false);
   }
 
   async function handleLogin(email: string, password: string) {
     if (!email || !password) {
-      return;
+      return false;
     }
+
+    setLoadingLogin(true);
 
     const { data: sessionData, error: sessionError } =
       await supabase.auth.signInWithPassword({
         email,
         password,
       });
+
+    setLoadingLogin(false);
 
     if (sessionError) {
       return false;
@@ -56,7 +70,9 @@ export function AuthProvider({ children }) {
   }
 
   return (
-    <AuthContext.Provider value={{ user, loading, handleLogin, handleLogout }}>
+    <AuthContext.Provider
+      value={{ user, loadingSession, loadingLogin, handleLogin, handleLogout }}
+    >
       {children}
     </AuthContext.Provider>
   );

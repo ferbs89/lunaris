@@ -11,7 +11,7 @@ type FormData = {
 };
 
 export default function Login() {
-  const { handleLogin } = useAuth();
+  const { handleLogin, loadingLogin } = useAuth();
   const toast = useToast();
 
   const {
@@ -87,6 +87,7 @@ export default function Login() {
         <Box w="100%">
           <Button
             onPress={handleSubmit(async (data) => await onSubmit(data))}
+            isLoading={loadingLogin}
             m="4"
             height="42"
           >

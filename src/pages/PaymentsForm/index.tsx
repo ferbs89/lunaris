@@ -27,7 +27,7 @@ type FormData = {
   value: string;
 };
 
-export default function PaymentForm({ navigation, route }) {
+export default function PaymentsForm({ navigation, route }) {
   const { user } = useAuth();
   const toast = useToast();
 

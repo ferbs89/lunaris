@@ -9,15 +9,15 @@ import { useAuth } from "../hooks/useAuth";
 
 import Login from "../pages/Login";
 import Payments from "../pages/Payments";
-import PaymentForm from "../pages/PaymentForm";
+import PaymentsForm from "../pages/PaymentsForm";
 import Todos from "../pages/Todos";
 
 const Drawer = createDrawerNavigator();
 
 export default function DrawerNavigator() {
-  const { user, loading } = useAuth();
+  const { user, loadingSession } = useAuth();
 
-  if (loading) {
+  if (loadingSession) {
     return <Container />;
   }
 
@@ -30,7 +30,7 @@ export default function DrawerNavigator() {
         {user ? (
           <>
             <Drawer.Screen name="Payments" component={Payments} />
-            <Drawer.Screen name="PaymentForm" component={PaymentForm} />
+            <Drawer.Screen name="PaymentsForm" component={PaymentsForm} />
             <Drawer.Screen name="Todos" component={Todos} />
           </>
         ) : (
