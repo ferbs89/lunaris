@@ -9,7 +9,7 @@ type AuthContextType = {
   loadingSession: boolean;
   loadingLogin: boolean;
   handleLogin: (email: string, password: string) => Promise<boolean>;
-  handleLogout: () => void;
+  handleLogout: () => Promise<void>;
 };
 
 const AuthContext = createContext({} as AuthContextType);

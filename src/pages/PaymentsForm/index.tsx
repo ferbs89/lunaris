@@ -2,8 +2,10 @@ import React, { useState, useEffect } from "react";
 import { Keyboard } from "react-native";
 import {
   Box,
+  Button,
   Checkbox,
   FormControl,
+  HStack,
   Input,
   ScrollView,
   Text,
@@ -33,7 +35,7 @@ export default function PaymentsForm({ navigation, route }) {
 
   const [datePickerValue, setDatePickerValue] = useState(new Date());
   const [datePickerShow, setDatePickerShow] = useState(false);
-  const [confirmed, setConfirmed] = useState(false);
+  const [isPaid, setIsPaid] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
   const { params } = route;
@@ -53,7 +55,7 @@ export default function PaymentsForm({ navigation, route }) {
       });
 
       setDatePickerValue(new Date(params.item.due));
-      setConfirmed(!!params.item.is_paid);
+      setIsPaid(!!params.item.is_paid);
     }
 
     return () => {
@@ -82,7 +84,7 @@ export default function PaymentsForm({ navigation, route }) {
       description: data.description,
       value: data.value,
       due: datePickerValue,
-      is_paid: confirmed,
+      is_paid: isPaid,
     };
 
     if (params?.item.id) {
@@ -112,7 +114,7 @@ export default function PaymentsForm({ navigation, route }) {
     });
 
     setDatePickerValue(new Date());
-    setConfirmed(false);
+    setIsPaid(false);
     setIsLoading(false);
   }
 
@@ -125,35 +127,7 @@ export default function PaymentsForm({ navigation, route }) {
       />
 
       <ScrollView>
-        <FormControl
-          isRequired
-          isInvalid={!!errors.description}
-          px="4"
-          mt="4"
-          mb="2"
-        >
-          <FormControl.Label>Descrição </FormControl.Label>
-
-          <Controller
-            control={control}
-            rules={{ required: true }}
-            render={({ field: { onChange, onBlur, value } }) => (
-              <Input
-                value={value}
-                onChangeText={onChange}
-                onBlur={onBlur}
-                size="md"
-              />
-            )}
-            name="description"
-          />
-
-          <FormControl.ErrorMessage>
-            Campo obrigatório.
-          </FormControl.ErrorMessage>
-        </FormControl>
-
-        <FormControl isRequired isInvalid={!!errors.value} px="4" mb="2">
+        <FormControl isRequired isInvalid={!!errors.value} px="4" mt="4" mb="4">
           <FormControl.Label>Valor </FormControl.Label>
 
           <Controller
@@ -165,7 +139,12 @@ export default function PaymentsForm({ navigation, route }) {
                 onChangeValue={onChange}
                 onBlur={onBlur}
                 renderTextInput={(textInputProps) => (
-                  <Input {...textInputProps} size="md" />
+                  <Input
+                    {...textInputProps}
+                    variant="underlined"
+                    size="2xl"
+                    _input={{ fontWeight: "medium" }}
+                  />
                 )}
                 prefix="R$ "
                 delimiter="."
@@ -181,14 +160,16 @@ export default function PaymentsForm({ navigation, route }) {
           </FormControl.ErrorMessage>
         </FormControl>
 
-        <FormControl isRequired px="4" mb="2">
+        <FormControl isRequired px="4" mb="4">
           <FormControl.Label>Vencimento </FormControl.Label>
 
           <Input
             value={dayjs(datePickerValue).format("DD/MM/YYYY")}
             onFocus={Keyboard.dismiss}
             onTouchStart={() => setDatePickerShow(true)}
-            size="md"
+            variant="underlined"
+            size="2xl"
+            _input={{ fontWeight: "medium" }}
           />
 
           {datePickerShow && (
@@ -204,14 +185,61 @@ export default function PaymentsForm({ navigation, route }) {
           </FormControl.ErrorMessage>
         </FormControl>
 
-        <Checkbox
-          value="confirmed"
-          isChecked={confirmed}
-          onChange={() => setConfirmed((prevState) => !prevState)}
-          m="4"
-        >
-          <Text>Pagamento realizado</Text>
-        </Checkbox>
+        <FormControl isRequired isInvalid={!!errors.description} px="4">
+          <FormControl.Label>Descrição </FormControl.Label>
+
+          <Controller
+            control={control}
+            rules={{ required: true }}
+            render={({ field: { onChange, onBlur, value } }) => (
+              <Input
+                value={value}
+                onChangeText={onChange}
+                onBlur={onBlur}
+                variant="underlined"
+                size="xl"
+                _input={{ fontWeight: "medium" }}
+              />
+            )}
+            name="description"
+          />
+
+          <FormControl.ErrorMessage>
+            Campo obrigatório.
+          </FormControl.ErrorMessage>
+        </FormControl>
+
+        <HStack justifyContent="space-between" space="2" p="4">
+          <Button
+            flex="1"
+            rounded="full"
+            colorScheme="danger"
+            size="sm"
+            variant={!isPaid ? "solid" : "outline"}
+            onPress={() => setIsPaid(false)}
+            _text={{
+              fontSize: "sm",
+              fontWeight: "bold",
+            }}
+          >
+            Pendente
+          </Button>
+
+          <Button
+            flex="1"
+            rounded="full"
+            colorScheme="success"
+            size="sm"
+            variant={isPaid ? "solid" : "outline"}
+            onPress={() => setIsPaid(true)}
+            _text={{
+              fontSize: "sm",
+              fontWeight: "bold",
+            }}
+          >
+            Pago
+          </Button>
+        </HStack>
       </ScrollView>
 
       <ActionButton

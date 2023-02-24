@@ -20,13 +20,15 @@ export default function Menu({ navigation }) {
   const { handleLogout } = useAuth();
   const { toggleColorMode } = useColorMode();
 
-  const bg = useColorModeValue("warmGray.50", "warmGray.800");
+  const theme = useColorModeValue("escuro", "claro");
+
+  const bg1 = useColorModeValue("warmGray.50", "warmGray.800");
   const bg2 = useColorModeValue("warmGray.100", "warmGray.900");
+
   const iconTheme = useColorModeValue(
     <MoonIcon size="lg" />,
     <SunIcon size="lg" />
   );
-  const theme = useColorModeValue("escuro", "claro");
 
   function MenuItem({ title, icon, onPress }) {
     return (
@@ -45,7 +47,7 @@ export default function Menu({ navigation }) {
   }
 
   return (
-    <Box flex="1" bg={bg} justifyContent="space-between">
+    <Box flex="1" bg={bg1} justifyContent="space-between">
       <Box flex="1">
         <ScrollView>
           <Heading px="4" py="6" bg={bg2}>

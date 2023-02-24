@@ -51,6 +51,7 @@ export default function ({ navigation, item }: PaymentsItemType) {
             <Text fontSize="sm">{dayjs(item.due).format("DD/MM/YYYY")}</Text>
             <Badge
               rounded="full"
+              variant="solid"
               colorScheme={item.is_paid ? "success" : "danger"}
               width="20"
             >

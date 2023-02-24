@@ -22,12 +22,12 @@ export default function Header({
   leftIcon,
   onBack,
 }: HeaderType) {
-  const bgHeader = useColorModeValue("warmGray.100", "warmGray.900");
+  const bg = useColorModeValue("warmGray.100", "warmGray.900");
 
   return (
     <>
       <HStack
-        bg={bgHeader}
+        bg={bg}
         px="2"
         py="1"
         justifyContent="space-between"
