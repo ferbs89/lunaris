@@ -113,7 +113,7 @@ export default function Todos({ navigation }) {
 
                 <Text
                   width="100%"
-                  flexShrink={1}
+                  flexShrink="1"
                   textAlign="left"
                   fontSize="md"
                   mx="2"

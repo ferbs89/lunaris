@@ -1,13 +1,5 @@
 import React from "react";
-import {
-  Badge,
-  Box,
-  Divider,
-  Heading,
-  HStack,
-  Pressable,
-  Text,
-} from "native-base";
+import { Badge, Box, Divider, HStack, Pressable, Text } from "native-base";
 import { formatNumber } from "react-native-currency-input";
 import dayjs from "dayjs";
 
@@ -36,19 +28,23 @@ export default function ({ navigation, item }: PaymentsItemType) {
       >
         <Box p="4">
           <HStack justifyContent="space-between" mb="2">
-            <Heading fontSize="md">{item.description}</Heading>
-            <Heading fontSize="md">
+            <Text fontSize="md" fontWeight="500">
+              {item.description}
+            </Text>
+
+            <Text fontSize="md" fontWeight="500">
               {formatNumber(item.value, {
                 prefix: "R$ ",
                 delimiter: ".",
                 separator: ",",
                 precision: 2,
               })}
-            </Heading>
+            </Text>
           </HStack>
 
           <HStack justifyContent="space-between">
-            <Text fontSize="sm">{dayjs(item.due).format("DD/MM/YYYY")}</Text>
+            <Text>{dayjs(item.due).format("DD/MM/YYYY")}</Text>
+
             <Badge
               rounded="full"
               variant="solid"

@@ -37,7 +37,7 @@ export default function Login() {
   return (
     <Container>
       <Box flex="1" alignItems="center" justifyContent="center">
-        <FormControl isRequired isInvalid={!!errors.login} px="4" mb="2">
+        <FormControl isRequired isInvalid={!!errors.login} px="4" mb="4">
           <FormControl.Label>E-mail </FormControl.Label>
 
           <Controller
@@ -49,7 +49,8 @@ export default function Login() {
                 value={value}
                 onChangeText={onChange}
                 onBlur={onBlur}
-                size="md"
+                variant="underlined"
+                size="xl"
               />
             )}
             name="login"
@@ -60,7 +61,7 @@ export default function Login() {
           </FormControl.ErrorMessage>
         </FormControl>
 
-        <FormControl isRequired isInvalid={!!errors.password} px="4" mb="2">
+        <FormControl isRequired isInvalid={!!errors.password} px="4" mb="4">
           <FormControl.Label>Senha </FormControl.Label>
 
           <Controller
@@ -73,7 +74,8 @@ export default function Login() {
                 value={value}
                 onChangeText={onChange}
                 onBlur={onBlur}
-                size="md"
+                variant="underlined"
+                size="xl"
               />
             )}
             name="password"

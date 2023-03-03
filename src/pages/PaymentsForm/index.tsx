@@ -1,14 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { Keyboard } from "react-native";
 import {
-  Box,
   Button,
-  Checkbox,
   FormControl,
   HStack,
   Input,
   ScrollView,
-  Text,
   useToast,
 } from "native-base";
 import { Controller, useForm } from "react-hook-form";
@@ -62,14 +59,6 @@ export default function PaymentsForm({ navigation, route }) {
       resetFields();
     };
   }, [params]);
-
-  function renderItem(item: string) {
-    return (
-      <Box paddingX="4" paddingY="2">
-        <Text fontSize="md">{item}</Text>
-      </Box>
-    );
-  }
 
   function onChangeDatePicker(event: any, selectedDate: Date) {
     setDatePickerShow(false);
@@ -142,7 +131,7 @@ export default function PaymentsForm({ navigation, route }) {
                   <Input
                     {...textInputProps}
                     variant="underlined"
-                    size="2xl"
+                    size="xl"
                     _input={{ fontWeight: "medium" }}
                   />
                 )}
@@ -168,7 +157,7 @@ export default function PaymentsForm({ navigation, route }) {
             onFocus={Keyboard.dismiss}
             onTouchStart={() => setDatePickerShow(true)}
             variant="underlined"
-            size="2xl"
+            size="xl"
             _input={{ fontWeight: "medium" }}
           />
 

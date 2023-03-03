@@ -3,7 +3,6 @@ import {
   Box,
   Button,
   Divider,
-  Heading,
   Icon,
   MoonIcon,
   ScrollView,
@@ -50,9 +49,9 @@ export default function Menu({ navigation }) {
     <Box flex="1" bg={bg1} justifyContent="space-between">
       <Box flex="1">
         <ScrollView>
-          <Heading px="4" py="6" bg={bg2}>
+          <Text fontSize="2xl" fontWeight="500" px="4" py="6" bg={bg2}>
             Lunaris
-          </Heading>
+          </Text>
 
           <Divider />
 

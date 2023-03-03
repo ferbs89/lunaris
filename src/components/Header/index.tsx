@@ -1,10 +1,10 @@
 import React, { ReactNode } from "react";
 import {
   Divider,
-  Heading,
   HStack,
   Icon,
   IconButton,
+  Text,
   useColorModeValue,
 } from "native-base";
 import { MaterialIcons } from "@expo/vector-icons";
@@ -26,13 +26,7 @@ export default function Header({
 
   return (
     <>
-      <HStack
-        bg={bg}
-        px="2"
-        py="1"
-        justifyContent="space-between"
-        alignItems="center"
-      >
+      <HStack bg={bg} py="1">
         <HStack flex="1" alignItems="center">
           {onBack ? (
             <IconButton
@@ -48,9 +42,9 @@ export default function Header({
             />
           )}
 
-          <Heading flex="1" size="md" mx="2" isTruncated>
+          <Text flex="1" fontSize="lg" fontWeight="500" mx="2" isTruncated>
             {title}
-          </Heading>
+          </Text>
 
           {leftIcon}
         </HStack>
