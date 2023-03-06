@@ -12,6 +12,7 @@ import { MaterialIcons } from "@expo/vector-icons";
 type HeaderType = {
   navigation: any;
   title?: string;
+  titleComponent?: ReactNode;
   leftIcon?: ReactNode;
   onBack?: () => void;
 };
@@ -19,6 +20,7 @@ type HeaderType = {
 export default function Header({
   navigation,
   title,
+  titleComponent,
   leftIcon,
   onBack,
 }: HeaderType) {
@@ -26,7 +28,7 @@ export default function Header({
 
   return (
     <>
-      <HStack bg={bg} py="1">
+      <HStack bg={bg} p="1">
         <HStack flex="1" alignItems="center">
           {onBack ? (
             <IconButton
@@ -42,9 +44,13 @@ export default function Header({
             />
           )}
 
-          <Text flex="1" fontSize="lg" fontWeight="500" mx="2" isTruncated>
-            {title}
-          </Text>
+          {title ? (
+            <Text flex="1" fontSize="lg" fontWeight="500" mx="2" isTruncated>
+              {title}
+            </Text>
+          ) : titleComponent ? (
+            titleComponent
+          ) : null}
 
           {leftIcon}
         </HStack>

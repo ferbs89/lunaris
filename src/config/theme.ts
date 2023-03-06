@@ -1,17 +1,20 @@
 import { extendTheme } from "native-base";
 
 export const theme = extendTheme({
+  components: {
+    Button: {
+      defaultProps: {
+        size: "sm",
+        _text: {
+          fontSize: "sm",
+          fontWeight: "600",
+        },
+      },
+    },
+  },
+
   fontConfig: {
     Poppins: {
-      100: {
-        normal: "Poppins_100Thin",
-      },
-      200: {
-        normal: "Poppins_200ExtraLight",
-      },
-      300: {
-        normal: "Poppins_300Light",
-      },
       400: {
         normal: "Poppins_400Regular",
       },
@@ -23,12 +26,6 @@ export const theme = extendTheme({
       },
       700: {
         normal: "Poppins_700Bold",
-      },
-      800: {
-        normal: "Poppins_800ExtraBold",
-      },
-      900: {
-        normal: "Poppins_900Black",
       },
     },
   },

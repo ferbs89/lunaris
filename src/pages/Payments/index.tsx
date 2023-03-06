@@ -10,10 +10,12 @@ import {
 } from "native-base";
 import { MaterialIcons } from "@expo/vector-icons";
 import { useQuery } from "react-query";
+import dayjs from "dayjs";
 
 import Container from "../../components/Container";
 import Header from "../../components/Header";
 import PaymentsFilter from "../../components/PaymentsFilter";
+import PaymentsHeader from "../../components/PaymentsHeader";
 import PaymentsItem from "../../components/PaymentsItem";
 
 import { supabase } from "../../config/supabase";
@@ -23,10 +25,11 @@ import { useRefetchOnFocus } from "../../hooks/useRefetchOnFocus";
 export default function Payments({ navigation }) {
   const [refreshing, setRefreshing] = useState(false);
   const [showFilter, setShowFilter] = useState(false);
+  const [currentDate, setCurrentDate] = useState(dayjs().format("YYYY-MM-DD"));
   const [status, setStatus] = useState<"pending" | "paid" | "all">("all");
   const [search, setSearch] = useState("");
 
-  const { data, refetch } = useQuery("payments", fetchData);
+  const { data, refetch } = useQuery(`payments-${currentDate}`, fetchData);
 
   useRefetchOnFocus(refetch);
 
@@ -34,6 +37,8 @@ export default function Payments({ navigation }) {
     const { data } = await supabase
       .from("payments")
       .select("*")
+      .gte("due", dayjs(currentDate).startOf("month").format("YYYY-MM-DD"))
+      .lte("due", dayjs(currentDate).endOf("month").format("YYYY-MM-DD"))
       .order("is_paid")
       .order("due")
       .order("description");
@@ -74,6 +79,12 @@ export default function Payments({ navigation }) {
     <Container>
       <Header
         navigation={navigation}
+        titleComponent={
+          <PaymentsHeader
+            currentDate={currentDate}
+            setCurrentDate={setCurrentDate}
+          />
+        }
         leftIcon={
           <IconButton
             icon={

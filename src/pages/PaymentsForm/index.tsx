@@ -9,9 +9,10 @@ import {
   useToast,
 } from "native-base";
 import { Controller, useForm } from "react-hook-form";
+import CurrencyInput from "react-native-currency-input";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import dayjs from "dayjs";
-import CurrencyInput from "react-native-currency-input";
+import utc from "dayjs/plugin/utc";
 
 import ActionButton from "../../components/ActionButton";
 import Container from "../../components/Container";
@@ -43,6 +44,8 @@ export default function PaymentsForm({ navigation, route }) {
     reset,
     formState: { errors },
   } = useForm<FormData>();
+
+  dayjs.extend(utc);
 
   useEffect(() => {
     if (params?.item) {
@@ -153,7 +156,7 @@ export default function PaymentsForm({ navigation, route }) {
           <FormControl.Label>Vencimento </FormControl.Label>
 
           <Input
-            value={dayjs(datePickerValue).format("DD/MM/YYYY")}
+            value={dayjs(datePickerValue).utc().format("DD/MM/YYYY")}
             onFocus={Keyboard.dismiss}
             onTouchStart={() => setDatePickerShow(true)}
             variant="underlined"
@@ -203,13 +206,8 @@ export default function PaymentsForm({ navigation, route }) {
             flex="1"
             rounded="full"
             colorScheme="danger"
-            size="sm"
             variant={!isPaid ? "solid" : "outline"}
             onPress={() => setIsPaid(false)}
-            _text={{
-              fontSize: "sm",
-              fontWeight: "bold",
-            }}
           >
             Pendente
           </Button>
@@ -221,10 +219,6 @@ export default function PaymentsForm({ navigation, route }) {
             size="sm"
             variant={isPaid ? "solid" : "outline"}
             onPress={() => setIsPaid(true)}
-            _text={{
-              fontSize: "sm",
-              fontWeight: "bold",
-            }}
           >
             Pago
           </Button>

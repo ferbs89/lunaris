@@ -35,13 +35,8 @@ export default function ({
           flex="1"
           rounded="full"
           colorScheme="danger"
-          size="sm"
           variant={status === "pending" ? "solid" : "outline"}
           onPress={() => setStatus("pending")}
-          _text={{
-            fontSize: "sm",
-            fontWeight: "bold",
-          }}
         >
           Pendente
         </Button>
@@ -50,13 +45,8 @@ export default function ({
           flex="1"
           rounded="full"
           colorScheme="success"
-          size="sm"
           variant={status === "paid" ? "solid" : "outline"}
           onPress={() => setStatus("paid")}
-          _text={{
-            fontSize: "sm",
-            fontWeight: "bold",
-          }}
         >
           Pago
         </Button>
@@ -64,13 +54,8 @@ export default function ({
         <Button
           flex="1"
           rounded="full"
-          size="sm"
           variant={status === "all" ? "solid" : "outline"}
           onPress={() => setStatus("all")}
-          _text={{
-            fontSize: "sm",
-            fontWeight: "bold",
-          }}
         >
           Todos
         </Button>
@@ -92,6 +77,7 @@ export default function ({
                 Keyboard.dismiss();
                 setSearch("");
               }}
+              mr="0.5"
             />
           }
         />
