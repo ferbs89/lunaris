@@ -1,6 +1,10 @@
 import { extendTheme } from "native-base";
 
 export const theme = extendTheme({
+  config: {
+    useSystemColorMode: true,
+  },
+
   components: {
     Button: {
       defaultProps: {

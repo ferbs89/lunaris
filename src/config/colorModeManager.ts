@@ -4,10 +4,13 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 export const colorModeManager: StorageManager = {
   get: async () => {
     try {
-      let val = await AsyncStorage.getItem("@color-mode");
-      return val === "dark" ? "dark" : "light";
+      let val = (await AsyncStorage.getItem("@color-mode")) as
+        | ColorMode
+        | undefined;
+
+      return val;
     } catch (e) {
-      return "light";
+      return undefined;
     }
   },
   set: async (value: ColorMode) => {
