@@ -20,7 +20,7 @@ export default function DrawerNavigator() {
 
   if (loadingSession) {
     return (
-      <Container>
+      <Container statusBarTheme="default">
         <Loader />
       </Container>
     );

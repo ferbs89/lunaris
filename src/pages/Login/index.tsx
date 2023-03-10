@@ -3,6 +3,7 @@ import { Box, Button, FormControl, Input, useToast } from "native-base";
 import { Controller, useForm } from "react-hook-form";
 
 import Container from "../../components/Container";
+
 import { useAuth } from "../../hooks/useAuth";
 
 type FormData = {
@@ -35,7 +36,7 @@ export default function Login() {
   }
 
   return (
-    <Container>
+    <Container statusBarTheme="default">
       <Box flex="1" alignItems="center" justifyContent="center">
         <FormControl isRequired isInvalid={!!errors.login} px="4" mb="4">
           <FormControl.Label>E-mail </FormControl.Label>
