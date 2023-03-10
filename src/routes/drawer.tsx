@@ -3,6 +3,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 
 import Container from "../components/Container";
+import Loader from "../components/Loader";
 import Menu from "../components/Menu";
 
 import { useAuth } from "../hooks/useAuth";
@@ -18,7 +19,11 @@ export default function DrawerNavigator() {
   const { user, loadingSession } = useAuth();
 
   if (loadingSession) {
-    return <Container />;
+    return (
+      <Container>
+        <Loader />
+      </Container>
+    );
   }
 
   return (

@@ -1,146 +1,96 @@
 import React, { useState } from "react";
+import { Keyboard } from "react-native";
 import {
   Input,
   IconButton,
-  Checkbox,
-  Text,
-  Box,
   HStack,
   Icon,
   Divider,
-  ScrollView,
+  useColorModeValue,
+  FlatList,
 } from "native-base";
 import { MaterialIcons } from "@expo/vector-icons";
+import { useQuery } from "react-query";
 
 import Container from "../../components/Container";
 import Header from "../../components/Header";
+import Loader from "../../components/Loader";
+import TodosItem from "../../components/TodosItem";
+
+import { supabase } from "../../config/supabase";
+
+import { useAuth } from "../../hooks/useAuth";
+import { useRefetchOnFocus } from "../../hooks/useRefetchOnFocus";
 
 export default function Todos({ navigation }) {
-  const instState = [
-    {
-      title: "Code",
-      isCompleted: true,
-    },
-    {
-      title: "Meeting with team at 9",
-      isCompleted: false,
-    },
-    {
-      title: "Check Emails",
-      isCompleted: false,
-    },
-    {
-      title: "Write an article",
-      isCompleted: false,
-    },
-  ];
+  const [refreshing, setRefreshing] = useState(false);
+  const [task, setTask] = useState("");
 
-  const [list, setList] = useState(instState);
-  const [inputValue, setInputValue] = useState("");
+  const bg = useColorModeValue("warmGray.100", "warmGray.900");
+  const { user } = useAuth();
+  const { data, refetch } = useQuery("todos", fetchData);
 
-  const addItem = (title: string) => {
-    if (title === "") {
+  useRefetchOnFocus(refetch);
+
+  async function fetchData() {
+    const { data } = await supabase.from("todos").select("*").order("id");
+    return data;
+  }
+
+  async function addTodo() {
+    if (task === "") {
       return;
     }
 
-    setList((prevList) => {
-      return [
-        ...prevList,
-        {
-          title: title,
-          isCompleted: false,
-        },
-      ];
-    });
-  };
+    await supabase.from("todos").insert([
+      {
+        user_id: user.id,
+        task,
+      },
+    ]);
 
-  const handleDelete = (index: number) => {
-    setList((prevList) => {
-      const temp = prevList.filter((_, itemI) => itemI !== index);
-      return temp;
-    });
-  };
-
-  const handleStatusChange = (index: number) => {
-    setList((prevList) => {
-      const newList = [...prevList];
-      newList[index].isCompleted = !newList[index].isCompleted;
-      return newList;
-    });
-  };
+    refetch();
+    setTask("");
+    Keyboard.dismiss();
+  }
 
   return (
     <Container>
       <Header navigation={navigation} title="Tarefas" />
 
-      <ScrollView>
-        <Box>
-          <HStack space="4" p="4">
+      {!data ? (
+        <Loader />
+      ) : (
+        <>
+          <HStack bg={bg} p="2">
             <Input
               flex="1"
-              onChangeText={(v) => setInputValue(v)}
-              value={inputValue}
-              placeholder="Adicionar tarefa"
+              placeholder="Nova tarefa"
               size="md"
-            />
-
-            <IconButton
-              variant="solid"
-              icon={<Icon as={MaterialIcons} name="add" />}
-              onPress={() => {
-                addItem(inputValue);
-                setInputValue("");
-              }}
+              onChangeText={setTask}
+              value={task}
+              InputRightElement={
+                <IconButton
+                  icon={<Icon as={MaterialIcons} name="check" />}
+                  onPress={addTodo}
+                  mr="0.5"
+                />
+              }
             />
           </HStack>
 
           <Divider />
 
-          {list.map((item, itemI) => (
-            <Box key={item.title + itemI.toString()}>
-              <HStack
-                w="100%"
-                justifyContent="space-between"
-                alignItems="center"
-                p="4"
-              >
-                <Checkbox
-                  isChecked={item.isCompleted}
-                  onChange={() => handleStatusChange(itemI)}
-                  value={item.title}
-                  accessibilityLabel="Completar tarefa"
-                />
-
-                <Text
-                  width="100%"
-                  flexShrink="1"
-                  textAlign="left"
-                  fontSize="md"
-                  mx="2"
-                  strikeThrough={item.isCompleted}
-                  _light={{
-                    color: item.isCompleted ? "gray.400" : "coolGray.800",
-                  }}
-                  _dark={{
-                    color: item.isCompleted ? "gray.400" : "coolGray.50",
-                  }}
-                  onPress={() => handleStatusChange(itemI)}
-                >
-                  {item.title}
-                </Text>
-
-                <IconButton
-                  colorScheme="danger"
-                  icon={<Icon as={MaterialIcons} name="delete" />}
-                  onPress={() => handleDelete(itemI)}
-                />
-              </HStack>
-
-              <Divider />
-            </Box>
-          ))}
-        </Box>
-      </ScrollView>
+          <FlatList
+            data={data}
+            renderItem={({ item }) => (
+              <TodosItem item={item} refetch={refetch} />
+            )}
+            onRefresh={refetch}
+            refreshing={refreshing}
+          />
+        </>
+      )}
     </Container>
   );
 }

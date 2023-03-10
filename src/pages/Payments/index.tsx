@@ -1,18 +1,11 @@
 import React, { useState } from "react";
-import {
-  Box,
-  Fab,
-  FlatList,
-  Icon,
-  IconButton,
-  Spinner,
-  Text,
-} from "native-base";
+import { Box, Fab, FlatList, Icon, IconButton, Text } from "native-base";
 import { MaterialIcons } from "@expo/vector-icons";
 import { useQuery } from "react-query";
 import dayjs from "dayjs";
 
 import Container from "../../components/Container";
+import Loader from "../../components/Loader";
 import Header from "../../components/Header";
 import PaymentsFilter from "../../components/PaymentsFilter";
 import PaymentsHeader from "../../components/PaymentsHeader";
@@ -100,9 +93,7 @@ export default function Payments({ navigation }) {
       />
 
       {!data && !filteredData.length ? (
-        <Box flex="1" alignItems="center" justifyContent="center">
-          <Spinner size="lg" />
-        </Box>
+        <Loader />
       ) : (
         <>
           {showFilter && (
