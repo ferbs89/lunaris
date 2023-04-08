@@ -27,8 +27,8 @@ export default function ({ currentDate, setCurrentDate }: PaymentsHeaderType) {
   return (
     <Box flex="1" flexDirection="row">
       <IconButton
-        icon={<Icon as={MaterialIcons} name="chevron-left" />}
-        size="lg"
+        rounded="full"
+        icon={<Icon as={MaterialIcons} name="chevron-left" size="lg" />}
         onPress={() =>
           setCurrentDate(
             dayjs(currentDate).subtract(1, "month").format("YYYY-MM-DD")
@@ -43,8 +43,8 @@ export default function ({ currentDate, setCurrentDate }: PaymentsHeaderType) {
       </Box>
 
       <IconButton
-        icon={<Icon as={MaterialIcons} name="chevron-right" />}
-        size="lg"
+        rounded="full"
+        icon={<Icon as={MaterialIcons} name="chevron-right" size="lg" />}
         onPress={() =>
           setCurrentDate(
             dayjs(currentDate).add(1, "month").format("YYYY-MM-DD")

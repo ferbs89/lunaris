@@ -52,7 +52,7 @@ export default function Payments({ navigation }) {
     }
 
     if (status === "paid" || status === "all") {
-      paidList = data.filter((item) => item.is_paid).reverse();
+      paidList = data.filter((item) => item.is_paid);
     }
 
     const filteredData = [...pendingList, ...paidList];
@@ -80,13 +80,9 @@ export default function Payments({ navigation }) {
         }
         leftIcon={
           <IconButton
-            icon={
-              <Icon
-                as={MaterialIcons}
-                name={showFilter ? "search-off" : "search"}
-              />
-            }
-            size="lg"
+            rounded="full"
+            variant={showFilter ? "solid" : "ghost"}
+            icon={<Icon as={MaterialIcons} name="search" size="lg" />}
             onPress={() => setShowFilter((prevState) => !prevState)}
           />
         }

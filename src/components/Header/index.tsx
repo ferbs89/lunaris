@@ -32,14 +32,14 @@ export default function Header({
         <HStack flex="1" alignItems="center">
           {onBack ? (
             <IconButton
-              icon={<Icon as={MaterialIcons} name="arrow-back" />}
-              size="lg"
+              rounded="full"
+              icon={<Icon as={MaterialIcons} name="arrow-back" size="lg" />}
               onPress={onBack}
             />
           ) : (
             <IconButton
-              icon={<Icon as={MaterialIcons} name="menu" />}
-              size="lg"
+              rounded="full"
+              icon={<Icon as={MaterialIcons} name="menu" size="lg" />}
               onPress={() => navigation.openDrawer()}
             />
           )}
