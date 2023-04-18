@@ -69,11 +69,16 @@ export default function Todos({ navigation }) {
               size="md"
               onChangeText={setTask}
               value={task}
+              onSubmitEditing={addTodo}
+              returnKeyType="send"
+              variant="underlined"
               InputRightElement={
                 <IconButton
-                  icon={<Icon as={MaterialIcons} name="check" />}
-                  onPress={addTodo}
-                  mr="0.5"
+                  icon={<Icon as={MaterialIcons} name="close" />}
+                  onPress={() => {
+                    Keyboard.dismiss();
+                    setTask("");
+                  }}
                 />
               }
             />

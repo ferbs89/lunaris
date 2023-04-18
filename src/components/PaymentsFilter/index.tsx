@@ -63,13 +63,15 @@ export default function ({
 
       <Divider />
 
-      <HStack bg={bg} space="4" p="2">
+      <HStack bg={bg} p="2">
         <Input
           flex="1"
           placeholder="Pesquisar"
           size="md"
           onChangeText={setSearch}
           value={search}
+          returnKeyType="search"
+          variant="underlined"
           InputRightElement={
             <IconButton
               icon={<Icon as={MaterialIcons} name="close" />}
@@ -77,7 +79,6 @@ export default function ({
                 Keyboard.dismiss();
                 setSearch("");
               }}
-              mr="0.5"
             />
           }
         />

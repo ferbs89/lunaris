@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 import { Box, Button, FormControl, Input, useToast } from "native-base";
 import { Controller, useForm } from "react-hook-form";
 
@@ -14,6 +14,7 @@ type FormData = {
 export default function Login() {
   const { handleLogin, loadingLogin } = useAuth();
   const toast = useToast();
+  const passwordInputRef = useRef(null);
 
   const {
     control,
@@ -50,6 +51,9 @@ export default function Login() {
                 value={value}
                 onChangeText={onChange}
                 onBlur={onBlur}
+                onSubmitEditing={() => passwordInputRef.current.focus()}
+                blurOnSubmit={false}
+                returnKeyType="next"
                 variant="underlined"
                 size="xl"
               />
@@ -70,11 +74,16 @@ export default function Login() {
             rules={{ required: true }}
             render={({ field: { onChange, onBlur, value } }) => (
               <Input
+                ref={passwordInputRef}
                 secureTextEntry
                 autoCapitalize="none"
                 value={value}
                 onChangeText={onChange}
                 onBlur={onBlur}
+                onSubmitEditing={handleSubmit(
+                  async (data) => await onSubmit(data)
+                )}
+                returnKeyType="send"
                 variant="underlined"
                 size="xl"
               />
