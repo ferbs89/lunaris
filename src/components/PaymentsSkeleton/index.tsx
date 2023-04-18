@@ -31,6 +31,8 @@ export default function () {
       <PaymentSkeleton />
       <PaymentSkeleton />
       <PaymentSkeleton />
+      <PaymentSkeleton />
+      <PaymentSkeleton />
     </>
   );
 }
