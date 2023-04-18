@@ -5,8 +5,8 @@ import { useQuery } from "react-query";
 import dayjs from "dayjs";
 
 import Container from "../../components/Container";
-import Loader from "../../components/Loader";
 import Header from "../../components/Header";
+import PaymentsSkeleton from "../../components/PaymentsSkeleton";
 import PaymentsFilter from "../../components/PaymentsFilter";
 import PaymentsHeader from "../../components/PaymentsHeader";
 import PaymentsItem from "../../components/PaymentsItem";
@@ -89,7 +89,7 @@ export default function Payments({ navigation }) {
       />
 
       {!data && !filteredData.length ? (
-        <Loader />
+        <PaymentsSkeleton />
       ) : (
         <>
           {showFilter && (
