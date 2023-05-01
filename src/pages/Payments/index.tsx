@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Box, Fab, FlatList, Icon, IconButton, Text } from "native-base";
+import { FlatList, Icon, IconButton } from "native-base";
 import { MaterialIcons } from "@expo/vector-icons";
 import { useQuery } from "react-query";
 import dayjs from "dayjs";
@@ -7,7 +7,6 @@ import dayjs from "dayjs";
 import Container from "../../components/Container";
 import Header from "../../components/Header";
 import PaymentsSkeleton from "../../components/PaymentsSkeleton";
-import PaymentsFilter from "../../components/PaymentsFilter";
 import PaymentsHeader from "../../components/PaymentsHeader";
 import PaymentsItem from "../../components/PaymentsItem";
 
@@ -17,12 +16,12 @@ import { useRefetchOnFocus } from "../../hooks/useRefetchOnFocus";
 
 export default function Payments({ navigation }) {
   const [refreshing, setRefreshing] = useState(false);
-  const [showFilter, setShowFilter] = useState(false);
   const [currentDate, setCurrentDate] = useState(dayjs().format("YYYY-MM-DD"));
-  const [status, setStatus] = useState<"pending" | "paid" | "all">("all");
-  const [search, setSearch] = useState("");
 
-  const { data, refetch } = useQuery(`payments-${currentDate}`, fetchData);
+  const { data, isLoading, refetch } = useQuery(
+    `payments-${currentDate}`,
+    fetchData
+  );
 
   useRefetchOnFocus(refetch);
 
@@ -32,41 +31,11 @@ export default function Payments({ navigation }) {
       .select("*")
       .gte("due", dayjs(currentDate).startOf("month").format("YYYY-MM-DD"))
       .lte("due", dayjs(currentDate).endOf("month").format("YYYY-MM-DD"))
-      .order("is_paid")
       .order("due")
       .order("description");
 
     return data;
   }
-
-  function filterData() {
-    if (!data) {
-      return [];
-    }
-
-    let pendingList = [];
-    let paidList = [];
-
-    if (status === "pending" || status === "all") {
-      pendingList = data.filter((item) => !item.is_paid);
-    }
-
-    if (status === "paid" || status === "all") {
-      paidList = data.filter((item) => item.is_paid);
-    }
-
-    const filteredData = [...pendingList, ...paidList];
-
-    if (search) {
-      return filteredData.filter((item) =>
-        item.description?.toLowerCase().includes(search.toLowerCase())
-      );
-    }
-
-    return filteredData;
-  }
-
-  const filteredData = filterData();
 
   return (
     <Container>
@@ -81,48 +50,26 @@ export default function Payments({ navigation }) {
         leftIcon={
           <IconButton
             rounded="full"
-            variant={showFilter ? "solid" : "ghost"}
-            icon={<Icon as={MaterialIcons} name="search" size="lg" />}
-            onPress={() => setShowFilter((prevState) => !prevState)}
+            variant="ghost"
+            icon={<Icon as={MaterialIcons} name="add" size="lg" />}
+            onPress={() => {
+              navigation.navigate("PaymentsForm");
+            }}
           />
         }
       />
 
-      {!data && !filteredData.length ? (
+      {isLoading ? (
         <PaymentsSkeleton />
       ) : (
-        <>
-          {showFilter && (
-            <PaymentsFilter
-              status={status}
-              search={search}
-              setStatus={setStatus}
-              setSearch={setSearch}
-            />
+        <FlatList
+          data={data}
+          renderItem={({ item }) => (
+            <PaymentsItem item={item} navigation={navigation} />
           )}
-
-          {!filteredData.length ? (
-            <Box flex="1" alignItems="center" justifyContent="center">
-              <Text>Nenhum pagamento encontrado.</Text>
-            </Box>
-          ) : (
-            <FlatList
-              data={filteredData}
-              renderItem={({ item }) => (
-                <PaymentsItem item={item} navigation={navigation} />
-              )}
-              ListFooterComponent={() => <Box pt="24" />}
-              onRefresh={refetch}
-              refreshing={refreshing}
-            />
-          )}
-
-          <Fab
-            renderInPortal={false}
-            icon={<Icon as={MaterialIcons} name="add" size="lg" />}
-            onPress={() => navigation.navigate("PaymentsForm")}
-          />
-        </>
+          onRefresh={refetch}
+          refreshing={refreshing}
+        />
       )}
     </Container>
   );

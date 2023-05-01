@@ -54,7 +54,7 @@ export default function PaymentsForm({ navigation, route }) {
         value: params.item.value.toString(),
       });
 
-      setDatePickerValue(new Date(params.item.due));
+      setDatePickerValue(new Date(dayjs(params.item.due).utc().format()));
       setIsPaid(!!params.item.is_paid);
     }
 
