@@ -8,6 +8,7 @@ import {
   Icon,
   IconButton,
   Text,
+  useColorModeValue,
 } from "native-base";
 import { MaterialIcons } from "@expo/vector-icons";
 import { useQuery } from "react-query";
@@ -66,14 +67,11 @@ export default function Payments({ navigation }) {
     }, 0) || 0;
 
   function PaymentsListHeader() {
+    const bg = useColorModeValue("warmGray.100", "warmGray.900");
+
     return (
       <>
-        <HStack
-          bg="warmGray.900"
-          justifyContent="space-between"
-          p="4"
-          space="4"
-        >
+        <HStack bg={bg} justifyContent="space-between" p="4" space="4">
           <Box flex="1">
             <Text fontSize="md" fontWeight="500" textAlign="center" mb="2">
               Total pendente
@@ -86,6 +84,7 @@ export default function Payments({ navigation }) {
               _text={{
                 fontSize: "md",
               }}
+              height="8"
             >
               {formatNumber(totalNotPaid, {
                 prefix: "R$ ",
@@ -108,6 +107,7 @@ export default function Payments({ navigation }) {
               _text={{
                 fontSize: "md",
               }}
+              height="8"
             >
               {formatNumber(totalPaid, {
                 prefix: "R$ ",

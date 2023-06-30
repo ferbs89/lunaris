@@ -1,5 +1,12 @@
 import React from "react";
-import { Box, Divider, HStack, Skeleton, useColorModeValue } from "native-base";
+import {
+  Box,
+  Divider,
+  HStack,
+  Skeleton,
+  Text,
+  useColorModeValue,
+} from "native-base";
 
 export default function () {
   const bg = useColorModeValue("warmGray.100", "warmGray.900");
@@ -9,14 +16,20 @@ export default function () {
     return (
       <>
         <HStack bg={bg} justifyContent="space-between" p="4" space="4">
-          <Box flex="1" alignItems="center">
-            <Skeleton w="75%" h="6" rounded="sm" mb="2" />
-            <Skeleton h="7" rounded="full" />
+          <Box flex="1">
+            <Text fontSize="md" fontWeight="500" textAlign="center" mb="2">
+              Total pendente
+            </Text>
+
+            <Skeleton h="8" rounded="full" />
           </Box>
 
-          <Box flex="1" alignItems="center">
-            <Skeleton w="75%" h="6" rounded="sm" mb="2" />
-            <Skeleton h="7" rounded="full" />
+          <Box flex="1">
+            <Text fontSize="md" fontWeight="500" textAlign="center" mb="2">
+              Total pago
+            </Text>
+
+            <Skeleton h="8" rounded="full" />
           </Box>
         </HStack>
 
