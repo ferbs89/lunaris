@@ -1,10 +1,20 @@
 import React, { useRef } from "react";
-import { Box, Button, FormControl, Input, useToast } from "native-base";
+import {
+  Box,
+  Button,
+  FormControl,
+  Image,
+  Input,
+  ScrollView,
+  useToast,
+} from "native-base";
 import { Controller, useForm } from "react-hook-form";
 
 import Container from "../../components/Container";
 
 import { useAuth } from "../../hooks/useAuth";
+
+const logo = require("../../assets/logo.png");
 
 type FormData = {
   login: string;
@@ -37,76 +47,78 @@ export default function Login() {
   }
 
   return (
-    <Container statusBarTheme="default">
-      <Box flex="1" alignItems="center" justifyContent="center">
-        <FormControl isRequired isInvalid={!!errors.login} px="4" mb="4">
-          <FormControl.Label>E-mail </FormControl.Label>
+    <Container>
+      <ScrollView
+        contentContainerStyle={{ flexGrow: 1, justifyContent: "center" }}
+      >
+        <Box flex="1" alignItems="center" justifyContent="center">
+          <Image source={logo} alt="Lunaris" width={32} height={32} mb="8" />
 
-          <Controller
-            control={control}
-            rules={{ required: true }}
-            render={({ field: { onChange, onBlur, value } }) => (
-              <Input
-                autoCapitalize="none"
-                value={value}
-                onChangeText={onChange}
-                onBlur={onBlur}
-                onSubmitEditing={() => passwordInputRef.current.focus()}
-                blurOnSubmit={false}
-                returnKeyType="next"
-                variant="underlined"
-                size="xl"
-              />
-            )}
-            name="login"
-          />
+          <FormControl isRequired isInvalid={!!errors.login} px="4" mb="4">
+            <FormControl.Label>E-mail </FormControl.Label>
 
-          <FormControl.ErrorMessage>
-            Campo obrigatório.
-          </FormControl.ErrorMessage>
-        </FormControl>
+            <Controller
+              control={control}
+              rules={{ required: true }}
+              render={({ field: { onChange, onBlur, value } }) => (
+                <Input
+                  autoCapitalize="none"
+                  value={value}
+                  onChangeText={onChange}
+                  onBlur={onBlur}
+                  onSubmitEditing={() => passwordInputRef.current.focus()}
+                  blurOnSubmit={false}
+                  returnKeyType="next"
+                />
+              )}
+              name="login"
+            />
 
-        <FormControl isRequired isInvalid={!!errors.password} px="4" mb="4">
-          <FormControl.Label>Senha </FormControl.Label>
+            <FormControl.ErrorMessage>
+              Campo obrigatório.
+            </FormControl.ErrorMessage>
+          </FormControl>
 
-          <Controller
-            control={control}
-            rules={{ required: true }}
-            render={({ field: { onChange, onBlur, value } }) => (
-              <Input
-                ref={passwordInputRef}
-                secureTextEntry
-                autoCapitalize="none"
-                value={value}
-                onChangeText={onChange}
-                onBlur={onBlur}
-                onSubmitEditing={handleSubmit(
-                  async (data) => await onSubmit(data)
-                )}
-                returnKeyType="send"
-                variant="underlined"
-                size="xl"
-              />
-            )}
-            name="password"
-          />
+          <FormControl isRequired isInvalid={!!errors.password} px="4" mb="4">
+            <FormControl.Label>Senha </FormControl.Label>
 
-          <FormControl.ErrorMessage>
-            Campo obrigatório.
-          </FormControl.ErrorMessage>
-        </FormControl>
+            <Controller
+              control={control}
+              rules={{ required: true }}
+              render={({ field: { onChange, onBlur, value } }) => (
+                <Input
+                  ref={passwordInputRef}
+                  secureTextEntry
+                  autoCapitalize="none"
+                  value={value}
+                  onChangeText={onChange}
+                  onBlur={onBlur}
+                  onSubmitEditing={handleSubmit(
+                    async (data) => await onSubmit(data)
+                  )}
+                  returnKeyType="send"
+                />
+              )}
+              name="password"
+            />
 
-        <Box w="100%">
-          <Button
-            onPress={handleSubmit(async (data) => await onSubmit(data))}
-            isLoading={loadingLogin}
-            m="4"
-            height="42"
-          >
-            Entrar
-          </Button>
+            <FormControl.ErrorMessage>
+              Campo obrigatório.
+            </FormControl.ErrorMessage>
+          </FormControl>
+
+          <Box w="100%">
+            <Button
+              onPress={handleSubmit(async (data) => await onSubmit(data))}
+              isLoading={loadingLogin}
+              m="4"
+              height="42"
+            >
+              Entrar
+            </Button>
+          </Box>
         </Box>
-      </Box>
+      </ScrollView>
     </Container>
   );
 }

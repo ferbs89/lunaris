@@ -38,7 +38,9 @@ export default function ({ currentDate, setCurrentDate }: PaymentsHeaderType) {
 
       <Box flex="1" alignItems="center" justifyContent="center">
         <Text fontSize="lg" fontWeight="500" mx="2" isTruncated>
-          {monthList[dayjs(currentDate).month()]}
+          {`${monthList[dayjs(currentDate).month()]} ${dayjs(
+            currentDate
+          ).year()}`}
         </Text>
       </Box>
 

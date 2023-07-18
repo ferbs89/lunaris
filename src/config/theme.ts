@@ -15,6 +15,22 @@ export const theme = extendTheme({
         },
       },
     },
+    Input: {
+      defaultProps: {
+        variant: "filled",
+        size: "xl",
+        bg: "warmGray.200",
+        borderColor: "warmGray.200",
+        _dark: {
+          bg: "muted.800",
+          borderColor: "muted.800",
+        },
+        style: {
+          paddingTop: 12,
+          height: 48,
+        },
+      },
+    },
   },
 
   fontConfig: {

@@ -1,5 +1,5 @@
 import React from "react";
-import { Box, Button, Divider, useColorModeValue } from "native-base";
+import { Box, Button, Divider } from "native-base";
 
 type ActionButtonType = {
   title: string;
@@ -12,13 +12,11 @@ export default function ActionButton({
   isLoading,
   onPress,
 }: ActionButtonType) {
-  const bg = useColorModeValue("warmGray.100", "warmGray.900");
-
   return (
     <>
       <Divider />
 
-      <Box bg={bg}>
+      <Box>
         <Button isLoading={isLoading} onPress={onPress} m="2" height="42">
           {title}
         </Button>

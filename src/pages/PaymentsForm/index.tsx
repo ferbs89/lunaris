@@ -131,12 +131,7 @@ export default function PaymentsForm({ navigation, route }) {
                 onChangeValue={onChange}
                 onBlur={onBlur}
                 renderTextInput={(textInputProps) => (
-                  <Input
-                    {...textInputProps}
-                    variant="underlined"
-                    size="xl"
-                    _input={{ fontWeight: "medium" }}
-                  />
+                  <Input {...textInputProps} />
                 )}
                 prefix="R$ "
                 delimiter="."
@@ -159,9 +154,6 @@ export default function PaymentsForm({ navigation, route }) {
             value={dayjs(datePickerValue).utc().format("DD/MM/YYYY")}
             onFocus={Keyboard.dismiss}
             onTouchStart={() => setDatePickerShow(true)}
-            variant="underlined"
-            size="xl"
-            _input={{ fontWeight: "medium" }}
           />
 
           {datePickerShow && (
@@ -177,21 +169,14 @@ export default function PaymentsForm({ navigation, route }) {
           </FormControl.ErrorMessage>
         </FormControl>
 
-        <FormControl isRequired isInvalid={!!errors.description} px="4">
+        <FormControl isRequired isInvalid={!!errors.description} px="4" mb="4">
           <FormControl.Label>Descrição </FormControl.Label>
 
           <Controller
             control={control}
             rules={{ required: true }}
             render={({ field: { onChange, onBlur, value } }) => (
-              <Input
-                value={value}
-                onChangeText={onChange}
-                onBlur={onBlur}
-                variant="underlined"
-                size="xl"
-                _input={{ fontWeight: "medium" }}
-              />
+              <Input value={value} onChangeText={onChange} onBlur={onBlur} />
             )}
             name="description"
           />

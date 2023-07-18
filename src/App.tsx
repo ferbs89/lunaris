@@ -15,7 +15,7 @@ import { theme } from "./config/theme";
 
 import { AuthProvider } from "./hooks/useAuth";
 
-import DrawerNavigator from "./routes/drawer";
+import Routes from "./routes";
 
 export default function () {
   const [fontsLoaded] = useFonts({
@@ -30,12 +30,12 @@ export default function () {
   }
 
   return (
-    <AuthProvider>
-      <QueryClientProvider client={queryClient}>
-        <NativeBaseProvider colorModeManager={colorModeManager} theme={theme}>
-          <DrawerNavigator />
-        </NativeBaseProvider>
-      </QueryClientProvider>
-    </AuthProvider>
+    <QueryClientProvider client={queryClient}>
+      <NativeBaseProvider colorModeManager={colorModeManager} theme={theme}>
+        <AuthProvider>
+          <Routes />
+        </AuthProvider>
+      </NativeBaseProvider>
+    </QueryClientProvider>
   );
 }
