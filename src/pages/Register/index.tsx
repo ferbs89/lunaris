@@ -1,31 +1,16 @@
-import React, { useRef } from "react";
-import {
-  Box,
-  Button,
-  FormControl,
-  Image,
-  Input,
-  ScrollView,
-  useToast,
-} from "native-base";
+import React from "react";
+import { Box, Button, FormControl, Input, ScrollView, Text } from "native-base";
 import { Controller, useForm } from "react-hook-form";
 
 import Container from "../../components/Container";
-
-import { useAuth } from "../../hooks/useAuth";
-
-const logo = require("../../assets/logo.png");
+import Header from "../../components/Header";
 
 type FormData = {
-  login: string;
+  email: string;
   password: string;
 };
 
-export default function Login({ navigation }) {
-  const { handleLogin, loadingLogin } = useAuth();
-  const toast = useToast();
-  const passwordInputRef = useRef(null);
-
+export default function Register({ navigation }) {
   const {
     control,
     handleSubmit,
@@ -33,28 +18,19 @@ export default function Login({ navigation }) {
     formState: { errors },
   } = useForm<FormData>();
 
-  async function onSubmit(data: FormData) {
-    const isLoginDone = await handleLogin(data.login.trim(), data.password);
-
-    if (!isLoginDone) {
-      if (!toast.isActive("login-toast")) {
-        toast.show({
-          id: "login-toast",
-          description: "E-mail e/ou senha inválidos",
-        });
-      }
-    }
-  }
-
   return (
     <Container>
+      <Header onBack={() => navigation.goBack()} />
+
       <ScrollView
         contentContainerStyle={{ flexGrow: 1, justifyContent: "center" }}
       >
         <Box flex="1" alignItems="center" justifyContent="center" px="4">
-          <Image source={logo} alt="Lunaris" width={32} height={32} mb="8" />
+          <Text fontSize="lg" fontWeight="500">
+            Criar nova conta
+          </Text>
 
-          <FormControl isRequired isInvalid={!!errors.login}>
+          <FormControl isRequired isInvalid={!!errors.email} mt="4">
             <FormControl.Label>E-mail </FormControl.Label>
 
             <Controller
@@ -66,12 +42,9 @@ export default function Login({ navigation }) {
                   value={value}
                   onChangeText={onChange}
                   onBlur={onBlur}
-                  onSubmitEditing={() => passwordInputRef.current.focus()}
-                  blurOnSubmit={false}
-                  returnKeyType="next"
                 />
               )}
-              name="login"
+              name="email"
             />
 
             <FormControl.ErrorMessage>
@@ -87,16 +60,11 @@ export default function Login({ navigation }) {
               rules={{ required: true }}
               render={({ field: { onChange, onBlur, value } }) => (
                 <Input
-                  ref={passwordInputRef}
                   secureTextEntry
                   autoCapitalize="none"
                   value={value}
                   onChangeText={onChange}
                   onBlur={onBlur}
-                  onSubmitEditing={handleSubmit(
-                    async (data) => await onSubmit(data)
-                  )}
-                  returnKeyType="send"
                 />
               )}
               name="password"
@@ -109,20 +77,7 @@ export default function Login({ navigation }) {
         </Box>
 
         <Box w="100%" p="4">
-          <Button
-            onPress={handleSubmit(async (data) => await onSubmit(data))}
-            isLoading={loadingLogin}
-          >
-            Entrar
-          </Button>
-
-          <Button
-            variant="outline"
-            onPress={() => navigation.navigate("Register")}
-            mt="4"
-          >
-            Criar nova conta
-          </Button>
+          <Button>Cadastrar</Button>
         </Box>
       </ScrollView>
     </Container>

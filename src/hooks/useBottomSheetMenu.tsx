@@ -11,7 +11,7 @@ import { useAuth } from "./useAuth";
 
 export default function useBottomSheetMenu() {
   const bottomSheetRef = useRef<BottomSheet>(null);
-  const snapPoints = useMemo(() => ["50%"], []);
+  const snapPoints = useMemo(() => ["40%"], []);
 
   const { toggleColorMode } = useColorMode();
   const { handleLogout } = useAuth();
@@ -66,27 +66,29 @@ export default function useBottomSheetMenu() {
           backgroundColor: bg,
         }}
       >
-        <Box flex="1">
-          <MenuItem
-            title="Alterar senha"
-            icon="account-box"
-            onPress={() => {}}
-          />
+        <Box flex="1" alignItems="center" justifyContent="center">
+          <Box w="100%">
+            <MenuItem
+              title="Alterar senha"
+              icon="account-box"
+              onPress={() => {}}
+            />
 
-          <MenuItem
-            title={`Mudar para tema ${colorMode}`}
-            icon="theme-light-dark"
-            onPress={() => {
-              toggleColorMode();
-              bottomSheetRef.current.close();
-            }}
-          />
+            <MenuItem
+              title={`Mudar para tema ${colorMode}`}
+              icon="theme-light-dark"
+              onPress={() => {
+                toggleColorMode();
+                bottomSheetRef.current.close();
+              }}
+            />
 
-          <MenuItem
-            title="Finalizar sessão"
-            icon="exit-to-app"
-            onPress={handleLogout}
-          />
+            <MenuItem
+              title="Finalizar sessão"
+              icon="exit-to-app"
+              onPress={handleLogout}
+            />
+          </Box>
         </Box>
       </BottomSheet>
     );

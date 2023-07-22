@@ -11,6 +11,7 @@ import Loader from "../components/Loader";
 import { useAuth } from "../hooks/useAuth";
 
 import Login from "../pages/Login";
+import Register from "../pages/Register";
 import Payments from "../pages/Payments";
 import PaymentsForm from "../pages/PaymentsForm";
 
@@ -45,7 +46,10 @@ export default function Routes() {
         }}
       >
         {!user ? (
-          <Stack.Screen name="Login" component={Login} />
+          <Stack.Group>
+            <Stack.Screen name="Login" component={Login} />
+            <Stack.Screen name="Register" component={Register} />
+          </Stack.Group>
         ) : (
           <Stack.Group>
             <Stack.Screen name="Payments" component={Payments} />

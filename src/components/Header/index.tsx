@@ -19,7 +19,7 @@ export default function Header({
 }: HeaderType) {
   return (
     <HStack p="1">
-      <HStack flex="1" alignItems="center">
+      <HStack flex="1" alignItems="center" justifyContent="space-between">
         {onBack ? (
           <IconButton
             rounded="full"
@@ -34,13 +34,7 @@ export default function Header({
           />
         )}
 
-        {title ? (
-          <Text flex="1" fontSize="lg" fontWeight="500" mx="2" isTruncated>
-            {title}
-          </Text>
-        ) : titleComponent ? (
-          titleComponent
-        ) : null}
+        {titleComponent}
 
         {rightIcon}
       </HStack>

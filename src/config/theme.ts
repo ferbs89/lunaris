@@ -9,6 +9,7 @@ export const theme = extendTheme({
     Button: {
       defaultProps: {
         size: "sm",
+        height: 12,
         _text: {
           fontSize: "sm",
           fontWeight: "600",
@@ -19,6 +20,7 @@ export const theme = extendTheme({
       defaultProps: {
         variant: "filled",
         size: "xl",
+        height: 12,
         bg: "warmGray.200",
         borderColor: "warmGray.200",
         _dark: {
@@ -27,7 +29,6 @@ export const theme = extendTheme({
         },
         style: {
           paddingTop: 12,
-          height: 48,
         },
       },
     },

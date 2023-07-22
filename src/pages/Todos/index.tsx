@@ -56,7 +56,7 @@ export default function Todos({ navigation }) {
 
   return (
     <Container>
-      <Header navigation={navigation} title="Tarefas" />
+      <Header />
 
       {!data ? (
         <Loader />

@@ -1,11 +1,22 @@
-import React, { useState, useEffect } from "react";
+import React, {
+  useState,
+  useEffect,
+  useRef,
+  useMemo,
+  useCallback,
+} from "react";
 import { Keyboard } from "react-native";
 import {
+  Box,
   Button,
   FormControl,
   HStack,
+  Icon,
+  IconButton,
   Input,
   ScrollView,
+  Text,
+  useColorModeValue,
   useToast,
 } from "native-base";
 import { Controller, useForm } from "react-hook-form";
@@ -13,8 +24,12 @@ import CurrencyInput from "react-native-currency-input";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
+import { MaterialIcons } from "@expo/vector-icons";
+import BottomSheet, {
+  BottomSheetBackdrop,
+  BottomSheetBackdropProps,
+} from "@gorhom/bottom-sheet";
 
-import ActionButton from "../../components/ActionButton";
 import Container from "../../components/Container";
 import Header from "../../components/Header";
 
@@ -28,15 +43,32 @@ type FormData = {
 };
 
 export default function PaymentsForm({ navigation, route }) {
+  const { params } = route;
+
   const { user } = useAuth();
   const toast = useToast();
+
+  const bottomSheetRef = useRef<BottomSheet>(null);
+  const snapPoints = useMemo(() => ["25%"], []);
+  const bgBottomSheet = useColorModeValue("#fafaf9", "#1c1917");
 
   const [datePickerValue, setDatePickerValue] = useState(new Date());
   const [datePickerShow, setDatePickerShow] = useState(false);
   const [isPaid, setIsPaid] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
-  const { params } = route;
+  dayjs.extend(utc);
+
+  const renderBackdrop = useCallback(
+    (props: BottomSheetBackdropProps) => (
+      <BottomSheetBackdrop
+        {...props}
+        appearsOnIndex={0}
+        disappearsOnIndex={-1}
+      />
+    ),
+    []
+  );
 
   const {
     control,
@@ -44,8 +76,6 @@ export default function PaymentsForm({ navigation, route }) {
     reset,
     formState: { errors },
   } = useForm<FormData>();
-
-  dayjs.extend(utc);
 
   useEffect(() => {
     if (params?.item) {
@@ -96,7 +126,21 @@ export default function PaymentsForm({ navigation, route }) {
     }
 
     resetFields();
-    navigation.navigate("Payments");
+    navigation.goBack();
+  }
+
+  async function onDelete() {
+    setIsLoading(true);
+
+    await supabase.from("payments").delete().eq("id", params.item.id);
+
+    toast.show({
+      description: "Pagamento excluído com sucesso",
+      placement: "top",
+    });
+
+    resetFields();
+    navigation.goBack();
   }
 
   function resetFields() {
@@ -113,108 +157,159 @@ export default function PaymentsForm({ navigation, route }) {
   return (
     <Container>
       <Header
-        navigation={navigation}
-        title={params?.item.id ? "Editar pagamento" : "Novo pagamento"}
-        onBack={() => navigation.navigate("Payments")}
+        onBack={() => navigation.goBack()}
+        rightIcon={
+          params?.item ? (
+            <IconButton
+              rounded="full"
+              variant="ghost"
+              icon={<Icon as={MaterialIcons} name="delete" size="lg" />}
+              onPress={() => bottomSheetRef.current.expand()}
+            />
+          ) : null
+        }
       />
 
-      <ScrollView>
-        <FormControl isRequired isInvalid={!!errors.value} px="4" mt="4" mb="4">
-          <FormControl.Label>Valor </FormControl.Label>
+      <ScrollView
+        contentContainerStyle={{ flexGrow: 1, justifyContent: "center" }}
+      >
+        <Box flex="1" alignItems="center" justifyContent="center" px="4">
+          <Text fontSize="lg" fontWeight="500">
+            {params?.item.id ? "Editar pagamento" : "Novo pagamento"}
+          </Text>
 
-          <Controller
-            control={control}
-            rules={{ required: true }}
-            render={({ field: { onChange, onBlur, value } }) => (
-              <CurrencyInput
-                value={Number(value)}
-                onChangeValue={onChange}
-                onBlur={onBlur}
-                renderTextInput={(textInputProps) => (
-                  <Input {...textInputProps} />
-                )}
-                prefix="R$ "
-                delimiter="."
-                separator=","
-                precision={2}
+          <FormControl isRequired isInvalid={!!errors.value}>
+            <FormControl.Label>Valor </FormControl.Label>
+
+            <Controller
+              control={control}
+              rules={{ required: true }}
+              render={({ field: { onChange, onBlur, value } }) => (
+                <CurrencyInput
+                  value={Number(value)}
+                  onChangeValue={onChange}
+                  onBlur={onBlur}
+                  renderTextInput={(textInputProps) => (
+                    <Input {...textInputProps} />
+                  )}
+                  prefix="R$ "
+                  delimiter="."
+                  separator=","
+                  precision={2}
+                />
+              )}
+              name="value"
+            />
+
+            <FormControl.ErrorMessage>
+              Campo obrigatório.
+            </FormControl.ErrorMessage>
+          </FormControl>
+
+          <FormControl isRequired mt="4">
+            <FormControl.Label>Vencimento </FormControl.Label>
+
+            <Input
+              value={dayjs(datePickerValue).utc().format("DD/MM/YYYY")}
+              onFocus={Keyboard.dismiss}
+              onTouchStart={() => setDatePickerShow(true)}
+            />
+
+            {datePickerShow && (
+              <DateTimePicker
+                value={datePickerValue}
+                mode="date"
+                onChange={onChangeDatePicker}
               />
             )}
-            name="value"
-          />
 
-          <FormControl.ErrorMessage>
-            Campo obrigatório.
-          </FormControl.ErrorMessage>
-        </FormControl>
+            <FormControl.ErrorMessage>
+              Campo obrigatório.
+            </FormControl.ErrorMessage>
+          </FormControl>
 
-        <FormControl isRequired px="4" mb="4">
-          <FormControl.Label>Vencimento </FormControl.Label>
+          <FormControl isRequired isInvalid={!!errors.description} mt="4">
+            <FormControl.Label>Descrição </FormControl.Label>
 
-          <Input
-            value={dayjs(datePickerValue).utc().format("DD/MM/YYYY")}
-            onFocus={Keyboard.dismiss}
-            onTouchStart={() => setDatePickerShow(true)}
-          />
-
-          {datePickerShow && (
-            <DateTimePicker
-              value={datePickerValue}
-              mode="date"
-              onChange={onChangeDatePicker}
+            <Controller
+              control={control}
+              rules={{ required: true }}
+              render={({ field: { onChange, onBlur, value } }) => (
+                <Input value={value} onChangeText={onChange} onBlur={onBlur} />
+              )}
+              name="description"
             />
-          )}
 
-          <FormControl.ErrorMessage>
-            Campo obrigatório.
-          </FormControl.ErrorMessage>
-        </FormControl>
+            <FormControl.ErrorMessage>
+              Campo obrigatório.
+            </FormControl.ErrorMessage>
+          </FormControl>
 
-        <FormControl isRequired isInvalid={!!errors.description} px="4" mb="4">
-          <FormControl.Label>Descrição </FormControl.Label>
+          <HStack justifyContent="space-between" space="2" mt="6" mb="2">
+            <Button
+              flex="1"
+              rounded="full"
+              colorScheme="danger"
+              variant={!isPaid ? "solid" : "outline"}
+              onPress={() => setIsPaid(false)}
+            >
+              Pendente
+            </Button>
 
-          <Controller
-            control={control}
-            rules={{ required: true }}
-            render={({ field: { onChange, onBlur, value } }) => (
-              <Input value={value} onChangeText={onChange} onBlur={onBlur} />
-            )}
-            name="description"
-          />
+            <Button
+              flex="1"
+              rounded="full"
+              colorScheme="success"
+              size="sm"
+              variant={isPaid ? "solid" : "outline"}
+              onPress={() => setIsPaid(true)}
+            >
+              Pago
+            </Button>
+          </HStack>
+        </Box>
 
-          <FormControl.ErrorMessage>
-            Campo obrigatório.
-          </FormControl.ErrorMessage>
-        </FormControl>
-
-        <HStack justifyContent="space-between" space="2" p="4">
+        <Box w="100%" p="4">
           <Button
-            flex="1"
-            rounded="full"
-            colorScheme="danger"
-            variant={!isPaid ? "solid" : "outline"}
-            onPress={() => setIsPaid(false)}
+            isLoading={isLoading}
+            onPress={handleSubmit(async (data) => await onSubmit(data))}
           >
-            Pendente
+            Salvar
           </Button>
-
-          <Button
-            flex="1"
-            rounded="full"
-            colorScheme="success"
-            size="sm"
-            variant={isPaid ? "solid" : "outline"}
-            onPress={() => setIsPaid(true)}
-          >
-            Pago
-          </Button>
-        </HStack>
+        </Box>
       </ScrollView>
 
-      <ActionButton
-        title="Salvar"
-        isLoading={isLoading}
-        onPress={handleSubmit(async (data) => await onSubmit(data))}
-      />
+      <BottomSheet
+        ref={bottomSheetRef}
+        index={-1}
+        snapPoints={snapPoints}
+        backdropComponent={renderBackdrop}
+        enablePanDownToClose
+        backgroundStyle={{
+          backgroundColor: bgBottomSheet,
+        }}
+      >
+        <Box flex="1" p="4" alignItems="center" justifyContent="center">
+          <Box w="100%">
+            <Button
+              colorScheme="danger"
+              isLoading={isLoading}
+              onPress={onDelete}
+            >
+              Confirmar exclusão
+            </Button>
+
+            <Button
+              variant="outline"
+              disabled={isLoading}
+              onPress={() => bottomSheetRef.current.close()}
+              mt="4"
+            >
+              Cancelar
+            </Button>
+          </Box>
+        </Box>
+      </BottomSheet>
     </Container>
   );
 }
