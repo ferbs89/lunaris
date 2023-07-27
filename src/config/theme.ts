@@ -16,6 +16,22 @@ export const theme = extendTheme({
         },
       },
     },
+    IconButton: {
+      defaultProps: {
+        rounded: "full",
+        variant: "ghost",
+        bg: "warmGray.200",
+        _icon: {
+          color: "muted.800",
+        },
+        _dark: {
+          bg: "muted.800",
+          _icon: {
+            color: "warmGray.200",
+          },
+        },
+      },
+    },
     Input: {
       defaultProps: {
         variant: "filled",

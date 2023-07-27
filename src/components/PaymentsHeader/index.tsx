@@ -1,5 +1,5 @@
 import React from "react";
-import { Box, Icon, IconButton, Text } from "native-base";
+import { Box, Icon, IconButton, Text, useColorModeValue } from "native-base";
 import { MaterialIcons } from "@expo/vector-icons";
 import dayjs from "dayjs";
 
@@ -24,10 +24,11 @@ const monthList = [
 ];
 
 export default function ({ currentDate, setCurrentDate }: PaymentsHeaderType) {
+  const bg = useColorModeValue("warmGray.200", "warmGray.800");
+
   return (
-    <Box flex="1" flexDirection="row">
+    <Box flex="1" flexDirection="row" bg={bg} rounded="full" mx="2">
       <IconButton
-        rounded="full"
         icon={<Icon as={MaterialIcons} name="chevron-left" size="lg" />}
         onPress={() =>
           setCurrentDate(
@@ -37,15 +38,12 @@ export default function ({ currentDate, setCurrentDate }: PaymentsHeaderType) {
       />
 
       <Box flex="1" alignItems="center" justifyContent="center">
-        <Text fontSize="lg" fontWeight="500" mx="2" isTruncated>
-          {`${monthList[dayjs(currentDate).month()]} ${dayjs(
-            currentDate
-          ).year()}`}
+        <Text fontSize="lg" fontWeight="500" mx="1" isTruncated>
+          {monthList[dayjs(currentDate).month()]}
         </Text>
       </Box>
 
       <IconButton
-        rounded="full"
         icon={<Icon as={MaterialIcons} name="chevron-right" size="lg" />}
         onPress={() =>
           setCurrentDate(

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useMemo, useRef, useState } from "react";
 import {
   Badge,
   Box,
@@ -7,26 +7,40 @@ import {
   Icon,
   IconButton,
   Text,
+  VStack,
+  useColorMode,
+  useColorModeValue,
 } from "native-base";
 import { MaterialIcons } from "@expo/vector-icons";
 import { useQuery } from "react-query";
 import { formatNumber } from "react-native-currency-input";
 import dayjs from "dayjs";
+import BottomSheet from "@gorhom/bottom-sheet";
 
 import Container from "../../components/Container";
 import Header from "../../components/Header";
+import MenuItem from "../../components/MenuItem";
+import MyBottomSheet from "../../components/MyBottomSheet";
 import PaymentsSkeleton from "../../components/PaymentsSkeleton";
 import PaymentsHeader from "../../components/PaymentsHeader";
 import PaymentsItem from "../../components/PaymentsItem";
 
 import { supabase } from "../../config/supabase";
 
+import { useAuth } from "../../hooks/useAuth";
 import { useRefetchOnFocus } from "../../hooks/useRefetchOnFocus";
-import useBottomSheetMenu from "../../hooks/useBottomSheetMenu";
 
 export default function Payments({ navigation }) {
   const [refreshing, setRefreshing] = useState(false);
   const [currentDate, setCurrentDate] = useState(dayjs().format("YYYY-MM-DD"));
+
+  const { toggleColorMode } = useColorMode();
+  const { handleLogout } = useAuth();
+
+  const bottomSheetRef = useRef<BottomSheet>(null);
+  const snapPoints = useMemo(() => ["40%"], []);
+
+  const colorMode = useColorModeValue("escuro", "claro");
 
   const { data, isLoading, refetch } = useQuery(
     `payments-${dayjs(currentDate).month()}-${dayjs(currentDate).year()}`,
@@ -34,7 +48,6 @@ export default function Payments({ navigation }) {
   );
 
   useRefetchOnFocus(refetch);
-  const { BottomSheetMenu, openBottomSheetMenu } = useBottomSheetMenu();
 
   async function fetchData() {
     const { data } = await supabase
@@ -68,13 +81,7 @@ export default function Payments({ navigation }) {
 
   function PaymentsListHeader() {
     return (
-      <HStack
-        justifyContent="space-between"
-        paddingTop="2"
-        paddingX="4"
-        paddingBottom="4"
-        space="4"
-      >
+      <HStack justifyContent="space-between" mt="2" mx="4" mb="4" space="4">
         <Box flex="1">
           <Text fontSize="md" fontWeight="500" textAlign="center" mb="2">
             Total pendente
@@ -127,7 +134,7 @@ export default function Payments({ navigation }) {
   return (
     <Container>
       <Header
-        onPressMenu={openBottomSheetMenu}
+        onPressMenu={() => bottomSheetRef.current.expand()}
         titleComponent={
           <PaymentsHeader
             currentDate={currentDate}
@@ -136,8 +143,6 @@ export default function Payments({ navigation }) {
         }
         rightIcon={
           <IconButton
-            rounded="full"
-            variant="ghost"
             icon={<Icon as={MaterialIcons} name="add" size="lg" />}
             onPress={() => navigation.navigate("PaymentsForm")}
           />
@@ -158,7 +163,30 @@ export default function Payments({ navigation }) {
         />
       )}
 
-      <BottomSheetMenu />
+      <MyBottomSheet ref={bottomSheetRef} snapPoints={snapPoints}>
+        <VStack flex="1" p="4" space="4" justifyContent="center">
+          <MenuItem
+            title="Alterar senha"
+            icon="account-box"
+            onPress={() => {}}
+          />
+
+          <MenuItem
+            title={`Mudar para tema ${colorMode}`}
+            icon="theme-light-dark"
+            onPress={() => {
+              toggleColorMode();
+              bottomSheetRef.current.close();
+            }}
+          />
+
+          <MenuItem
+            title="Finalizar sessão"
+            icon="exit-to-app"
+            onPress={async () => await handleLogout()}
+          />
+        </VStack>
+      </MyBottomSheet>
     </Container>
   );
 }

@@ -1,10 +1,4 @@
-import React, {
-  useState,
-  useEffect,
-  useRef,
-  useMemo,
-  useCallback,
-} from "react";
+import React, { useState, useEffect, useRef, useMemo } from "react";
 import { Keyboard } from "react-native";
 import {
   Box,
@@ -16,7 +10,6 @@ import {
   Input,
   ScrollView,
   Text,
-  useColorModeValue,
   useToast,
 } from "native-base";
 import { Controller, useForm } from "react-hook-form";
@@ -25,13 +18,11 @@ import DateTimePicker from "@react-native-community/datetimepicker";
 import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
 import { MaterialIcons } from "@expo/vector-icons";
-import BottomSheet, {
-  BottomSheetBackdrop,
-  BottomSheetBackdropProps,
-} from "@gorhom/bottom-sheet";
+import BottomSheet from "@gorhom/bottom-sheet";
 
 import Container from "../../components/Container";
 import Header from "../../components/Header";
+import MyBottomSheet from "../../components/MyBottomSheet";
 
 import { supabase } from "../../config/supabase";
 
@@ -50,25 +41,11 @@ export default function PaymentsForm({ navigation, route }) {
 
   const bottomSheetRef = useRef<BottomSheet>(null);
   const snapPoints = useMemo(() => ["25%"], []);
-  const bgBottomSheet = useColorModeValue("#fafaf9", "#1c1917");
 
   const [datePickerValue, setDatePickerValue] = useState(new Date());
   const [datePickerShow, setDatePickerShow] = useState(false);
   const [isPaid, setIsPaid] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-
-  dayjs.extend(utc);
-
-  const renderBackdrop = useCallback(
-    (props: BottomSheetBackdropProps) => (
-      <BottomSheetBackdrop
-        {...props}
-        appearsOnIndex={0}
-        disappearsOnIndex={-1}
-      />
-    ),
-    []
-  );
 
   const {
     control,
@@ -76,6 +53,8 @@ export default function PaymentsForm({ navigation, route }) {
     reset,
     formState: { errors },
   } = useForm<FormData>();
+
+  dayjs.extend(utc);
 
   useEffect(() => {
     if (params?.item) {
@@ -161,8 +140,6 @@ export default function PaymentsForm({ navigation, route }) {
         rightIcon={
           params?.item ? (
             <IconButton
-              rounded="full"
-              variant="ghost"
               icon={<Icon as={MaterialIcons} name="delete" size="lg" />}
               onPress={() => bottomSheetRef.current.expand()}
             />
@@ -279,16 +256,7 @@ export default function PaymentsForm({ navigation, route }) {
         </Box>
       </ScrollView>
 
-      <BottomSheet
-        ref={bottomSheetRef}
-        index={-1}
-        snapPoints={snapPoints}
-        backdropComponent={renderBackdrop}
-        enablePanDownToClose
-        backgroundStyle={{
-          backgroundColor: bgBottomSheet,
-        }}
-      >
+      <MyBottomSheet ref={bottomSheetRef} snapPoints={snapPoints}>
         <Box flex="1" p="4" alignItems="center" justifyContent="center">
           <Box w="100%">
             <Button
@@ -309,7 +277,7 @@ export default function PaymentsForm({ navigation, route }) {
             </Button>
           </Box>
         </Box>
-      </BottomSheet>
+      </MyBottomSheet>
     </Container>
   );
 }

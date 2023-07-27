@@ -18,7 +18,7 @@ type PaymentsItemType = {
 };
 
 export default function ({ navigation, item }: PaymentsItemType) {
-  const bg = useColorModeValue("warmGray.100", "warmGray.800");
+  const bg = useColorModeValue("warmGray.200", "warmGray.800");
 
   return (
     <TouchableOpacity

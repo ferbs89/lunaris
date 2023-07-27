@@ -2,7 +2,7 @@ import React from "react";
 import { Box, HStack, Skeleton, Text, useColorModeValue } from "native-base";
 
 export default function () {
-  const bgButton = useColorModeValue("warmGray.100", "warmGray.800");
+  const bgButton = useColorModeValue("warmGray.200", "warmGray.800");
 
   function PaymentHeaderSkeleton() {
     return (
