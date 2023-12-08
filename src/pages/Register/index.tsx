@@ -1,6 +1,7 @@
 import React from "react";
 import { Box, Button, FormControl, Input, ScrollView, Text } from "native-base";
 import { Controller, useForm } from "react-hook-form";
+import { useNavigation } from "@react-navigation/native";
 
 import Container from "../../components/Container";
 import Header from "../../components/Header";
@@ -10,13 +11,15 @@ type FormData = {
   password: string;
 };
 
-export default function Register({ navigation }) {
+export default function Register() {
   const {
     control,
     handleSubmit,
     reset,
     formState: { errors },
   } = useForm<FormData>();
+
+  const navigation = useNavigation();
 
   return (
     <Container>

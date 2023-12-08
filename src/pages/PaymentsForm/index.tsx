@@ -20,6 +20,7 @@ import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
 import { MaterialIcons } from "@expo/vector-icons";
 import BottomSheet from "@gorhom/bottom-sheet";
+import { useNavigation } from "@react-navigation/native";
 
 import Container from "../../components/Container";
 import Header from "../../components/Header";
@@ -34,10 +35,11 @@ type FormData = {
   value: string;
 };
 
-export default function PaymentsForm({ navigation, route }) {
+export default function PaymentsForm({ route }) {
   const { params } = route;
 
   const { user } = useAuth();
+  const navigation = useNavigation();
   const toast = useToast();
 
   const bottomSheetRef = useRef<BottomSheet>(null);

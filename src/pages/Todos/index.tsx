@@ -22,7 +22,7 @@ import { supabase } from "../../config/supabase";
 import { useAuth } from "../../hooks/useAuth";
 import { useRefetchOnFocus } from "../../hooks/useRefetchOnFocus";
 
-export default function Todos({ navigation }) {
+export default function Todos() {
   const [refreshing, setRefreshing] = useState(false);
   const [task, setTask] = useState("");
 

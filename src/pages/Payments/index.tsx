@@ -16,6 +16,7 @@ import { useQuery } from "react-query";
 import { formatNumber } from "react-native-currency-input";
 import dayjs from "dayjs";
 import BottomSheet from "@gorhom/bottom-sheet";
+import { useNavigation } from "@react-navigation/native";
 
 import Container from "../../components/Container";
 import Header from "../../components/Header";
@@ -30,11 +31,12 @@ import { supabase } from "../../config/supabase";
 import { useAuth } from "../../hooks/useAuth";
 import { useRefetchOnFocus } from "../../hooks/useRefetchOnFocus";
 
-export default function Payments({ navigation }) {
+export default function Payments() {
   const [currentDate, setCurrentDate] = useState(dayjs().format("YYYY-MM-DD"));
 
   const { handleLogout } = useAuth();
   const { toggleColorMode } = useColorMode();
+  const navigation = useNavigation();
 
   const bottomSheetRef = useRef<BottomSheet>(null);
 
@@ -152,9 +154,7 @@ export default function Payments({ navigation }) {
       ) : (
         <FlatList
           data={data}
-          renderItem={({ item }) => (
-            <PaymentsItem item={item} navigation={navigation} />
-          )}
+          renderItem={({ item }) => <PaymentsItem item={item} />}
           ListHeaderComponent={<PaymentsListHeader />}
         />
       )}

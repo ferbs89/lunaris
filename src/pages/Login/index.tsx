@@ -9,6 +9,7 @@ import {
   useToast,
 } from "native-base";
 import { Controller, useForm } from "react-hook-form";
+import { useNavigation } from "@react-navigation/native";
 
 import Container from "../../components/Container";
 
@@ -21,15 +22,16 @@ type FormData = {
   password: string;
 };
 
-export default function Login({ navigation }) {
+export default function Login() {
   const { handleLogin, loadingLogin } = useAuth();
+  const navigation = useNavigation();
   const toast = useToast();
+
   const passwordInputRef = useRef(null);
 
   const {
     control,
     handleSubmit,
-    reset,
     formState: { errors },
   } = useForm<FormData>();
 
