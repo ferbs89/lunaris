@@ -61,12 +61,16 @@ export function AuthProvider({ children }) {
   }
 
   async function handleLogout() {
+    setLoadingSession(true);
+
     const { error: logoutError } = await supabase.auth.signOut();
 
     if (!logoutError) {
       setUser(null);
       queryClient.clear();
     }
+
+    setLoadingSession(false);
   }
 
   return (

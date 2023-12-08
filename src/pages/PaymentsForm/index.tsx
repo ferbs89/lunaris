@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useMemo } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Keyboard } from "react-native";
 import {
   Box,
@@ -10,6 +10,7 @@ import {
   Input,
   ScrollView,
   Text,
+  VStack,
   useToast,
 } from "native-base";
 import { Controller, useForm } from "react-hook-form";
@@ -40,7 +41,6 @@ export default function PaymentsForm({ navigation, route }) {
   const toast = useToast();
 
   const bottomSheetRef = useRef<BottomSheet>(null);
-  const snapPoints = useMemo(() => ["25%"], []);
 
   const [datePickerValue, setDatePickerValue] = useState(new Date());
   const [datePickerShow, setDatePickerShow] = useState(false);
@@ -256,27 +256,20 @@ export default function PaymentsForm({ navigation, route }) {
         </Box>
       </ScrollView>
 
-      <MyBottomSheet ref={bottomSheetRef} snapPoints={snapPoints}>
-        <Box flex="1" p="4" alignItems="center" justifyContent="center">
-          <Box w="100%">
-            <Button
-              colorScheme="danger"
-              isLoading={isLoading}
-              onPress={onDelete}
-            >
-              Confirmar exclusão
-            </Button>
+      <MyBottomSheet ref={bottomSheetRef}>
+        <VStack flex="1" p="4" space="4">
+          <Button colorScheme="danger" isLoading={isLoading} onPress={onDelete}>
+            Confirmar exclusão
+          </Button>
 
-            <Button
-              variant="outline"
-              disabled={isLoading}
-              onPress={() => bottomSheetRef.current.close()}
-              mt="4"
-            >
-              Cancelar
-            </Button>
-          </Box>
-        </Box>
+          <Button
+            variant="outline"
+            disabled={isLoading}
+            onPress={() => bottomSheetRef.current.close()}
+          >
+            Cancelar
+          </Button>
+        </VStack>
       </MyBottomSheet>
     </Container>
   );

@@ -1,46 +1,59 @@
-import React, { ForwardedRef, forwardRef, ReactNode, useCallback } from "react";
+import React, { forwardRef, ReactNode, useCallback, useMemo } from "react";
 import BottomSheet, {
   BottomSheetBackdrop,
   BottomSheetBackdropProps,
+  BottomSheetView,
+  useBottomSheetDynamicSnapPoints,
 } from "@gorhom/bottom-sheet";
 import { useColorModeValue } from "native-base";
 
 type BottomSheetType = {
-  snapPoints: string[];
   children: ReactNode;
 };
 
-const MyBottomSheet = forwardRef(function MyBottomSheet(
-  { snapPoints, children }: BottomSheetType,
-  ref: ForwardedRef<BottomSheet>
-) {
-  const bg = useColorModeValue("#fafaf9", "#1c1917");
+const MyBottomSheet = forwardRef<BottomSheet, BottomSheetType>(
+  ({ children }, ref) => {
+    const initialSnapPoints = useMemo(() => ["CONTENT_HEIGHT"], []);
 
-  const renderBackdrop = useCallback(
-    (props: BottomSheetBackdropProps) => (
-      <BottomSheetBackdrop
-        {...props}
-        appearsOnIndex={0}
-        disappearsOnIndex={-1}
-      />
-    ),
-    []
-  );
+    const {
+      animatedHandleHeight,
+      animatedSnapPoints,
+      animatedContentHeight,
+      handleContentLayout,
+    } = useBottomSheetDynamicSnapPoints(initialSnapPoints);
 
-  return (
-    <BottomSheet
-      ref={ref}
-      index={-1}
-      snapPoints={snapPoints}
-      backdropComponent={renderBackdrop}
-      enablePanDownToClose
-      backgroundStyle={{
-        backgroundColor: bg,
-      }}
-    >
-      {children}
-    </BottomSheet>
-  );
-});
+    const renderBackdrop = useCallback(
+      (props: BottomSheetBackdropProps) => (
+        <BottomSheetBackdrop
+          {...props}
+          appearsOnIndex={0}
+          disappearsOnIndex={-1}
+        />
+      ),
+      []
+    );
+
+    const bg = useColorModeValue("#fafaf9", "#1c1917");
+
+    return (
+      <BottomSheet
+        ref={ref}
+        index={-1}
+        snapPoints={animatedSnapPoints}
+        handleHeight={animatedHandleHeight}
+        contentHeight={animatedContentHeight}
+        backdropComponent={renderBackdrop}
+        enablePanDownToClose
+        backgroundStyle={{
+          backgroundColor: bg,
+        }}
+      >
+        <BottomSheetView onLayout={handleContentLayout}>
+          {children}
+        </BottomSheetView>
+      </BottomSheet>
+    );
+  }
+);
 
 export default MyBottomSheet;

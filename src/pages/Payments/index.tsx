@@ -1,4 +1,4 @@
-import React, { useMemo, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import {
   Badge,
   Box,
@@ -31,14 +31,12 @@ import { useAuth } from "../../hooks/useAuth";
 import { useRefetchOnFocus } from "../../hooks/useRefetchOnFocus";
 
 export default function Payments({ navigation }) {
-  const [refreshing, setRefreshing] = useState(false);
   const [currentDate, setCurrentDate] = useState(dayjs().format("YYYY-MM-DD"));
 
-  const { toggleColorMode } = useColorMode();
   const { handleLogout } = useAuth();
+  const { toggleColorMode } = useColorMode();
 
   const bottomSheetRef = useRef<BottomSheet>(null);
-  const snapPoints = useMemo(() => ["40%"], []);
 
   const colorMode = useColorModeValue("escuro", "claro");
 
@@ -158,13 +156,11 @@ export default function Payments({ navigation }) {
             <PaymentsItem item={item} navigation={navigation} />
           )}
           ListHeaderComponent={<PaymentsListHeader />}
-          onRefresh={refetch}
-          refreshing={refreshing}
         />
       )}
 
-      <MyBottomSheet ref={bottomSheetRef} snapPoints={snapPoints}>
-        <VStack flex="1" p="4" space="4" justifyContent="center">
+      <MyBottomSheet ref={bottomSheetRef}>
+        <VStack flex="1" p="4" space="4">
           <MenuItem
             title="Alterar senha"
             icon="account-box"
@@ -183,7 +179,7 @@ export default function Payments({ navigation }) {
           <MenuItem
             title="Finalizar sessão"
             icon="exit-to-app"
-            onPress={async () => await handleLogout()}
+            onPress={handleLogout}
           />
         </VStack>
       </MyBottomSheet>
