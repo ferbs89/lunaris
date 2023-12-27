@@ -1,9 +1,8 @@
-import React, { forwardRef, ReactNode, useCallback, useMemo } from "react";
+import React, { forwardRef, ReactNode, useCallback } from "react";
 import BottomSheet, {
   BottomSheetBackdrop,
   BottomSheetBackdropProps,
-  BottomSheetView,
-  useBottomSheetDynamicSnapPoints,
+  BottomSheetScrollView,
 } from "@gorhom/bottom-sheet";
 import { useColorModeValue } from "native-base";
 
@@ -13,15 +12,6 @@ type BottomSheetType = {
 
 const MyBottomSheet = forwardRef<BottomSheet, BottomSheetType>(
   ({ children }, ref) => {
-    const initialSnapPoints = useMemo(() => ["CONTENT_HEIGHT"], []);
-
-    const {
-      animatedHandleHeight,
-      animatedSnapPoints,
-      animatedContentHeight,
-      handleContentLayout,
-    } = useBottomSheetDynamicSnapPoints(initialSnapPoints);
-
     const renderBackdrop = useCallback(
       (props: BottomSheetBackdropProps) => (
         <BottomSheetBackdrop
@@ -39,18 +29,14 @@ const MyBottomSheet = forwardRef<BottomSheet, BottomSheetType>(
       <BottomSheet
         ref={ref}
         index={-1}
-        snapPoints={animatedSnapPoints}
-        handleHeight={animatedHandleHeight}
-        contentHeight={animatedContentHeight}
+        enableDynamicSizing={true}
         backdropComponent={renderBackdrop}
         enablePanDownToClose
         backgroundStyle={{
           backgroundColor: bg,
         }}
       >
-        <BottomSheetView onLayout={handleContentLayout}>
-          {children}
-        </BottomSheetView>
+        <BottomSheetScrollView>{children}</BottomSheetScrollView>
       </BottomSheet>
     );
   }
