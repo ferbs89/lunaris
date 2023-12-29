@@ -121,7 +121,7 @@ export default function Login() {
           <Button
             variant="outline"
             onPress={() => navigation.navigate("Register")}
-            mt="4"
+            mt="2"
           >
             Criar nova conta
           </Button>

@@ -1,29 +1,17 @@
 import React from "react";
+import { TouchableOpacity } from "react-native";
 import { Box, Icon, IconButton, Text, useColorModeValue } from "native-base";
 import { MaterialIcons } from "@expo/vector-icons";
 import dayjs from "dayjs";
 
-type PaymentsHeaderType = {
-  currentDate: string;
-  setCurrentDate: (value: string) => void;
-};
+import { usePaymentsStore } from "../../store/payments";
 
-const monthList = [
-  "Janeiro",
-  "Fevereiro",
-  "Março",
-  "Abril",
-  "Maio",
-  "Junho",
-  "Julho",
-  "Agosto",
-  "Setembro",
-  "Outubro",
-  "Novembro",
-  "Dezembro",
-];
+import { months } from "../../utils/months";
 
-export default function ({ currentDate, setCurrentDate }: PaymentsHeaderType) {
+export default function ({ onPress }) {
+  const currentDate = usePaymentsStore((state) => state.currentDate);
+  const setCurrentDate = usePaymentsStore((state) => state.setCurrentDate);
+
   const bg = useColorModeValue("warmGray.200", "warmGray.800");
 
   return (
@@ -38,9 +26,11 @@ export default function ({ currentDate, setCurrentDate }: PaymentsHeaderType) {
       />
 
       <Box flex="1" alignItems="center" justifyContent="center">
-        <Text fontSize="lg" fontWeight="500" mx="1" isTruncated>
-          {monthList[dayjs(currentDate).month()]}
-        </Text>
+        <TouchableOpacity activeOpacity={0.5} onPress={onPress}>
+          <Text fontSize="lg" fontWeight="500" mx="1" isTruncated>
+            {months[dayjs(currentDate).month()]}
+          </Text>
+        </TouchableOpacity>
       </Box>
 
       <IconButton
