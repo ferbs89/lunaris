@@ -259,7 +259,7 @@ export default function PaymentsForm({ route }) {
       </ScrollView>
 
       <MyBottomSheet ref={bottomSheetRef}>
-        <VStack flex="1" p="4" space="4">
+        <VStack flex="1" p="4" space="2">
           <Button colorScheme="danger" isLoading={isLoading} onPress={onDelete}>
             Confirmar exclusão
           </Button>
