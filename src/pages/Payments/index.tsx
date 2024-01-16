@@ -12,6 +12,7 @@ import Menu from "../../components/Menu";
 import MonthYearPicker from "../../components/MonthYearPicker";
 import PaymentsHeader from "../../components/PaymentsHeader";
 import PaymentsItem from "../../components/PaymentsItem";
+import PaymentsListFooter from "../../components/PaymentsListFooter";
 import PaymentsListHeader from "../../components/PaymentsListHeader";
 import PaymentsSkeleton from "../../components/PaymentsSkeleton";
 
@@ -25,6 +26,7 @@ export default function Payments() {
   const navigation = useNavigation();
 
   const currentDate = usePaymentsStore((state) => state.currentDate);
+  const status = usePaymentsStore((state) => state.status);
 
   const menuRef = useRef<BottomSheet>(null);
   const monthYearRef = useRef<BottomSheet>(null);
@@ -66,6 +68,19 @@ export default function Payments() {
       }
     }, 0) || 0;
 
+  const filterData = () => {
+    switch (status) {
+      case "NOT_PAID":
+        return data?.filter((item) => !item.is_paid);
+
+      case "PAID":
+        return data?.filter((item) => item.is_paid);
+
+      default:
+        return data;
+    }
+  };
+
   return (
     <Container>
       <Header
@@ -85,7 +100,7 @@ export default function Payments() {
         <PaymentsSkeleton />
       ) : (
         <FlatList
-          data={data}
+          data={filterData()}
           renderItem={({ item }) => <PaymentsItem item={item} />}
           ListHeaderComponent={
             <PaymentsListHeader
@@ -93,6 +108,7 @@ export default function Payments() {
               totalPaid={totalPaid}
             />
           }
+          ListFooterComponent={<PaymentsListFooter />}
         />
       )}
 
