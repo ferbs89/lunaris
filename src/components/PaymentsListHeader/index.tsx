@@ -1,5 +1,4 @@
 import { TouchableOpacity } from "react-native";
-import { Text } from "native-base";
 import { formatNumber } from "react-native-currency-input";
 
 import { danger600, success600 } from "../../config/colors";
@@ -7,8 +6,13 @@ import { danger600, success600 } from "../../config/colors";
 import { usePaymentsStore } from "../../store/payments";
 
 import Tag from "../Tag";
+import { TextMD, TextSM } from "../Text";
 
-import { PaymentsListHeaderContainer, PaymentsListHeaderItem } from "./styles";
+import {
+  PaymentsListHeaderContainer,
+  PaymentsListHeaderItem,
+  PaymentsListHeaderItemTitle,
+} from "./styles";
 
 export default function ({ totalNotPaid, totalPaid }) {
   const status = usePaymentsStore((state) => state.status);
@@ -24,19 +28,19 @@ export default function ({ totalNotPaid, totalPaid }) {
           activeOpacity={0.5}
           onPress={() => setStatus(status === "PAID" ? "ALL" : "NOT_PAID")}
         >
-          <Text fontSize="md" fontWeight="500" textAlign="center" mb="2">
-            Total pendente
-          </Text>
+          <PaymentsListHeaderItemTitle>
+            <TextMD>Total pendente</TextMD>
+          </PaymentsListHeaderItemTitle>
 
           <Tag color={danger600}>
-            <Text>
+            <TextSM>
               {formatNumber(totalNotPaid, {
                 prefix: "R$ ",
                 delimiter: ".",
                 separator: ",",
                 precision: 2,
               })}
-            </Text>
+            </TextSM>
           </Tag>
         </TouchableOpacity>
       </PaymentsListHeaderItem>
@@ -46,19 +50,19 @@ export default function ({ totalNotPaid, totalPaid }) {
           activeOpacity={0.5}
           onPress={() => setStatus(status === "NOT_PAID" ? "ALL" : "PAID")}
         >
-          <Text fontSize="md" fontWeight="500" textAlign="center" mb="2">
-            Total pago
-          </Text>
+          <PaymentsListHeaderItemTitle>
+            <TextMD>Total pago</TextMD>
+          </PaymentsListHeaderItemTitle>
 
           <Tag color={success600}>
-            <Text>
+            <TextSM>
               {formatNumber(totalPaid, {
                 prefix: "R$ ",
                 delimiter: ".",
                 separator: ",",
                 precision: 2,
               })}
-            </Text>
+            </TextSM>
           </Tag>
         </TouchableOpacity>
       </PaymentsListHeaderItem>

@@ -10,11 +10,13 @@ export const PaymentsItemContainer = styled.View`
 
 export const PaymentsItemTitle = styled.View`
   flex-direction: row;
+  align-items: center;
   justify-content: space-between;
 `;
 
 export const PaymentsItemDescription = styled.View`
   flex-direction: row;
+  align-items: center;
   justify-content: space-between;
   margin-top: 8px;
 `;

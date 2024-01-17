@@ -1,6 +1,5 @@
 import React from "react";
 import { TouchableOpacity } from "react-native";
-import { Text } from "native-base";
 import dayjs from "dayjs";
 
 import { usePaymentsStore } from "../../store/payments";
@@ -8,6 +7,7 @@ import { usePaymentsStore } from "../../store/payments";
 import { months } from "../../utils/months";
 
 import IconButton from "../IconButton";
+import { TextLG } from "../Text";
 
 import { PaymentsHeaderContainer, PaymentsHeaderTitle } from "./styles";
 
@@ -28,9 +28,7 @@ export default function ({ onPress }) {
 
       <PaymentsHeaderTitle>
         <TouchableOpacity activeOpacity={0.5} onPress={onPress}>
-          <Text fontSize="lg" fontWeight="500" mx="1" isTruncated>
-            {months[dayjs(currentDate).month()]}
-          </Text>
+          <TextLG>{months[dayjs(currentDate).month()]}</TextLG>
         </TouchableOpacity>
       </PaymentsHeaderTitle>
 

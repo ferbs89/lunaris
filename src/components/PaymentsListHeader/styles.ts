@@ -19,3 +19,8 @@ export const PaymentsListHeaderItem = styled.View<PaymentsListHeaderItemType>`
   background-color: ${warmGray800};
   opacity: ${({ isSelected }) => (isSelected ? 1 : 0.3)};
 `;
+
+export const PaymentsListHeaderItemTitle = styled.View`
+  align-items: center;
+  margin-bottom: 8px;
+`;

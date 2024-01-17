@@ -1,6 +1,5 @@
 import React from "react";
 import { TouchableOpacity } from "react-native";
-import { Text } from "native-base";
 import { formatNumber } from "react-native-currency-input";
 import dayjs from "dayjs";
 import { useNavigation } from "@react-navigation/native";
@@ -10,6 +9,7 @@ import { danger600, success600 } from "../../config/colors";
 import { PaymentItemType } from "../../types/paymentItem";
 
 import Tag from "../Tag";
+import { TextMD, TextSM } from "../Text";
 
 import {
   PaymentsItemContainer,
@@ -35,25 +35,23 @@ export default function ({ item }: PaymentsItemType) {
     >
       <PaymentsItemContainer>
         <PaymentsItemTitle>
-          <Text fontSize="md" fontWeight="500">
-            {item.description}
-          </Text>
+          <TextMD>{item.description}</TextMD>
 
-          <Text fontSize="md" fontWeight="500">
+          <TextMD>
             {formatNumber(item.value, {
               prefix: "R$ ",
               delimiter: ".",
               separator: ",",
               precision: 2,
             })}
-          </Text>
+          </TextMD>
         </PaymentsItemTitle>
 
         <PaymentsItemDescription>
-          <Text>{dayjs(item.due).format("DD/MM/YYYY")}</Text>
+          <TextSM>{dayjs(item.due).format("DD/MM/YYYY")}</TextSM>
 
           <Tag color={item.is_paid ? success600 : danger600} width={100}>
-            <Text>{item.is_paid ? "Pago" : "Pendente"}</Text>
+            <TextSM>{item.is_paid ? "Pago" : "Pendente"}</TextSM>
           </Tag>
         </PaymentsItemDescription>
       </PaymentsItemContainer>

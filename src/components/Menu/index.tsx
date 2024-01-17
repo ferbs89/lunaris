@@ -1,12 +1,15 @@
 import React, { forwardRef, useImperativeHandle, useRef } from "react";
 import { TouchableOpacity } from "react-native";
-import { Text, useColorMode, useColorModeValue } from "native-base";
+import { useColorMode, useColorModeValue } from "native-base";
 import BottomSheet from "@gorhom/bottom-sheet";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+
+import { trueGray50 } from "../../config/colors";
 
 import { useAuth } from "../../hooks/useAuth";
 
 import MyBottomSheet from "../MyBottomSheet";
+import { TextMD } from "../Text";
 
 import { MenuContainer, MenuItemContainer } from "./styles";
 
@@ -32,11 +35,8 @@ const Menu = forwardRef((_, ref) => {
     return (
       <TouchableOpacity activeOpacity={0.5} onPress={onPress}>
         <MenuItemContainer>
-          <Text fontSize="md" fontWeight="500">
-            {title}
-          </Text>
-
-          <MaterialCommunityIcons name={icon} size={24} color="white" />
+          <TextMD>{title}</TextMD>
+          <MaterialCommunityIcons name={icon} size={24} color={trueGray50} />
         </MenuItemContainer>
       </TouchableOpacity>
     );
