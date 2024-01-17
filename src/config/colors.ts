@@ -1,0 +1,32 @@
+export const warmGray50 = "#fafaf9";
+export const warmGray100 = "#f5f5f4";
+export const warmGray200 = "#e7e5e4";
+export const warmGray300 = "#d6d3d1";
+export const warmGray400 = "#a8a29e";
+export const warmGray500 = "#78716c";
+export const warmGray600 = "#57534e";
+export const warmGray700 = "#44403c";
+export const warmGray800 = "#292524";
+export const warmGray900 = "#1c1917";
+
+export const danger50 = "##fff1f2";
+export const danger100 = "#ffe4e6";
+export const danger200 = "#fecdd3";
+export const danger300 = "#fda4af";
+export const danger400 = "#fb7185";
+export const danger500 = "#f43f5e";
+export const danger600 = "#e11d48";
+export const danger700 = "#be123c";
+export const danger800 = "#9f1239";
+export const danger900 = "#881337";
+
+export const success50 = "#f0fdf4";
+export const success100 = "#dcfce7";
+export const success200 = "#bbf7d0";
+export const success300 = "#86efac";
+export const success400 = "#4ade80";
+export const success500 = "#22c55e";
+export const success600 = "#16a34a";
+export const success700 = "#15803d";
+export const success800 = "#166534";
+export const success900 = "#14532d";

@@ -1,12 +1,16 @@
 import { TouchableOpacity } from "react-native";
-import { Badge, Box, HStack, Text, useColorModeValue } from "native-base";
+import { Text } from "native-base";
 import { formatNumber } from "react-native-currency-input";
+
+import { danger600, success600 } from "../../config/colors";
 
 import { usePaymentsStore } from "../../store/payments";
 
-export default function ({ totalNotPaid, totalPaid }) {
-  const bg = useColorModeValue("warmGray.200", "warmGray.800");
+import Tag from "../Tag";
 
+import { PaymentsListHeaderContainer, PaymentsListHeaderItem } from "./styles";
+
+export default function ({ totalNotPaid, totalPaid }) {
   const status = usePaymentsStore((state) => state.status);
   const setStatus = usePaymentsStore((state) => state.setStatus);
 
@@ -14,14 +18,8 @@ export default function ({ totalNotPaid, totalPaid }) {
   const isPaidSelected = status === "ALL" || status === "PAID";
 
   return (
-    <HStack justifyContent="space-between" mx="2" mb="2" space="2">
-      <Box
-        flex="1"
-        p="2"
-        bg={bg}
-        opacity={isNotPaidSelected ? 1 : 0.3}
-        borderRadius="md"
-      >
+    <PaymentsListHeaderContainer>
+      <PaymentsListHeaderItem isSelected={isNotPaidSelected}>
         <TouchableOpacity
           activeOpacity={0.5}
           onPress={() => setStatus(status === "PAID" ? "ALL" : "NOT_PAID")}
@@ -30,32 +28,20 @@ export default function ({ totalNotPaid, totalPaid }) {
             Total pendente
           </Text>
 
-          <Badge
-            rounded="full"
-            variant="solid"
-            colorScheme="danger"
-            _text={{
-              fontSize: "md",
-            }}
-            height="8"
-          >
-            {formatNumber(totalNotPaid, {
-              prefix: "R$ ",
-              delimiter: ".",
-              separator: ",",
-              precision: 2,
-            })}
-          </Badge>
+          <Tag color={danger600}>
+            <Text>
+              {formatNumber(totalNotPaid, {
+                prefix: "R$ ",
+                delimiter: ".",
+                separator: ",",
+                precision: 2,
+              })}
+            </Text>
+          </Tag>
         </TouchableOpacity>
-      </Box>
+      </PaymentsListHeaderItem>
 
-      <Box
-        flex="1"
-        p="2"
-        bg={bg}
-        opacity={isPaidSelected ? 1 : 0.3}
-        borderRadius="md"
-      >
+      <PaymentsListHeaderItem isSelected={isPaidSelected}>
         <TouchableOpacity
           activeOpacity={0.5}
           onPress={() => setStatus(status === "NOT_PAID" ? "ALL" : "PAID")}
@@ -64,24 +50,18 @@ export default function ({ totalNotPaid, totalPaid }) {
             Total pago
           </Text>
 
-          <Badge
-            rounded="full"
-            variant="solid"
-            colorScheme="success"
-            _text={{
-              fontSize: "md",
-            }}
-            height="8"
-          >
-            {formatNumber(totalPaid, {
-              prefix: "R$ ",
-              delimiter: ".",
-              separator: ",",
-              precision: 2,
-            })}
-          </Badge>
+          <Tag color={success600}>
+            <Text>
+              {formatNumber(totalPaid, {
+                prefix: "R$ ",
+                delimiter: ".",
+                separator: ",",
+                precision: 2,
+              })}
+            </Text>
+          </Tag>
         </TouchableOpacity>
-      </Box>
-    </HStack>
+      </PaymentsListHeaderItem>
+    </PaymentsListHeaderContainer>
   );
 }

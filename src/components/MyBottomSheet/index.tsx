@@ -4,7 +4,8 @@ import BottomSheet, {
   BottomSheetBackdropProps,
   BottomSheetScrollView,
 } from "@gorhom/bottom-sheet";
-import { useColorModeValue } from "native-base";
+
+import { warmGray900 } from "../../config/colors";
 
 type BottomSheetType = {
   children: ReactNode;
@@ -23,8 +24,6 @@ const MyBottomSheet = forwardRef<BottomSheet, BottomSheetType>(
       []
     );
 
-    const bg = useColorModeValue("#fafaf9", "#1c1917");
-
     return (
       <BottomSheet
         ref={ref}
@@ -33,7 +32,7 @@ const MyBottomSheet = forwardRef<BottomSheet, BottomSheetType>(
         backdropComponent={renderBackdrop}
         enablePanDownToClose
         backgroundStyle={{
-          backgroundColor: bg,
+          backgroundColor: warmGray900,
         }}
       >
         <BottomSheetScrollView>{children}</BottomSheetScrollView>

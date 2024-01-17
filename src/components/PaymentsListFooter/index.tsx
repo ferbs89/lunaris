@@ -1,5 +1,5 @@
-import { Box } from "native-base";
+import { PaymentsListFooterContainer } from "./styles";
 
 export default function () {
-  return <Box mt="2"></Box>;
+  return <PaymentsListFooterContainer />;
 }

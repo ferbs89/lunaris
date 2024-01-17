@@ -1,21 +1,20 @@
 import React, { ReactNode } from "react";
-import { Box, StatusBar, useColorModeValue } from "native-base";
+import { StatusBar } from "react-native";
+
+import { warmGray900 } from "../../config/colors";
+
+import { Container } from "./styles";
 
 type ContainerType = {
   children?: ReactNode;
 };
 
-export default function Container({ children }: ContainerType) {
-  const bg = useColorModeValue("warmGray.50", "warmGray.900");
-
-  const statusBarStyle = useColorModeValue("dark-content", "light-content");
-  const statusBarBg = useColorModeValue("#fafaf9", "#1c1917");
-
+export default function ({ children }: ContainerType) {
   return (
-    <Box flex="1" bg={bg} safeArea>
-      <StatusBar backgroundColor={statusBarBg} barStyle={statusBarStyle} />
+    <Container>
+      <StatusBar backgroundColor={warmGray900} barStyle="light-content" />
 
       {children}
-    </Box>
+    </Container>
   );
 }

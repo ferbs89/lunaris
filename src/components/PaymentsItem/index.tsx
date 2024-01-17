@@ -1,19 +1,27 @@
 import React from "react";
 import { TouchableOpacity } from "react-native";
-import { Badge, Box, HStack, Text, useColorModeValue } from "native-base";
+import { Text } from "native-base";
 import { formatNumber } from "react-native-currency-input";
 import dayjs from "dayjs";
 import { useNavigation } from "@react-navigation/native";
 
+import { danger600, success600 } from "../../config/colors";
+
 import { PaymentItemType } from "../../types/paymentItem";
+
+import Tag from "../Tag";
+
+import {
+  PaymentsItemContainer,
+  PaymentsItemDescription,
+  PaymentsItemTitle,
+} from "./styles";
 
 type PaymentsItemType = {
   item: PaymentItemType;
 };
 
 export default function ({ item }: PaymentsItemType) {
-  const bg = useColorModeValue("warmGray.200", "warmGray.800");
-
   const navigation = useNavigation();
 
   return (
@@ -25,8 +33,8 @@ export default function ({ item }: PaymentsItemType) {
         })
       }
     >
-      <Box marginX="2" marginBottom="2" p="2" bg={bg} borderRadius="md">
-        <HStack justifyContent="space-between" mb="2">
+      <PaymentsItemContainer>
+        <PaymentsItemTitle>
           <Text fontSize="md" fontWeight="500">
             {item.description}
           </Text>
@@ -39,21 +47,16 @@ export default function ({ item }: PaymentsItemType) {
               precision: 2,
             })}
           </Text>
-        </HStack>
+        </PaymentsItemTitle>
 
-        <HStack justifyContent="space-between">
+        <PaymentsItemDescription>
           <Text>{dayjs(item.due).format("DD/MM/YYYY")}</Text>
 
-          <Badge
-            rounded="full"
-            variant="solid"
-            colorScheme={item.is_paid ? "success" : "danger"}
-            width="20"
-          >
-            {item.is_paid ? "Pago" : "Pendente"}
-          </Badge>
-        </HStack>
-      </Box>
+          <Tag color={item.is_paid ? success600 : danger600} width={100}>
+            <Text>{item.is_paid ? "Pago" : "Pendente"}</Text>
+          </Tag>
+        </PaymentsItemDescription>
+      </PaymentsItemContainer>
     </TouchableOpacity>
   );
 }

@@ -1,6 +1,5 @@
 import React, { useRef } from "react";
-import { FlatList, Icon, IconButton } from "native-base";
-import { MaterialIcons } from "@expo/vector-icons";
+import { FlatList } from "react-native";
 import { useQuery } from "react-query";
 import dayjs from "dayjs";
 import BottomSheet from "@gorhom/bottom-sheet";
@@ -8,6 +7,7 @@ import { useNavigation } from "@react-navigation/native";
 
 import Container from "../../components/Container";
 import Header from "../../components/Header";
+import IconButton from "../../components/IconButton";
 import Menu from "../../components/Menu";
 import MonthYearPicker from "../../components/MonthYearPicker";
 import PaymentsHeader from "../../components/PaymentsHeader";
@@ -90,7 +90,7 @@ export default function Payments() {
         }
         rightIcon={
           <IconButton
-            icon={<Icon as={MaterialIcons} name="add" size="lg" />}
+            iconName="add"
             onPress={() => navigation.navigate("PaymentsForm")}
           />
         }
