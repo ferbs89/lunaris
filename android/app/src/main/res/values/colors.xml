@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <resources>
-  <color name="splashscreen_background">#FAFAF9</color>
-  <color name="splashscreen_statusbar_color">#FAFAF9</color>
-  <color name="colorPrimary">#FAFAF9</color>
-  <color name="colorPrimaryDark">#FAFAF9</color>
+  <color name="splashscreen_background">#1c1917</color>
+  <color name="splashscreen_statusbar_color">#1c1917</color>
+  <color name="colorPrimary">#1c1917</color>
+  <color name="colorPrimaryDark">#1c1917</color>
 </resources>

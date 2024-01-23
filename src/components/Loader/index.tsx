@@ -1,15 +1,20 @@
 import React from "react";
-import { ActivityIndicator, Image } from "react-native";
+import { ActivityIndicator } from "react-native";
 
-import { LoaderContainer } from "./styles";
+import { trueGray50 } from "../../config/colors";
 
-const logo = require("../../assets/logo.png");
+import Logo from "../Logo";
+
+import { LoaderContainer, LoaderLogoContainer } from "./styles";
 
 export default function () {
   return (
     <LoaderContainer>
-      <Image source={logo} resizeMode="center" />
-      <ActivityIndicator size="large" />
+      <LoaderLogoContainer>
+        <Logo />
+      </LoaderLogoContainer>
+
+      <ActivityIndicator size="large" color={trueGray50} />
     </LoaderContainer>
   );
 }

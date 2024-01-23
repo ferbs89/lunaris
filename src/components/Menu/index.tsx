@@ -1,6 +1,4 @@
 import React, { forwardRef, useImperativeHandle, useRef } from "react";
-import { TouchableOpacity } from "react-native";
-import { useColorMode, useColorModeValue } from "native-base";
 import BottomSheet from "@gorhom/bottom-sheet";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 
@@ -21,8 +19,6 @@ type MenuItemType = {
 
 const Menu = forwardRef((_, ref) => {
   const { handleLogout } = useAuth();
-  const { toggleColorMode } = useColorMode();
-  const colorMode = useColorModeValue("escuro", "claro");
 
   const bottomSheetRef = useRef<BottomSheet>(null);
 
@@ -33,12 +29,10 @@ const Menu = forwardRef((_, ref) => {
 
   function MenuItem({ title, icon, onPress }: MenuItemType) {
     return (
-      <TouchableOpacity activeOpacity={0.5} onPress={onPress}>
-        <MenuItemContainer>
-          <TextMD>{title}</TextMD>
-          <MaterialCommunityIcons name={icon} size={24} color={trueGray50} />
-        </MenuItemContainer>
-      </TouchableOpacity>
+      <MenuItemContainer onPress={onPress}>
+        <TextMD>{title}</TextMD>
+        <MaterialCommunityIcons name={icon} size={24} color={trueGray50} />
+      </MenuItemContainer>
     );
   }
 
@@ -46,15 +40,6 @@ const Menu = forwardRef((_, ref) => {
     <MyBottomSheet ref={bottomSheetRef}>
       <MenuContainer>
         <MenuItem title="Alterar senha" icon="account-box" onPress={() => {}} />
-
-        <MenuItem
-          title={`Mudar para tema ${colorMode}`}
-          icon="theme-light-dark"
-          onPress={() => {
-            toggleColorMode();
-            bottomSheetRef.current.close();
-          }}
-        />
 
         <MenuItem
           title="Finalizar sessão"

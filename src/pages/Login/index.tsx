@@ -1,21 +1,20 @@
 import React, { useRef } from "react";
-import {
-  Box,
-  Button,
-  FormControl,
-  Image,
-  Input,
-  ScrollView,
-  useToast,
-} from "native-base";
+import { ScrollView } from "react-native";
+import { Button, FormControl, useToast } from "native-base";
 import { Controller, useForm } from "react-hook-form";
 import { useNavigation } from "@react-navigation/native";
 
 import Container from "../../components/Container";
+import Logo from "../../components/Logo";
+import TextInput from "../../components/TextInput";
 
 import { useAuth } from "../../hooks/useAuth";
 
-const logo = require("../../assets/logo.png");
+import {
+  LoginButtonContainer,
+  LoginFormContainer,
+  LoginLogoContainer,
+} from "./styles";
 
 type FormData = {
   login: string;
@@ -53,8 +52,10 @@ export default function Login() {
       <ScrollView
         contentContainerStyle={{ flexGrow: 1, justifyContent: "center" }}
       >
-        <Box flex="1" alignItems="center" justifyContent="center" px="4">
-          <Image source={logo} alt="Lunaris" width={32} height={32} mb="8" />
+        <LoginFormContainer>
+          <LoginLogoContainer>
+            <Logo />
+          </LoginLogoContainer>
 
           <FormControl isRequired isInvalid={!!errors.login}>
             <FormControl.Label>E-mail </FormControl.Label>
@@ -63,12 +64,12 @@ export default function Login() {
               control={control}
               rules={{ required: true }}
               render={({ field: { onChange, onBlur, value } }) => (
-                <Input
+                <TextInput
                   autoCapitalize="none"
                   value={value}
                   onChangeText={onChange}
                   onBlur={onBlur}
-                  onSubmitEditing={() => passwordInputRef.current.focus()}
+                  // onSubmitEditing={() => passwordInputRef.current.focus()}
                   blurOnSubmit={false}
                   returnKeyType="next"
                 />
@@ -88,8 +89,8 @@ export default function Login() {
               control={control}
               rules={{ required: true }}
               render={({ field: { onChange, onBlur, value } }) => (
-                <Input
-                  ref={passwordInputRef}
+                <TextInput
+                  // ref={passwordInputRef}
                   secureTextEntry
                   autoCapitalize="none"
                   value={value}
@@ -108,9 +109,9 @@ export default function Login() {
               Campo obrigatório.
             </FormControl.ErrorMessage>
           </FormControl>
-        </Box>
+        </LoginFormContainer>
 
-        <Box w="100%" p="4">
+        <LoginButtonContainer>
           <Button
             onPress={handleSubmit(async (data) => await onSubmit(data))}
             isLoading={loadingLogin}
@@ -125,7 +126,7 @@ export default function Login() {
           >
             Criar nova conta
           </Button>
-        </Box>
+        </LoginButtonContainer>
       </ScrollView>
     </Container>
   );

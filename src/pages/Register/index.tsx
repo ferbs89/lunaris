@@ -1,10 +1,15 @@
 import React from "react";
-import { Box, Button, FormControl, Input, ScrollView, Text } from "native-base";
+import { ScrollView } from "react-native";
+import { Button, FormControl } from "native-base";
 import { Controller, useForm } from "react-hook-form";
 import { useNavigation } from "@react-navigation/native";
 
 import Container from "../../components/Container";
 import Header from "../../components/Header";
+import { TextLG } from "../../components/Text";
+import TextInput from "../../components/TextInput";
+
+import { RegisterButtonContainer, RegisterFormContainer } from "./styles";
 
 type FormData = {
   email: string;
@@ -28,10 +33,8 @@ export default function Register() {
       <ScrollView
         contentContainerStyle={{ flexGrow: 1, justifyContent: "center" }}
       >
-        <Box flex="1" alignItems="center" justifyContent="center" px="4">
-          <Text fontSize="lg" fontWeight="500">
-            Criar nova conta
-          </Text>
+        <RegisterFormContainer>
+          <TextLG>Criar nova conta</TextLG>
 
           <FormControl isRequired isInvalid={!!errors.email} mt="4">
             <FormControl.Label>E-mail </FormControl.Label>
@@ -40,7 +43,7 @@ export default function Register() {
               control={control}
               rules={{ required: true }}
               render={({ field: { onChange, onBlur, value } }) => (
-                <Input
+                <TextInput
                   autoCapitalize="none"
                   value={value}
                   onChangeText={onChange}
@@ -62,7 +65,7 @@ export default function Register() {
               control={control}
               rules={{ required: true }}
               render={({ field: { onChange, onBlur, value } }) => (
-                <Input
+                <TextInput
                   secureTextEntry
                   autoCapitalize="none"
                   value={value}
@@ -77,11 +80,11 @@ export default function Register() {
               Campo obrigatório.
             </FormControl.ErrorMessage>
           </FormControl>
-        </Box>
+        </RegisterFormContainer>
 
-        <Box w="100%" p="4">
+        <RegisterButtonContainer>
           <Button>Cadastrar</Button>
-        </Box>
+        </RegisterButtonContainer>
       </ScrollView>
     </Container>
   );

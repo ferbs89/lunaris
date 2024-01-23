@@ -12,7 +12,11 @@ export const PaymentsListHeaderContainer = styled.View`
   gap: 8px;
 `;
 
-export const PaymentsListHeaderItem = styled.View<PaymentsListHeaderItemType>`
+export const PaymentsListHeaderItem = styled.TouchableOpacity.attrs<PaymentsListHeaderItemType>(
+  {
+    activeOpacity: 0.5,
+  }
+)`
   flex: 1;
   padding: 8px;
   border-radius: 8px;

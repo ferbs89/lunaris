@@ -1,7 +1,9 @@
 import styled from "styled-components/native";
 import { warmGray800 } from "../../config/colors";
 
-export const PaymentsItemContainer = styled.View`
+export const PaymentsItemContainer = styled.TouchableOpacity.attrs({
+  activeOpacity: 0.5,
+})`
   margin: 0 8px 8px;
   padding: 8px;
   border-radius: 8px;

@@ -1,5 +1,5 @@
 import React, { useRef } from "react";
-import { FlatList } from "react-native";
+import { ActivityIndicator, FlatList } from "react-native";
 import { useQuery } from "react-query";
 import dayjs from "dayjs";
 import BottomSheet from "@gorhom/bottom-sheet";
@@ -14,13 +14,15 @@ import PaymentsHeader from "../../components/PaymentsHeader";
 import PaymentsItem from "../../components/PaymentsItem";
 import PaymentsListFooter from "../../components/PaymentsListFooter";
 import PaymentsListHeader from "../../components/PaymentsListHeader";
-import PaymentsSkeleton from "../../components/PaymentsSkeleton";
 
+import { trueGray50 } from "../../config/colors";
 import { supabase } from "../../config/supabase";
 
 import { useRefetchOnFocus } from "../../hooks/useRefetchOnFocus";
 
 import { usePaymentsStore } from "../../store/payments";
+
+import { LoaderContainer } from "./styles";
 
 export default function Payments() {
   const navigation = useNavigation();
@@ -97,7 +99,9 @@ export default function Payments() {
       />
 
       {isLoading ? (
-        <PaymentsSkeleton />
+        <LoaderContainer>
+          <ActivityIndicator size="large" color={trueGray50} />
+        </LoaderContainer>
       ) : (
         <FlatList
           data={filterData()}

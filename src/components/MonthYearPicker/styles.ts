@@ -31,7 +31,11 @@ export const MonthButtonContainer = styled.View`
   padding: 0 4px 8px;
 `;
 
-export const MonthButtonItem = styled.View<MonthButtonItemType>`
+export const MonthButtonItem = styled.TouchableOpacity.attrs<MonthButtonItemType>(
+  {
+    activeOpacity: 0.5,
+  }
+)`
   align-items: center;
   padding: 16px;
   border-radius: 8px;

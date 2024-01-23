@@ -11,7 +11,9 @@ export const PaymentsHeaderContainer = styled.View`
   background-color: ${warmGray800};
 `;
 
-export const PaymentsHeaderTitle = styled.View`
+export const PaymentsHeaderTitle = styled.TouchableOpacity.attrs({
+  activeOpacity: 0.5,
+})`
   flex: 1;
   align-items: center;
   justify-content: center;

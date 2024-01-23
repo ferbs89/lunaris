@@ -9,7 +9,6 @@ import {
   Poppins_700Bold,
 } from "@expo-google-fonts/poppins";
 
-import { colorModeManager } from "./config/colorModeManager";
 import { queryClient } from "./config/queryClient";
 import { theme } from "./config/theme";
 
@@ -31,7 +30,7 @@ export default function () {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <NativeBaseProvider colorModeManager={colorModeManager} theme={theme}>
+      <NativeBaseProvider theme={theme}>
         <AuthProvider>
           <Routes />
         </AuthProvider>

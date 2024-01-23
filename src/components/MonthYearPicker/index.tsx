@@ -1,5 +1,4 @@
 import React, { forwardRef, useImperativeHandle, useRef } from "react";
-import { TouchableOpacity } from "react-native";
 import BottomSheet from "@gorhom/bottom-sheet";
 import dayjs from "dayjs";
 
@@ -70,14 +69,12 @@ const MonthYearPicker = forwardRef((_, ref) => {
 
     return (
       <MonthButtonContainer>
-        <TouchableOpacity
-          activeOpacity={0.5}
+        <MonthButtonItem
           onPress={() => handleMonthSelect(value)}
+          isSelected={isSelected}
         >
-          <MonthButtonItem isSelected={isSelected}>
-            <TextMD>{description}</TextMD>
-          </MonthButtonItem>
-        </TouchableOpacity>
+          <TextMD>{description}</TextMD>
+        </MonthButtonItem>
       </MonthButtonContainer>
     );
   }
