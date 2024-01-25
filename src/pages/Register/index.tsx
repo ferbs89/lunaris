@@ -1,11 +1,11 @@
 import React from "react";
 import { ScrollView } from "react-native";
-import { Button, FormControl } from "native-base";
 import { Controller, useForm } from "react-hook-form";
 import { useNavigation } from "@react-navigation/native";
 
+import Button from "../../components/Button";
 import Container from "../../components/Container";
-import Header from "../../components/Header";
+import FormControl from "../../components/FormControl";
 import { TextLG } from "../../components/Text";
 import TextInput from "../../components/TextInput";
 
@@ -17,28 +17,27 @@ type FormData = {
 };
 
 export default function Register() {
+  const navigation = useNavigation();
+
   const {
     control,
     handleSubmit,
-    reset,
     formState: { errors },
   } = useForm<FormData>();
 
-  const navigation = useNavigation();
+  async function onSubmit(data: FormData) {
+    console.log(data.email, data.password);
+  }
 
   return (
     <Container>
-      <Header onBack={() => navigation.goBack()} />
-
       <ScrollView
         contentContainerStyle={{ flexGrow: 1, justifyContent: "center" }}
       >
         <RegisterFormContainer>
           <TextLG>Criar nova conta</TextLG>
 
-          <FormControl isRequired isInvalid={!!errors.email} mt="4">
-            <FormControl.Label>E-mail </FormControl.Label>
-
+          <FormControl label="E-mail" error={!!errors.email}>
             <Controller
               control={control}
               rules={{ required: true }}
@@ -52,15 +51,9 @@ export default function Register() {
               )}
               name="email"
             />
-
-            <FormControl.ErrorMessage>
-              Campo obrigatório.
-            </FormControl.ErrorMessage>
           </FormControl>
 
-          <FormControl isRequired isInvalid={!!errors.password} mt="4">
-            <FormControl.Label>Senha </FormControl.Label>
-
+          <FormControl label="Senha" error={!!errors.password}>
             <Controller
               control={control}
               rules={{ required: true }}
@@ -75,15 +68,20 @@ export default function Register() {
               )}
               name="password"
             />
-
-            <FormControl.ErrorMessage>
-              Campo obrigatório.
-            </FormControl.ErrorMessage>
           </FormControl>
         </RegisterFormContainer>
 
         <RegisterButtonContainer>
-          <Button>Cadastrar</Button>
+          <Button
+            onPress={handleSubmit(async (data) => await onSubmit(data))}
+            // isLoading={loadingLogin}
+          >
+            Cadastrar
+          </Button>
+
+          <Button mode="outline" onPress={() => navigation.goBack()}>
+            Cancelar
+          </Button>
         </RegisterButtonContainer>
       </ScrollView>
     </Container>

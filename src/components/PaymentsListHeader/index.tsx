@@ -5,7 +5,7 @@ import { danger600, success600 } from "../../config/colors";
 import { usePaymentsStore } from "../../store/payments";
 
 import Tag from "../Tag";
-import { TextMD, TextSM } from "../Text";
+import { TextMD } from "../Text";
 
 import {
   PaymentsListHeaderContainer,
@@ -31,14 +31,14 @@ export default function ({ totalNotPaid, totalPaid }) {
         </PaymentsListHeaderItemTitle>
 
         <Tag color={danger600}>
-          <TextSM>
+          <TextMD>
             {formatNumber(totalNotPaid, {
               prefix: "R$ ",
               delimiter: ".",
               separator: ",",
               precision: 2,
             })}
-          </TextSM>
+          </TextMD>
         </Tag>
       </PaymentsListHeaderItem>
 
@@ -51,14 +51,14 @@ export default function ({ totalNotPaid, totalPaid }) {
         </PaymentsListHeaderItemTitle>
 
         <Tag color={success600}>
-          <TextSM>
+          <TextMD>
             {formatNumber(totalPaid, {
               prefix: "R$ ",
               delimiter: ".",
               separator: ",",
               precision: 2,
             })}
-          </TextSM>
+          </TextMD>
         </Tag>
       </PaymentsListHeaderItem>
     </PaymentsListHeaderContainer>

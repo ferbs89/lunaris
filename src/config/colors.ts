@@ -9,6 +9,17 @@ export const danger700 = "#be123c";
 export const danger800 = "#9f1239";
 export const danger900 = "#881337";
 
+export const error50 = "#fef2f2";
+export const error100 = "#fee2e2";
+export const error200 = "#fecaca";
+export const error300 = "#fca5a5";
+export const error400 = "#f87171";
+export const error500 = "#ef4444";
+export const error600 = "#dc2626";
+export const error700 = "#b91c1c";
+export const error800 = "#991b1b";
+export const error900 = "#7f1d1d";
+
 export const primary50 = "#ecfeff";
 export const primary100 = "#cffafe";
 export const primary200 = "#a5f3fc";

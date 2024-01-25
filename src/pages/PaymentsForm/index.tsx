@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Keyboard, ScrollView } from "react-native";
-import { FormControl, useToast } from "native-base";
 import { Controller, useForm } from "react-hook-form";
 import CurrencyInput from "react-native-currency-input";
 import DateTimePicker from "@react-native-community/datetimepicker";
@@ -11,6 +10,7 @@ import { useNavigation } from "@react-navigation/native";
 
 import Button from "../../components/Button";
 import Container from "../../components/Container";
+import FormControl from "../../components/FormControl";
 import Header from "../../components/Header";
 import IconButton from "../../components/IconButton";
 import MyBottomSheet from "../../components/MyBottomSheet";
@@ -40,7 +40,6 @@ export default function PaymentsForm({ route }) {
 
   const { user } = useAuth();
   const navigation = useNavigation();
-  const toast = useToast();
 
   const bottomSheetRef = useRef<BottomSheet>(null);
 
@@ -92,18 +91,8 @@ export default function PaymentsForm({ route }) {
 
     if (params?.item.id) {
       await supabase.from("payments").update(payload).eq("id", params.item.id);
-
-      toast.show({
-        description: "Pagamento editado com sucesso",
-        placement: "top",
-      });
     } else {
       await supabase.from("payments").insert([payload]);
-
-      toast.show({
-        description: "Novo pagamento adicionado",
-        placement: "top",
-      });
     }
 
     resetFields();
@@ -114,11 +103,6 @@ export default function PaymentsForm({ route }) {
     setIsLoading(true);
 
     await supabase.from("payments").delete().eq("id", params.item.id);
-
-    toast.show({
-      description: "Pagamento excluído com sucesso",
-      placement: "top",
-    });
 
     resetFields();
     navigation.goBack();
@@ -157,9 +141,7 @@ export default function PaymentsForm({ route }) {
             {params?.item.id ? "Editar pagamento" : "Novo pagamento"}
           </TextLG>
 
-          <FormControl isRequired isInvalid={!!errors.value}>
-            <FormControl.Label>Valor </FormControl.Label>
-
+          <FormControl label="Valor" error={!!errors.value}>
             <Controller
               control={control}
               rules={{ required: true }}
@@ -179,15 +161,9 @@ export default function PaymentsForm({ route }) {
               )}
               name="value"
             />
-
-            <FormControl.ErrorMessage>
-              Campo obrigatório.
-            </FormControl.ErrorMessage>
           </FormControl>
 
-          <FormControl isRequired mt="4">
-            <FormControl.Label>Vencimento </FormControl.Label>
-
+          <FormControl label="Vencimento">
             <TextInput
               value={dayjs(datePickerValue).utc().format("DD/MM/YYYY")}
               onFocus={Keyboard.dismiss}
@@ -201,15 +177,9 @@ export default function PaymentsForm({ route }) {
                 onChange={onChangeDatePicker}
               />
             )}
-
-            <FormControl.ErrorMessage>
-              Campo obrigatório.
-            </FormControl.ErrorMessage>
           </FormControl>
 
-          <FormControl isRequired isInvalid={!!errors.description} mt="4">
-            <FormControl.Label>Descrição </FormControl.Label>
-
+          <FormControl label="Descrição" error={!!errors.description}>
             <Controller
               control={control}
               rules={{ required: true }}
@@ -222,10 +192,6 @@ export default function PaymentsForm({ route }) {
               )}
               name="description"
             />
-
-            <FormControl.ErrorMessage>
-              Campo obrigatório.
-            </FormControl.ErrorMessage>
           </FormControl>
 
           <PaymentsFormStatusContainer>
@@ -272,7 +238,7 @@ export default function PaymentsForm({ route }) {
           </Button>
 
           <Button
-            // variant="outline"
+            mode="outline"
             // disabled={isLoading}
             onPress={() => bottomSheetRef.current.close()}
           >

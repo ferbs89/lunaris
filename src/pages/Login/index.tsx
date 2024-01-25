@@ -1,10 +1,11 @@
-import React, { useRef } from "react";
+import React from "react";
 import { ScrollView } from "react-native";
-import { Button, FormControl, useToast } from "native-base";
 import { Controller, useForm } from "react-hook-form";
 import { useNavigation } from "@react-navigation/native";
 
+import Button from "../../components/Button";
 import Container from "../../components/Container";
+import FormControl from "../../components/FormControl";
 import Logo from "../../components/Logo";
 import TextInput from "../../components/TextInput";
 
@@ -24,9 +25,6 @@ type FormData = {
 export default function Login() {
   const { handleLogin, loadingLogin } = useAuth();
   const navigation = useNavigation();
-  const toast = useToast();
-
-  const passwordInputRef = useRef(null);
 
   const {
     control,
@@ -37,14 +35,14 @@ export default function Login() {
   async function onSubmit(data: FormData) {
     const isLoginDone = await handleLogin(data.login.trim(), data.password);
 
-    if (!isLoginDone) {
-      if (!toast.isActive("login-toast")) {
-        toast.show({
-          id: "login-toast",
-          description: "E-mail e/ou senha inválidos",
-        });
-      }
-    }
+    // if (!isLoginDone) {
+    //   if (!toast.isActive("login-toast")) {
+    //     toast.show({
+    //       id: "login-toast",
+    //       description: "E-mail e/ou senha inválidos",
+    //     });
+    //   }
+    // }
   }
 
   return (
@@ -57,9 +55,7 @@ export default function Login() {
             <Logo />
           </LoginLogoContainer>
 
-          <FormControl isRequired isInvalid={!!errors.login}>
-            <FormControl.Label>E-mail </FormControl.Label>
-
+          <FormControl label="E-mail" error={!!errors.login}>
             <Controller
               control={control}
               rules={{ required: true }}
@@ -69,28 +65,18 @@ export default function Login() {
                   value={value}
                   onChangeText={onChange}
                   onBlur={onBlur}
-                  // onSubmitEditing={() => passwordInputRef.current.focus()}
-                  blurOnSubmit={false}
-                  returnKeyType="next"
                 />
               )}
               name="login"
             />
-
-            <FormControl.ErrorMessage>
-              Campo obrigatório.
-            </FormControl.ErrorMessage>
           </FormControl>
 
-          <FormControl isRequired isInvalid={!!errors.password} mt="4">
-            <FormControl.Label>Senha </FormControl.Label>
-
+          <FormControl label="Senha" error={!!errors.password}>
             <Controller
               control={control}
               rules={{ required: true }}
               render={({ field: { onChange, onBlur, value } }) => (
                 <TextInput
-                  // ref={passwordInputRef}
                   secureTextEntry
                   autoCapitalize="none"
                   value={value}
@@ -104,25 +90,20 @@ export default function Login() {
               )}
               name="password"
             />
-
-            <FormControl.ErrorMessage>
-              Campo obrigatório.
-            </FormControl.ErrorMessage>
           </FormControl>
         </LoginFormContainer>
 
         <LoginButtonContainer>
           <Button
             onPress={handleSubmit(async (data) => await onSubmit(data))}
-            isLoading={loadingLogin}
+            // isLoading={loadingLogin}
           >
             Entrar
           </Button>
 
           <Button
-            variant="outline"
+            mode="outline"
             onPress={() => navigation.navigate("Register")}
-            mt="2"
           >
             Criar nova conta
           </Button>

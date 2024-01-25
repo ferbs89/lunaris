@@ -1,5 +1,4 @@
 import React from "react";
-import { NativeBaseProvider } from "native-base";
 import { QueryClientProvider } from "react-query";
 import {
   useFonts,
@@ -10,7 +9,6 @@ import {
 } from "@expo-google-fonts/poppins";
 
 import { queryClient } from "./config/queryClient";
-import { theme } from "./config/theme";
 
 import { AuthProvider } from "./hooks/useAuth";
 
@@ -30,11 +28,9 @@ export default function () {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <NativeBaseProvider theme={theme}>
-        <AuthProvider>
-          <Routes />
-        </AuthProvider>
-      </NativeBaseProvider>
+      <AuthProvider>
+        <Routes />
+      </AuthProvider>
     </QueryClientProvider>
   );
 }

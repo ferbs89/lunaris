@@ -20,22 +20,22 @@ export function AuthProvider({ children }) {
   const [loadingLogin, setLoadingLogin] = useState(false);
 
   useEffect(() => {
-    loadSession();
-  }, []);
+    async function loadSession() {
+      const {
+        data: { user: userData },
+      } = await supabase.auth.getUser();
 
-  async function loadSession() {
-    const {
-      data: { user: userData },
-    } = await supabase.auth.getUser();
+      if (userData) {
+        setUser(userData);
+      } else {
+        setUser(null);
+      }
 
-    if (userData) {
-      setUser(userData);
-    } else {
-      setUser(null);
+      setLoadingSession(false);
     }
 
-    setLoadingSession(false);
-  }
+    loadSession();
+  }, []);
 
   async function handleLogin(email: string, password: string) {
     if (!email || !password) {

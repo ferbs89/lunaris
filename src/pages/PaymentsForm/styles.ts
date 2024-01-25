@@ -10,13 +10,14 @@ export const PaymentsFormContainer = styled.View`
   align-items: center;
   justify-content: center;
   padding: 0 16px;
+  gap: 16px;
 `;
 
 export const PaymentsFormStatusContainer = styled.View`
   width: 100%;
   flex-direction: row;
   justify-content: space-between;
-  padding-top: 32px;
+  padding-top: 16px;
   gap: 8px;
 `;
 

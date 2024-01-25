@@ -1,8 +1,9 @@
 import styled from "styled-components/native";
-import { primary600 } from "../../config/colors";
+import { trueGray700 } from "../../config/colors";
 
 type ButtonContainerType = {
-  color?: string;
+  mode: "default" | "outline";
+  color: string;
 };
 
 export const ButtonContainer = styled.TouchableOpacity.attrs<ButtonContainerType>(
@@ -10,10 +11,21 @@ export const ButtonContainer = styled.TouchableOpacity.attrs<ButtonContainerType
     activeOpacity: 0.5,
   }
 )`
-  flex: 1;
   align-items: center;
   justify-content: center;
+  width: 100%;
   height: 48px;
   border-radius: 8px;
-  background-color: ${({ color }) => (color ? color : primary600)};
+
+  ${({ mode, color }) =>
+    mode == "default" &&
+    `
+    background-color: ${color};
+  `}
+
+  ${({ mode }) =>
+    mode == "outline" &&
+    `
+    border: 1px solid ${trueGray700};
+  `}
 `;
