@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { ScrollView } from "react-native";
 import { Controller, useForm } from "react-hook-form";
 import { useNavigation } from "@react-navigation/native";
@@ -7,13 +7,17 @@ import Button from "../../components/Button";
 import Container from "../../components/Container";
 import FormControl from "../../components/FormControl";
 import Logo from "../../components/Logo";
+import { TextBoldSM } from "../../components/Text";
 import TextInput from "../../components/TextInput";
+
+import { error600 } from "../../config/colors";
 
 import { useAuth } from "../../hooks/useAuth";
 
 import {
   LoginButtonContainer,
   LoginFormContainer,
+  LoginInvalidContainer,
   LoginLogoContainer,
 } from "./styles";
 
@@ -23,6 +27,8 @@ type FormData = {
 };
 
 export default function Login() {
+  const [isLoginInvalid, setIsLoginInvalid] = useState(false);
+
   const { handleLogin, loadingLogin } = useAuth();
   const navigation = useNavigation();
 
@@ -33,27 +39,31 @@ export default function Login() {
   } = useForm<FormData>();
 
   async function onSubmit(data: FormData) {
-    const isLoginDone = await handleLogin(data.login.trim(), data.password);
+    const isAuthenticated = await handleLogin(data.login.trim(), data.password);
 
-    // if (!isLoginDone) {
-    //   if (!toast.isActive("login-toast")) {
-    //     toast.show({
-    //       id: "login-toast",
-    //       description: "E-mail e/ou senha inválidos",
-    //     });
-    //   }
-    // }
+    if (!isAuthenticated) {
+      setIsLoginInvalid(true);
+    }
   }
 
   return (
     <Container>
       <ScrollView
         contentContainerStyle={{ flexGrow: 1, justifyContent: "center" }}
+        keyboardShouldPersistTaps="handled"
       >
         <LoginFormContainer>
           <LoginLogoContainer>
             <Logo />
           </LoginLogoContainer>
+
+          {isLoginInvalid && (
+            <LoginInvalidContainer>
+              <TextBoldSM color={error600}>
+                E-mail e/ou senha inválidos
+              </TextBoldSM>
+            </LoginInvalidContainer>
+          )}
 
           <FormControl label="E-mail" error={!!errors.login}>
             <Controller
@@ -82,10 +92,6 @@ export default function Login() {
                   value={value}
                   onChangeText={onChange}
                   onBlur={onBlur}
-                  onSubmitEditing={handleSubmit(
-                    async (data) => await onSubmit(data)
-                  )}
-                  returnKeyType="send"
                 />
               )}
               name="password"
@@ -95,14 +101,15 @@ export default function Login() {
 
         <LoginButtonContainer>
           <Button
+            loading={loadingLogin}
             onPress={handleSubmit(async (data) => await onSubmit(data))}
-            // isLoading={loadingLogin}
           >
             Entrar
           </Button>
 
           <Button
             mode="outline"
+            disabled={loadingLogin}
             onPress={() => navigation.navigate("Register")}
           >
             Criar nova conta

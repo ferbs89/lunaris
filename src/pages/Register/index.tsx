@@ -33,6 +33,7 @@ export default function Register() {
     <Container>
       <ScrollView
         contentContainerStyle={{ flexGrow: 1, justifyContent: "center" }}
+        keyboardShouldPersistTaps="handled"
       >
         <RegisterFormContainer>
           <TextLG>Criar nova conta</TextLG>
@@ -72,10 +73,7 @@ export default function Register() {
         </RegisterFormContainer>
 
         <RegisterButtonContainer>
-          <Button
-            onPress={handleSubmit(async (data) => await onSubmit(data))}
-            // isLoading={loadingLogin}
-          >
+          <Button onPress={handleSubmit(async (data) => await onSubmit(data))}>
             Cadastrar
           </Button>
 

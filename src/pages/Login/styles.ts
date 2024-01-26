@@ -12,6 +12,11 @@ export const LoginLogoContainer = styled.View`
   margin-bottom: 16px;
 `;
 
+export const LoginInvalidContainer = styled.View`
+  width: 100%;
+  align-items: center;
+`;
+
 export const LoginButtonContainer = styled.View`
   width: 100%;
   padding: 16px;

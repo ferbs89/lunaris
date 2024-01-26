@@ -135,6 +135,7 @@ export default function PaymentsForm({ route }) {
 
       <ScrollView
         contentContainerStyle={{ flexGrow: 1, justifyContent: "center" }}
+        keyboardShouldPersistTaps="handled"
       >
         <PaymentsFormContainer>
           <TextLG>
@@ -219,7 +220,7 @@ export default function PaymentsForm({ route }) {
 
         <PaymentsFormButtonContainer>
           <Button
-            // isLoading={isLoading}
+            loading={isLoading}
             onPress={handleSubmit(async (data) => await onSubmit(data))}
           >
             Salvar
@@ -229,17 +230,13 @@ export default function PaymentsForm({ route }) {
 
       <MyBottomSheet ref={bottomSheetRef}>
         <PaymentsFormBottomSheetContainer>
-          <Button
-            color={danger600}
-            // isLoading={isLoading}
-            onPress={onDelete}
-          >
+          <Button color={danger600} loading={isLoading} onPress={onDelete}>
             Confirmar exclusão
           </Button>
 
           <Button
             mode="outline"
-            // disabled={isLoading}
+            disabled={isLoading}
             onPress={() => bottomSheetRef.current.close()}
           >
             Cancelar
