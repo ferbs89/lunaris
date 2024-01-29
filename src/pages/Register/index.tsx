@@ -1,11 +1,11 @@
 import React from "react";
-import { ScrollView } from "react-native";
 import { Controller, useForm } from "react-hook-form";
 import { useNavigation } from "@react-navigation/native";
 
 import Button from "../../components/Button";
 import Container from "../../components/Container";
 import FormControl from "../../components/FormControl";
+import ScrollView from "../../components/ScrollView";
 import { TextLG } from "../../components/Text";
 import TextInput from "../../components/TextInput";
 
@@ -31,10 +31,7 @@ export default function Register() {
 
   return (
     <Container>
-      <ScrollView
-        contentContainerStyle={{ flexGrow: 1, justifyContent: "center" }}
-        keyboardShouldPersistTaps="handled"
-      >
+      <ScrollView>
         <RegisterFormContainer>
           <TextLG>Criar nova conta</TextLG>
 

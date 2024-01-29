@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { Keyboard, ScrollView } from "react-native";
+import { Keyboard } from "react-native";
 import { Controller, useForm } from "react-hook-form";
 import CurrencyInput from "react-native-currency-input";
 import DateTimePicker from "@react-native-community/datetimepicker";
@@ -14,6 +14,7 @@ import FormControl from "../../components/FormControl";
 import Header from "../../components/Header";
 import IconButton from "../../components/IconButton";
 import MyBottomSheet from "../../components/MyBottomSheet";
+import ScrollView from "../../components/ScrollView";
 import { TextLG, TextMD } from "../../components/Text";
 import TextInput from "../../components/TextInput";
 
@@ -133,10 +134,7 @@ export default function PaymentsForm({ route }) {
         }
       />
 
-      <ScrollView
-        contentContainerStyle={{ flexGrow: 1, justifyContent: "center" }}
-        keyboardShouldPersistTaps="handled"
-      >
+      <ScrollView>
         <PaymentsFormContainer>
           <TextLG>
             {params?.item.id ? "Editar pagamento" : "Novo pagamento"}

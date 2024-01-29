@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { ScrollView } from "react-native";
 import { Controller, useForm } from "react-hook-form";
 import { useNavigation } from "@react-navigation/native";
 
@@ -7,6 +6,7 @@ import Button from "../../components/Button";
 import Container from "../../components/Container";
 import FormControl from "../../components/FormControl";
 import Logo from "../../components/Logo";
+import ScrollView from "../../components/ScrollView";
 import { TextBoldSM } from "../../components/Text";
 import TextInput from "../../components/TextInput";
 
@@ -48,10 +48,7 @@ export default function Login() {
 
   return (
     <Container>
-      <ScrollView
-        contentContainerStyle={{ flexGrow: 1, justifyContent: "center" }}
-        keyboardShouldPersistTaps="handled"
-      >
+      <ScrollView>
         <LoginFormContainer>
           <LoginLogoContainer>
             <Logo />
