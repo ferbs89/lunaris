@@ -1,7 +1,7 @@
 import { ReactNode } from "react";
 import { ActivityIndicator } from "react-native";
 
-import { primary600, trueGray50 } from "../../config/colors";
+import { primary, trueGray50 } from "../../config/colors";
 
 import { TextBoldSM } from "../Text";
 
@@ -20,7 +20,7 @@ type ButtonType = {
 export default function ({
   onPress,
   mode = "default",
-  color = primary600,
+  color = primary,
   loading,
   disabled,
   children,
@@ -35,7 +35,7 @@ export default function ({
       {loading ? (
         <ActivityIndicator size="small" color={trueGray50} />
       ) : (
-        <TextBoldSM color={mode === "outline" && color}>{children}</TextBoldSM>
+        <TextBoldSM>{children}</TextBoldSM>
       )}
     </ButtonContainer>
   );

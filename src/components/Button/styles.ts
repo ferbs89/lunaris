@@ -1,5 +1,4 @@
 import styled from "styled-components/native";
-import { trueGray700 } from "../../config/colors";
 
 type ButtonContainerType = {
   mode: "default" | "outline";
@@ -23,9 +22,9 @@ export const ButtonContainer = styled.TouchableOpacity.attrs<ButtonContainerType
     background-color: ${color};
   `}
 
-  ${({ mode }) =>
+  ${({ mode, color }) =>
     mode == "outline" &&
     `
-    border: 1px solid ${trueGray700};
+    border: 1px solid ${color};
   `}
 `;

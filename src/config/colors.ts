@@ -63,3 +63,6 @@ export const warmGray600 = "#57534e";
 export const warmGray700 = "#44403c";
 export const warmGray800 = "#292524";
 export const warmGray900 = "#1c1917";
+
+export const primary = "#073349";
+export const background = "#1c1917";
