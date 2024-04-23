@@ -1,6 +1,8 @@
 import React, { ReactNode } from "react";
-import { HStack, Icon, IconButton } from "native-base";
-import { MaterialIcons } from "@expo/vector-icons";
+
+import IconButton from "../IconButton";
+
+import { HeaderContainer } from "./styles";
 
 type HeaderType = {
   titleComponent?: ReactNode;
@@ -16,24 +18,16 @@ export default function Header({
   onPressMenu,
 }: HeaderType) {
   return (
-    <HStack p="4">
-      <HStack flex="1" alignItems="center" justifyContent="space-between">
-        {onBack ? (
-          <IconButton
-            icon={<Icon as={MaterialIcons} name="arrow-back" size="lg" />}
-            onPress={onBack}
-          />
-        ) : (
-          <IconButton
-            icon={<Icon as={MaterialIcons} name="menu" size="lg" />}
-            onPress={onPressMenu}
-          />
-        )}
+    <HeaderContainer>
+      {onBack ? (
+        <IconButton iconName="arrow-back" onPress={onBack} />
+      ) : (
+        <IconButton iconName="menu" onPress={onPressMenu} />
+      )}
 
-        {titleComponent}
+      {titleComponent}
 
-        {rightIcon}
-      </HStack>
-    </HStack>
+      {rightIcon}
+    </HeaderContainer>
   );
 }

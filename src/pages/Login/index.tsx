@@ -1,21 +1,25 @@
-import React, { useRef } from "react";
-import {
-  Box,
-  Button,
-  FormControl,
-  Image,
-  Input,
-  ScrollView,
-  useToast,
-} from "native-base";
+import React, { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { useNavigation } from "@react-navigation/native";
 
+import Button from "../../components/Button";
 import Container from "../../components/Container";
+import FormControl from "../../components/FormControl";
+import Logo from "../../components/Logo";
+import ScrollView from "../../components/ScrollView";
+import { TextBoldSM } from "../../components/Text";
+import TextInput from "../../components/TextInput";
+
+import { error600 } from "../../config/colors";
 
 import { useAuth } from "../../hooks/useAuth";
 
-const logo = require("../../assets/logo.png");
+import {
+  LoginButtonContainer,
+  LoginFormContainer,
+  LoginInvalidContainer,
+  LoginLogoContainer,
+} from "./styles";
 
 type FormData = {
   login: string;
@@ -23,11 +27,10 @@ type FormData = {
 };
 
 export default function Login() {
+  const [isLoginInvalid, setIsLoginInvalid] = useState(false);
+
   const { handleLogin, loadingLogin } = useAuth();
   const navigation = useNavigation();
-  const toast = useToast();
-
-  const passwordInputRef = useRef(null);
 
   const {
     control,
@@ -36,96 +39,79 @@ export default function Login() {
   } = useForm<FormData>();
 
   async function onSubmit(data: FormData) {
-    const isLoginDone = await handleLogin(data.login.trim(), data.password);
+    const isAuthenticated = await handleLogin(data.login.trim(), data.password);
 
-    if (!isLoginDone) {
-      if (!toast.isActive("login-toast")) {
-        toast.show({
-          id: "login-toast",
-          description: "E-mail e/ou senha inválidos",
-        });
-      }
+    if (!isAuthenticated) {
+      setIsLoginInvalid(true);
     }
   }
 
   return (
     <Container>
-      <ScrollView
-        contentContainerStyle={{ flexGrow: 1, justifyContent: "center" }}
-      >
-        <Box flex="1" alignItems="center" justifyContent="center" px="4">
-          <Image source={logo} alt="Lunaris" width={32} height={32} mb="8" />
+      <ScrollView>
+        <LoginFormContainer>
+          <LoginLogoContainer>
+            <Logo />
+          </LoginLogoContainer>
 
-          <FormControl isRequired isInvalid={!!errors.login}>
-            <FormControl.Label>E-mail </FormControl.Label>
+          {isLoginInvalid && (
+            <LoginInvalidContainer>
+              <TextBoldSM color={error600}>
+                E-mail e/ou senha inválidos
+              </TextBoldSM>
+            </LoginInvalidContainer>
+          )}
 
+          <FormControl label="E-mail" error={!!errors.login}>
             <Controller
               control={control}
               rules={{ required: true }}
               render={({ field: { onChange, onBlur, value } }) => (
-                <Input
+                <TextInput
                   autoCapitalize="none"
                   value={value}
                   onChangeText={onChange}
                   onBlur={onBlur}
-                  onSubmitEditing={() => passwordInputRef.current.focus()}
-                  blurOnSubmit={false}
-                  returnKeyType="next"
                 />
               )}
               name="login"
             />
-
-            <FormControl.ErrorMessage>
-              Campo obrigatório.
-            </FormControl.ErrorMessage>
           </FormControl>
 
-          <FormControl isRequired isInvalid={!!errors.password} mt="4">
-            <FormControl.Label>Senha </FormControl.Label>
-
+          <FormControl label="Senha" error={!!errors.password}>
             <Controller
               control={control}
               rules={{ required: true }}
               render={({ field: { onChange, onBlur, value } }) => (
-                <Input
-                  ref={passwordInputRef}
+                <TextInput
                   secureTextEntry
                   autoCapitalize="none"
                   value={value}
                   onChangeText={onChange}
                   onBlur={onBlur}
-                  onSubmitEditing={handleSubmit(
-                    async (data) => await onSubmit(data)
-                  )}
-                  returnKeyType="send"
                 />
               )}
               name="password"
             />
-
-            <FormControl.ErrorMessage>
-              Campo obrigatório.
-            </FormControl.ErrorMessage>
           </FormControl>
-        </Box>
+        </LoginFormContainer>
 
-        <Box w="100%" p="4">
+        <LoginButtonContainer>
           <Button
+            loading={loadingLogin}
             onPress={handleSubmit(async (data) => await onSubmit(data))}
-            isLoading={loadingLogin}
           >
             Entrar
           </Button>
 
           <Button
-            variant="outline"
+            mode="outline"
+            disabled={loadingLogin}
             onPress={() => navigation.navigate("Register")}
-            mt="2"
           >
             Criar nova conta
           </Button>
-        </Box>
+        </LoginButtonContainer>
       </ScrollView>
     </Container>
   );

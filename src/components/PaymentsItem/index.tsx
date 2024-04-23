@@ -1,59 +1,56 @@
 import React from "react";
-import { TouchableOpacity } from "react-native";
-import { Badge, Box, HStack, Text, useColorModeValue } from "native-base";
 import { formatNumber } from "react-native-currency-input";
 import dayjs from "dayjs";
 import { useNavigation } from "@react-navigation/native";
 
+import { danger600, success600 } from "../../config/colors";
+
 import { PaymentItemType } from "../../types/paymentItem";
+
+import Tag from "../Tag";
+import { TextMD, TextSM } from "../Text";
+
+import {
+  PaymentsItemContainer,
+  PaymentsItemDescription,
+  PaymentsItemTitle,
+} from "./styles";
 
 type PaymentsItemType = {
   item: PaymentItemType;
 };
 
 export default function ({ item }: PaymentsItemType) {
-  const bg = useColorModeValue("warmGray.200", "warmGray.800");
-
   const navigation = useNavigation();
 
   return (
-    <TouchableOpacity
-      activeOpacity={0.5}
+    <PaymentsItemContainer
       onPress={() =>
         navigation.navigate("PaymentsForm", {
           item,
         })
       }
     >
-      <Box marginX="2" marginBottom="2" p="2" bg={bg} borderRadius="md">
-        <HStack justifyContent="space-between" mb="2">
-          <Text fontSize="md" fontWeight="500">
-            {item.description}
-          </Text>
+      <PaymentsItemTitle>
+        <TextMD>{item.description}</TextMD>
 
-          <Text fontSize="md" fontWeight="500">
-            {formatNumber(item.value, {
-              prefix: "R$ ",
-              delimiter: ".",
-              separator: ",",
-              precision: 2,
-            })}
-          </Text>
-        </HStack>
+        <TextMD>
+          {formatNumber(item.value, {
+            prefix: "R$ ",
+            delimiter: ".",
+            separator: ",",
+            precision: 2,
+          })}
+        </TextMD>
+      </PaymentsItemTitle>
 
-        <HStack justifyContent="space-between">
-          <Text>{dayjs(item.due).format("DD/MM/YYYY")}</Text>
+      <PaymentsItemDescription>
+        <TextSM>{dayjs(item.due).format("DD/MM/YYYY")}</TextSM>
 
-          <Badge
-            rounded="full"
-            variant="solid"
-            colorScheme={item.is_paid ? "success" : "danger"}
-            width="20"
-          >
-            {item.is_paid ? "Pago" : "Pendente"}
-          </Badge>
-        </HStack>
-      </Box>
-    </TouchableOpacity>
+        <Tag color={item.is_paid ? success600 : danger600} width={100}>
+          <TextSM>{item.is_paid ? "Pago" : "Pendente"}</TextSM>
+        </Tag>
+      </PaymentsItemDescription>
+    </PaymentsItemContainer>
   );
 }

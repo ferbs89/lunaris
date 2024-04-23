@@ -1,6 +1,5 @@
 import React, { useRef } from "react";
-import { FlatList, Icon, IconButton } from "native-base";
-import { MaterialIcons } from "@expo/vector-icons";
+import { ActivityIndicator, FlatList } from "react-native";
 import { useQuery } from "react-query";
 import dayjs from "dayjs";
 import BottomSheet from "@gorhom/bottom-sheet";
@@ -8,19 +7,22 @@ import { useNavigation } from "@react-navigation/native";
 
 import Container from "../../components/Container";
 import Header from "../../components/Header";
+import IconButton from "../../components/IconButton";
 import Menu from "../../components/Menu";
 import MonthYearPicker from "../../components/MonthYearPicker";
 import PaymentsHeader from "../../components/PaymentsHeader";
 import PaymentsItem from "../../components/PaymentsItem";
 import PaymentsListFooter from "../../components/PaymentsListFooter";
 import PaymentsListHeader from "../../components/PaymentsListHeader";
-import PaymentsSkeleton from "../../components/PaymentsSkeleton";
 
+import { trueGray50 } from "../../config/colors";
 import { supabase } from "../../config/supabase";
 
 import { useRefetchOnFocus } from "../../hooks/useRefetchOnFocus";
 
 import { usePaymentsStore } from "../../store/payments";
+
+import { LoaderContainer } from "./styles";
 
 export default function Payments() {
   const navigation = useNavigation();
@@ -90,14 +92,16 @@ export default function Payments() {
         }
         rightIcon={
           <IconButton
-            icon={<Icon as={MaterialIcons} name="add" size="lg" />}
+            iconName="add"
             onPress={() => navigation.navigate("PaymentsForm")}
           />
         }
       />
 
       {isLoading ? (
-        <PaymentsSkeleton />
+        <LoaderContainer>
+          <ActivityIndicator size="large" color={trueGray50} />
+        </LoaderContainer>
       ) : (
         <FlatList
           data={filterData()}

@@ -1,34 +1,35 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Keyboard } from "react-native";
-import {
-  Box,
-  Button,
-  FormControl,
-  HStack,
-  Icon,
-  IconButton,
-  Input,
-  ScrollView,
-  Text,
-  VStack,
-  useToast,
-} from "native-base";
 import { Controller, useForm } from "react-hook-form";
 import CurrencyInput from "react-native-currency-input";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
-import { MaterialIcons } from "@expo/vector-icons";
 import BottomSheet from "@gorhom/bottom-sheet";
 import { useNavigation } from "@react-navigation/native";
 
+import Button from "../../components/Button";
 import Container from "../../components/Container";
+import FormControl from "../../components/FormControl";
 import Header from "../../components/Header";
+import IconButton from "../../components/IconButton";
 import MyBottomSheet from "../../components/MyBottomSheet";
+import ScrollView from "../../components/ScrollView";
+import { TextLG, TextMD } from "../../components/Text";
+import TextInput from "../../components/TextInput";
 
 import { supabase } from "../../config/supabase";
 
 import { useAuth } from "../../hooks/useAuth";
+import {
+  PaymentsFormBottomSheetContainer,
+  PaymentsFormButtonContainer,
+  PaymentsFormContainer,
+  PaymentsFormStatusButton,
+  PaymentsFormStatusButtonContainer,
+  PaymentsFormStatusContainer,
+} from "./styles";
+import { danger600, success600 } from "../../config/colors";
 
 type FormData = {
   description: string;
@@ -40,7 +41,6 @@ export default function PaymentsForm({ route }) {
 
   const { user } = useAuth();
   const navigation = useNavigation();
-  const toast = useToast();
 
   const bottomSheetRef = useRef<BottomSheet>(null);
 
@@ -92,18 +92,8 @@ export default function PaymentsForm({ route }) {
 
     if (params?.item.id) {
       await supabase.from("payments").update(payload).eq("id", params.item.id);
-
-      toast.show({
-        description: "Pagamento editado com sucesso",
-        placement: "top",
-      });
     } else {
       await supabase.from("payments").insert([payload]);
-
-      toast.show({
-        description: "Novo pagamento adicionado",
-        placement: "top",
-      });
     }
 
     resetFields();
@@ -114,11 +104,6 @@ export default function PaymentsForm({ route }) {
     setIsLoading(true);
 
     await supabase.from("payments").delete().eq("id", params.item.id);
-
-    toast.show({
-      description: "Pagamento excluído com sucesso",
-      placement: "top",
-    });
 
     resetFields();
     navigation.goBack();
@@ -142,24 +127,20 @@ export default function PaymentsForm({ route }) {
         rightIcon={
           params?.item ? (
             <IconButton
-              icon={<Icon as={MaterialIcons} name="delete" size="lg" />}
+              iconName="delete"
               onPress={() => bottomSheetRef.current.expand()}
             />
           ) : null
         }
       />
 
-      <ScrollView
-        contentContainerStyle={{ flexGrow: 1, justifyContent: "center" }}
-      >
-        <Box flex="1" alignItems="center" justifyContent="center" px="4">
-          <Text fontSize="lg" fontWeight="500">
+      <ScrollView>
+        <PaymentsFormContainer>
+          <TextLG>
             {params?.item.id ? "Editar pagamento" : "Novo pagamento"}
-          </Text>
+          </TextLG>
 
-          <FormControl isRequired isInvalid={!!errors.value}>
-            <FormControl.Label>Valor </FormControl.Label>
-
+          <FormControl label="Valor" error={!!errors.value}>
             <Controller
               control={control}
               rules={{ required: true }}
@@ -169,7 +150,7 @@ export default function PaymentsForm({ route }) {
                   onChangeValue={onChange}
                   onBlur={onBlur}
                   renderTextInput={(textInputProps) => (
-                    <Input {...textInputProps} />
+                    <TextInput {...textInputProps} />
                   )}
                   prefix="R$ "
                   delimiter="."
@@ -179,16 +160,10 @@ export default function PaymentsForm({ route }) {
               )}
               name="value"
             />
-
-            <FormControl.ErrorMessage>
-              Campo obrigatório.
-            </FormControl.ErrorMessage>
           </FormControl>
 
-          <FormControl isRequired mt="4">
-            <FormControl.Label>Vencimento </FormControl.Label>
-
-            <Input
+          <FormControl label="Vencimento">
+            <TextInput
               value={dayjs(datePickerValue).utc().format("DD/MM/YYYY")}
               onFocus={Keyboard.dismiss}
               onTouchStart={() => setDatePickerShow(true)}
@@ -201,77 +176,70 @@ export default function PaymentsForm({ route }) {
                 onChange={onChangeDatePicker}
               />
             )}
-
-            <FormControl.ErrorMessage>
-              Campo obrigatório.
-            </FormControl.ErrorMessage>
           </FormControl>
 
-          <FormControl isRequired isInvalid={!!errors.description} mt="4">
-            <FormControl.Label>Descrição </FormControl.Label>
-
+          <FormControl label="Descrição" error={!!errors.description}>
             <Controller
               control={control}
               rules={{ required: true }}
               render={({ field: { onChange, onBlur, value } }) => (
-                <Input value={value} onChangeText={onChange} onBlur={onBlur} />
+                <TextInput
+                  value={value}
+                  onChangeText={onChange}
+                  onBlur={onBlur}
+                />
               )}
               name="description"
             />
-
-            <FormControl.ErrorMessage>
-              Campo obrigatório.
-            </FormControl.ErrorMessage>
           </FormControl>
 
-          <HStack justifyContent="space-between" space="2" mt="6" mb="2">
-            <Button
-              flex="1"
-              rounded="full"
-              colorScheme="danger"
-              variant={!isPaid ? "solid" : "outline"}
-              onPress={() => setIsPaid(false)}
-            >
-              Pendente
-            </Button>
+          <PaymentsFormStatusContainer>
+            <PaymentsFormStatusButtonContainer>
+              <PaymentsFormStatusButton
+                color={danger600}
+                isSelected={!isPaid}
+                onPress={() => setIsPaid(false)}
+              >
+                <TextMD>Pendente</TextMD>
+              </PaymentsFormStatusButton>
+            </PaymentsFormStatusButtonContainer>
 
-            <Button
-              flex="1"
-              rounded="full"
-              colorScheme="success"
-              size="sm"
-              variant={isPaid ? "solid" : "outline"}
-              onPress={() => setIsPaid(true)}
-            >
-              Pago
-            </Button>
-          </HStack>
-        </Box>
+            <PaymentsFormStatusButtonContainer>
+              <PaymentsFormStatusButton
+                color={success600}
+                isSelected={isPaid}
+                onPress={() => setIsPaid(true)}
+              >
+                <TextMD>Pago</TextMD>
+              </PaymentsFormStatusButton>
+            </PaymentsFormStatusButtonContainer>
+          </PaymentsFormStatusContainer>
+        </PaymentsFormContainer>
 
-        <Box w="100%" p="4">
+        <PaymentsFormButtonContainer>
           <Button
-            isLoading={isLoading}
+            loading={isLoading}
             onPress={handleSubmit(async (data) => await onSubmit(data))}
           >
             Salvar
           </Button>
-        </Box>
+        </PaymentsFormButtonContainer>
       </ScrollView>
 
       <MyBottomSheet ref={bottomSheetRef}>
-        <VStack flex="1" p="4" space="2">
-          <Button colorScheme="danger" isLoading={isLoading} onPress={onDelete}>
+        <PaymentsFormBottomSheetContainer>
+          <Button color={danger600} loading={isLoading} onPress={onDelete}>
             Confirmar exclusão
           </Button>
 
           <Button
-            variant="outline"
+            mode="outline"
             disabled={isLoading}
             onPress={() => bottomSheetRef.current.close()}
           >
             Cancelar
           </Button>
-        </VStack>
+        </PaymentsFormBottomSheetContainer>
       </MyBottomSheet>
     </Container>
   );

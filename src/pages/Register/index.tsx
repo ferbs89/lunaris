@@ -1,10 +1,15 @@
 import React from "react";
-import { Box, Button, FormControl, Input, ScrollView, Text } from "native-base";
 import { Controller, useForm } from "react-hook-form";
 import { useNavigation } from "@react-navigation/native";
 
+import Button from "../../components/Button";
 import Container from "../../components/Container";
-import Header from "../../components/Header";
+import FormControl from "../../components/FormControl";
+import ScrollView from "../../components/ScrollView";
+import { TextLG } from "../../components/Text";
+import TextInput from "../../components/TextInput";
+
+import { RegisterButtonContainer, RegisterFormContainer } from "./styles";
 
 type FormData = {
   email: string;
@@ -12,35 +17,30 @@ type FormData = {
 };
 
 export default function Register() {
+  const navigation = useNavigation();
+
   const {
     control,
     handleSubmit,
-    reset,
     formState: { errors },
   } = useForm<FormData>();
 
-  const navigation = useNavigation();
+  async function onSubmit(data: FormData) {
+    console.log(data.email, data.password);
+  }
 
   return (
     <Container>
-      <Header onBack={() => navigation.goBack()} />
+      <ScrollView>
+        <RegisterFormContainer>
+          <TextLG>Criar nova conta</TextLG>
 
-      <ScrollView
-        contentContainerStyle={{ flexGrow: 1, justifyContent: "center" }}
-      >
-        <Box flex="1" alignItems="center" justifyContent="center" px="4">
-          <Text fontSize="lg" fontWeight="500">
-            Criar nova conta
-          </Text>
-
-          <FormControl isRequired isInvalid={!!errors.email} mt="4">
-            <FormControl.Label>E-mail </FormControl.Label>
-
+          <FormControl label="E-mail" error={!!errors.email}>
             <Controller
               control={control}
               rules={{ required: true }}
               render={({ field: { onChange, onBlur, value } }) => (
-                <Input
+                <TextInput
                   autoCapitalize="none"
                   value={value}
                   onChangeText={onChange}
@@ -49,20 +49,14 @@ export default function Register() {
               )}
               name="email"
             />
-
-            <FormControl.ErrorMessage>
-              Campo obrigatório.
-            </FormControl.ErrorMessage>
           </FormControl>
 
-          <FormControl isRequired isInvalid={!!errors.password} mt="4">
-            <FormControl.Label>Senha </FormControl.Label>
-
+          <FormControl label="Senha" error={!!errors.password}>
             <Controller
               control={control}
               rules={{ required: true }}
               render={({ field: { onChange, onBlur, value } }) => (
-                <Input
+                <TextInput
                   secureTextEntry
                   autoCapitalize="none"
                   value={value}
@@ -72,16 +66,18 @@ export default function Register() {
               )}
               name="password"
             />
-
-            <FormControl.ErrorMessage>
-              Campo obrigatório.
-            </FormControl.ErrorMessage>
           </FormControl>
-        </Box>
+        </RegisterFormContainer>
 
-        <Box w="100%" p="4">
-          <Button>Cadastrar</Button>
-        </Box>
+        <RegisterButtonContainer>
+          <Button onPress={handleSubmit(async (data) => await onSubmit(data))}>
+            Cadastrar
+          </Button>
+
+          <Button mode="outline" onPress={() => navigation.goBack()}>
+            Cancelar
+          </Button>
+        </RegisterButtonContainer>
       </ScrollView>
     </Container>
   );

@@ -1,13 +1,20 @@
 import React from "react";
-import { Box, Image, Spinner } from "native-base";
+import { ActivityIndicator } from "react-native";
 
-const logo = require("../../assets/logo.png");
+import { trueGray50 } from "../../config/colors";
+
+import Logo from "../Logo";
+
+import { LoaderContainer, LoaderLogoContainer } from "./styles";
 
 export default function () {
   return (
-    <Box flex="1" alignItems="center" justifyContent="center">
-      <Image source={logo} alt="Lunaris" width={32} height={32} mb="8" />
-      <Spinner size="lg" />
-    </Box>
+    <LoaderContainer>
+      <LoaderLogoContainer>
+        <Logo />
+      </LoaderLogoContainer>
+
+      <ActivityIndicator size="large" color={trueGray50} />
+    </LoaderContainer>
   );
 }
