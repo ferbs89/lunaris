@@ -2,9 +2,10 @@ import React, { useState, useEffect, useRef } from "react";
 import { Keyboard } from "react-native";
 import { Controller, useForm } from "react-hook-form";
 import CurrencyInput from "react-native-currency-input";
-import DateTimePicker from "@react-native-community/datetimepicker";
+import DateTimePicker, {
+  DateTimePickerEvent,
+} from "@react-native-community/datetimepicker";
 import dayjs from "dayjs";
-import utc from "dayjs/plugin/utc";
 import BottomSheet from "@gorhom/bottom-sheet";
 import { useNavigation } from "@react-navigation/native";
 
@@ -18,9 +19,11 @@ import ScrollView from "../../components/ScrollView";
 import { TextLG, TextMD } from "../../components/Text";
 import TextInput from "../../components/TextInput";
 
+import { danger600, success600 } from "../../config/colors";
 import { supabase } from "../../config/supabase";
 
 import { useAuth } from "../../hooks/useAuth";
+
 import {
   PaymentsFormBottomSheetContainer,
   PaymentsFormButtonContainer,
@@ -29,7 +32,6 @@ import {
   PaymentsFormStatusButtonContainer,
   PaymentsFormStatusContainer,
 } from "./styles";
-import { danger600, success600 } from "../../config/colors";
 
 type FormData = {
   description: string;
@@ -56,8 +58,6 @@ export default function PaymentsForm({ route }) {
     formState: { errors },
   } = useForm<FormData>();
 
-  dayjs.extend(utc);
-
   useEffect(() => {
     if (params?.item) {
       reset({
@@ -65,7 +65,7 @@ export default function PaymentsForm({ route }) {
         value: params.item.value.toString(),
       });
 
-      setDatePickerValue(new Date(dayjs(params.item.due).utc().format()));
+      setDatePickerValue(new Date(dayjs(params.item.due).format()));
       setIsPaid(!!params.item.is_paid);
     }
 
@@ -74,7 +74,7 @@ export default function PaymentsForm({ route }) {
     };
   }, [params]);
 
-  function onChangeDatePicker(event: any, selectedDate: Date) {
+  function onChangeDatePicker(event: DateTimePickerEvent, selectedDate: Date) {
     setDatePickerShow(false);
     setDatePickerValue(selectedDate);
   }
@@ -164,7 +164,7 @@ export default function PaymentsForm({ route }) {
 
           <FormControl label="Vencimento">
             <TextInput
-              value={dayjs(datePickerValue).utc().format("DD/MM/YYYY")}
+              value={dayjs(datePickerValue).format("DD/MM/YYYY")}
               onFocus={Keyboard.dismiss}
               onTouchStart={() => setDatePickerShow(true)}
             />
