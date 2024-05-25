@@ -1,9 +1,9 @@
 import { ReactNode } from "react";
 import { ActivityIndicator } from "react-native";
 
-import { primary, trueGray50 } from "../../config/colors";
+import { TextBoldSM } from "@/components/Text";
 
-import { TextBoldSM } from "../Text";
+import { primary, trueGray50 } from "@/config/colors";
 
 import { ButtonContainer } from "./styles";
 

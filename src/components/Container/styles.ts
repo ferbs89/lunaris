@@ -1,5 +1,5 @@
 import styled from "styled-components/native";
-import { warmGray900 } from "../../config/colors";
+import { warmGray900 } from "@/config/colors";
 
 export const Container = styled.View`
   flex: 1;

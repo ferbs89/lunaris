@@ -2,13 +2,13 @@ import React, { forwardRef, useImperativeHandle, useRef } from "react";
 import BottomSheet from "@gorhom/bottom-sheet";
 import dayjs from "dayjs";
 
-import { usePaymentsStore } from "../../store/payments";
+import IconButton from "@/components/IconButton";
+import MyBottomSheet from "@/components/MyBottomSheet";
+import { TextLG, TextMD } from "@/components/Text";
 
-import { months } from "../../utils/months";
+import { usePaymentsStore } from "@/store/payments";
 
-import IconButton from "../IconButton";
-import MyBottomSheet from "../MyBottomSheet";
-import { TextLG, TextMD } from "../Text";
+import { months } from "@/utils/months";
 
 import {
   MonthButtonContainer,

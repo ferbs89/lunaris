@@ -8,11 +8,11 @@ import {
   Poppins_700Bold,
 } from "@expo-google-fonts/poppins";
 
-import { queryClient } from "./config/queryClient";
+import { queryClient } from "@/config/queryClient";
 
-import { AuthProvider } from "./hooks/useAuth";
+import { AuthProvider } from "@/hooks/useAuth";
 
-import Routes from "./routes";
+import Routes from "@/routes";
 
 export default function () {
   const [fontsLoaded] = useFonts({

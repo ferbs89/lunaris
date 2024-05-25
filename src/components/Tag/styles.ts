@@ -8,9 +8,8 @@ type TagContainerType = {
 export const TagContainer = styled.View<TagContainerType>`
   align-items: center;
   justify-content: center;
-  height: 32px;
   border-radius: 16px;
-  padding: 0 16px;
+  padding: 4px 8px;
   background-color: ${({ color }) => color};
 
   ${({ width }) => width && `width: ${width}px;`}

@@ -1,8 +1,8 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
 import { User as UserType } from "@supabase/supabase-js";
 
-import { queryClient } from "../config/queryClient";
-import { supabase } from "../config/supabase";
+import { queryClient } from "@/config/queryClient";
+import { supabase } from "@/config/supabase";
 
 type AuthContextType = {
   user: UserType;

@@ -1,5 +1,5 @@
 import styled from "styled-components/native";
-import { trueGray50 } from "../../config/colors";
+import { trueGray50 } from "@/config/colors";
 
 type TextType = {
   color?: string;

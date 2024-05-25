@@ -1,9 +1,9 @@
 import React from "react";
 import { ActivityIndicator } from "react-native";
 
-import { trueGray50 } from "../../config/colors";
+import Logo from "@/components/Logo";
 
-import Logo from "../Logo";
+import { trueGray50 } from "@/config/colors";
 
 import { LoaderContainer, LoaderLogoContainer } from "./styles";
 

@@ -1,7 +1,7 @@
 import React, { ReactNode } from "react";
 import { StatusBar } from "react-native";
 
-import { warmGray900 } from "../../config/colors";
+import { warmGray900 } from "@/config/colors";
 
 import { Container } from "./styles";
 

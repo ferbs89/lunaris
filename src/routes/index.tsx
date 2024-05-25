@@ -5,15 +5,15 @@ import {
   createStackNavigator,
 } from "@react-navigation/stack";
 
-import Container from "../components/Container";
-import Loader from "../components/Loader";
+import Container from "@/components/Container";
+import Loader from "@/components/Loader";
 
-import { useAuth } from "../hooks/useAuth";
+import { useAuth } from "@/hooks/useAuth";
 
-import Login from "../pages/Login";
-import Register from "../pages/Register";
-import Payments from "../pages/Payments";
-import PaymentsForm from "../pages/PaymentsForm";
+import Login from "@/pages/Login";
+import Register from "@/pages/Register";
+import Payments from "@/pages/Payments";
+import PaymentsForm from "@/pages/PaymentsForm";
 
 const Stack = createStackNavigator();
 

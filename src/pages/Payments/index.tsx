@@ -5,22 +5,22 @@ import dayjs from "dayjs";
 import BottomSheet from "@gorhom/bottom-sheet";
 import { useNavigation } from "@react-navigation/native";
 
-import Container from "../../components/Container";
-import Header from "../../components/Header";
-import IconButton from "../../components/IconButton";
-import Menu from "../../components/Menu";
-import MonthYearPicker from "../../components/MonthYearPicker";
-import PaymentsHeader from "../../components/PaymentsHeader";
-import PaymentsItem from "../../components/PaymentsItem";
-import PaymentsListFooter from "../../components/PaymentsListFooter";
-import PaymentsListHeader from "../../components/PaymentsListHeader";
+import Container from "@/components/Container";
+import Header from "@/components/Header";
+import IconButton from "@/components/IconButton";
+import Menu from "@/components/Menu";
+import MonthYearPicker from "@/components/MonthYearPicker";
+import PaymentsHeader from "@/components/PaymentsHeader";
+import PaymentsItem from "@/components/PaymentsItem";
+import PaymentsListFooter from "@/components/PaymentsListFooter";
+import PaymentsListHeader from "@/components/PaymentsListHeader";
 
-import { trueGray50 } from "../../config/colors";
-import { supabase } from "../../config/supabase";
+import { trueGray50 } from "@/config/colors";
+import { supabase } from "@/config/supabase";
 
-import { useRefetchOnFocus } from "../../hooks/useRefetchOnFocus";
+import { useRefetchOnFocus } from "@/hooks/useRefetchOnFocus";
 
-import { usePaymentsStore } from "../../store/payments";
+import { usePaymentsStore } from "@/store/payments";
 
 import { LoaderContainer } from "./styles";
 

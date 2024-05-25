@@ -1,5 +1,5 @@
 import styled from "styled-components/native";
-import { warmGray800 } from "../../config/colors";
+import { warmGray800 } from "@/config/colors";
 
 export const MenuContainer = styled.View`
   flex: 1;

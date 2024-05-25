@@ -20,6 +20,9 @@
         "backgroundColor": "#073349"
       },
       "package": "com.lunaris"
+    },
+    "experiments": {
+      "tsconfigPaths": true
     }
   }
 }

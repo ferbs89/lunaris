@@ -1,6 +1,6 @@
 import React, { ReactNode } from "react";
 
-import IconButton from "../IconButton";
+import IconButton from "@/components/IconButton";
 
 import { HeaderContainer } from "./styles";
 

@@ -2,12 +2,12 @@ import React, { forwardRef, useImperativeHandle, useRef } from "react";
 import BottomSheet from "@gorhom/bottom-sheet";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 
-import { trueGray50 } from "../../config/colors";
+import MyBottomSheet from "@/components/MyBottomSheet";
+import { TextMD } from "@/components/Text";
 
-import { useAuth } from "../../hooks/useAuth";
+import { trueGray50 } from "@/config/colors";
 
-import MyBottomSheet from "../MyBottomSheet";
-import { TextMD } from "../Text";
+import { useAuth } from "@/hooks/useAuth";
 
 import { MenuContainer, MenuItemContainer } from "./styles";
 

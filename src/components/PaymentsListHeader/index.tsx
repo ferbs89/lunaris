@@ -1,11 +1,11 @@
-import { formatNumber } from "react-native-currency-input";
+import Tag from "@/components/Tag";
+import { TextMD } from "@/components/Text";
 
-import { danger600, success600 } from "../../config/colors";
+import { danger600, success600 } from "@/config/colors";
 
-import { usePaymentsStore } from "../../store/payments";
+import { usePaymentsStore } from "@/store/payments";
 
-import Tag from "../Tag";
-import { TextMD } from "../Text";
+import { formatCurrency } from "@/utils/currency";
 
 import {
   PaymentsListHeaderContainer,
@@ -31,14 +31,7 @@ export default function ({ totalNotPaid, totalPaid }) {
         </PaymentsListHeaderItemTitle>
 
         <Tag color={danger600}>
-          <TextMD>
-            {formatNumber(totalNotPaid, {
-              prefix: "R$ ",
-              delimiter: ".",
-              separator: ",",
-              precision: 2,
-            })}
-          </TextMD>
+          <TextMD>{formatCurrency(totalNotPaid)}</TextMD>
         </Tag>
       </PaymentsListHeaderItem>
 
@@ -51,14 +44,7 @@ export default function ({ totalNotPaid, totalPaid }) {
         </PaymentsListHeaderItemTitle>
 
         <Tag color={success600}>
-          <TextMD>
-            {formatNumber(totalPaid, {
-              prefix: "R$ ",
-              delimiter: ".",
-              separator: ",",
-              precision: 2,
-            })}
-          </TextMD>
+          <TextMD>{formatCurrency(totalPaid)}</TextMD>
         </Tag>
       </PaymentsListHeaderItem>
     </PaymentsListHeaderContainer>

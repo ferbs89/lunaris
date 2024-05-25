@@ -1,8 +1,8 @@
 import { ReactNode } from "react";
 
-import { error600, trueGray500 } from "../../config/colors";
+import { TextBoldSM, TextXS } from "@/components/Text";
 
-import { TextBoldSM, TextXS } from "../Text";
+import { error600, trueGray500 } from "@/config/colors";
 
 import { FormControlContainer } from "./styles";
 

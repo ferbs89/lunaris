@@ -1,20 +1,17 @@
 import React from "react";
-import { formatNumber } from "react-native-currency-input";
 import dayjs from "dayjs";
 import { useNavigation } from "@react-navigation/native";
 
-import { danger600, success600 } from "../../config/colors";
+import Tag from "@/components/Tag";
+import { TextBoldSM, TextMD, TextXS } from "@/components/Text";
 
-import { PaymentItemType } from "../../types/paymentItem";
+import { danger600, success600, trueGray300 } from "@/config/colors";
 
-import Tag from "../Tag";
-import { TextMD, TextSM } from "../Text";
+import { PaymentItemType } from "@/types/paymentItem";
 
-import {
-  PaymentsItemContainer,
-  PaymentsItemDescription,
-  PaymentsItemTitle,
-} from "./styles";
+import { formatCurrency } from "@/utils/currency";
+
+import { PaymentsItemButton, PaymentsItemDescription } from "./styles";
 
 type PaymentsItemType = {
   item: PaymentItemType;
@@ -24,33 +21,24 @@ export default function ({ item }: PaymentsItemType) {
   const navigation = useNavigation();
 
   return (
-    <PaymentsItemContainer
+    <PaymentsItemButton
       onPress={() =>
         navigation.navigate("PaymentsForm", {
           item,
         })
       }
     >
-      <PaymentsItemTitle>
-        <TextMD>{item.description}</TextMD>
-
-        <TextMD>
-          {formatNumber(item.value, {
-            prefix: "R$ ",
-            delimiter: ".",
-            separator: ",",
-            precision: 2,
-          })}
-        </TextMD>
-      </PaymentsItemTitle>
+      <TextXS color={trueGray300}>
+        {dayjs(item.due).format("DD/MM/YYYY")}
+      </TextXS>
 
       <PaymentsItemDescription>
-        <TextSM>{dayjs(item.due).format("DD/MM/YYYY")}</TextSM>
+        <TextMD>{item.description}</TextMD>
 
         <Tag color={item.is_paid ? success600 : danger600} width={100}>
-          <TextSM>{item.is_paid ? "Pago" : "Pendente"}</TextSM>
+          <TextBoldSM>{formatCurrency(item.value)}</TextBoldSM>
         </Tag>
       </PaymentsItemDescription>
-    </PaymentsItemContainer>
+    </PaymentsItemButton>
   );
 }

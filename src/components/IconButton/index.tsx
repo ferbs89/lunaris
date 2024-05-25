@@ -1,6 +1,6 @@
 import { MaterialIcons } from "@expo/vector-icons";
 
-import { trueGray50 } from "../../config/colors";
+import { trueGray50 } from "@/config/colors";
 
 import { IconButtonContainer } from "./styles";
 

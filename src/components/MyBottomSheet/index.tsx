@@ -5,7 +5,7 @@ import BottomSheet, {
   BottomSheetScrollView,
 } from "@gorhom/bottom-sheet";
 
-import { warmGray900 } from "../../config/colors";
+import { warmGray900 } from "@/config/colors";
 
 type BottomSheetType = {
   children: ReactNode;

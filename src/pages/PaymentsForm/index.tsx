@@ -9,20 +9,20 @@ import dayjs from "dayjs";
 import BottomSheet from "@gorhom/bottom-sheet";
 import { useNavigation } from "@react-navigation/native";
 
-import Button from "../../components/Button";
-import Container from "../../components/Container";
-import FormControl from "../../components/FormControl";
-import Header from "../../components/Header";
-import IconButton from "../../components/IconButton";
-import MyBottomSheet from "../../components/MyBottomSheet";
-import ScrollView from "../../components/ScrollView";
-import { TextLG, TextMD } from "../../components/Text";
-import TextInput from "../../components/TextInput";
+import Button from "@/components/Button";
+import Container from "@/components/Container";
+import FormControl from "@/components/FormControl";
+import Header from "@/components/Header";
+import IconButton from "@/components/IconButton";
+import MyBottomSheet from "@/components/MyBottomSheet";
+import ScrollView from "@/components/ScrollView";
+import { TextLG, TextMD } from "@/components/Text";
+import TextInput from "@/components/TextInput";
 
-import { danger600, success600 } from "../../config/colors";
-import { supabase } from "../../config/supabase";
+import { danger600, success600 } from "@/config/colors";
+import { supabase } from "@/config/supabase";
 
-import { useAuth } from "../../hooks/useAuth";
+import { useAuth } from "@/hooks/useAuth";
 
 import {
   PaymentsFormBottomSheetContainer,

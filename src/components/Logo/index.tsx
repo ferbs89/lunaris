@@ -1,6 +1,6 @@
 import { Image } from "react-native";
 
-const logo = require("../../assets/logo.png");
+const logo = require("@/assets/logo.png");
 
 export default function () {
   return (

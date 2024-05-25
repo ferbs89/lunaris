@@ -2,12 +2,12 @@ import React from "react";
 import { Controller, useForm } from "react-hook-form";
 import { useNavigation } from "@react-navigation/native";
 
-import Button from "../../components/Button";
-import Container from "../../components/Container";
-import FormControl from "../../components/FormControl";
-import ScrollView from "../../components/ScrollView";
-import { TextLG } from "../../components/Text";
-import TextInput from "../../components/TextInput";
+import Button from "@/components/Button";
+import Container from "@/components/Container";
+import FormControl from "@/components/FormControl";
+import ScrollView from "@/components/ScrollView";
+import { TextLG } from "@/components/Text";
+import TextInput from "@/components/TextInput";
 
 import { RegisterButtonContainer, RegisterFormContainer } from "./styles";
 

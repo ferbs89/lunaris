@@ -1,5 +1,5 @@
 import styled from "styled-components/native";
-import { warmGray700, warmGray800 } from "../../config/colors";
+import { primary, warmGray800 } from "@/config/colors";
 
 type MonthButtonItemType = {
   isSelected: boolean;
@@ -39,6 +39,5 @@ export const MonthButtonItem = styled.TouchableOpacity.attrs<MonthButtonItemType
   align-items: center;
   padding: 16px;
   border-radius: 8px;
-  background-color: ${({ isSelected }) =>
-    isSelected ? warmGray700 : warmGray800};
+  background-color: ${({ isSelected }) => (isSelected ? primary : warmGray800)};
 `;

@@ -1,5 +1,5 @@
 import styled from "styled-components/native";
-import { trueGray50, warmGray800 } from "../../config/colors";
+import { trueGray50, warmGray800 } from "@/config/colors";
 
 export const TextInput = styled.TextInput`
   height: 48px;

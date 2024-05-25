@@ -1,12 +1,12 @@
 import React from "react";
 import dayjs from "dayjs";
 
-import { usePaymentsStore } from "../../store/payments";
+import IconButton from "@/components/IconButton";
+import { TextLG } from "@/components/Text";
 
-import { months } from "../../utils/months";
+import { usePaymentsStore } from "@/store/payments";
 
-import IconButton from "../IconButton";
-import { TextLG } from "../Text";
+import { months } from "@/utils/months";
 
 import { PaymentsHeaderContainer, PaymentsHeaderTitle } from "./styles";
 

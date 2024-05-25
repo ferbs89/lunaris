@@ -2,17 +2,17 @@ import React, { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { useNavigation } from "@react-navigation/native";
 
-import Button from "../../components/Button";
-import Container from "../../components/Container";
-import FormControl from "../../components/FormControl";
-import Logo from "../../components/Logo";
-import ScrollView from "../../components/ScrollView";
-import { TextBoldSM } from "../../components/Text";
-import TextInput from "../../components/TextInput";
+import Button from "@/components/Button";
+import Container from "@/components/Container";
+import FormControl from "@/components/FormControl";
+import Logo from "@/components/Logo";
+import ScrollView from "@/components/ScrollView";
+import { TextBoldSM } from "@/components/Text";
+import TextInput from "@/components/TextInput";
 
-import { error600 } from "../../config/colors";
+import { error600 } from "@/config/colors";
 
-import { useAuth } from "../../hooks/useAuth";
+import { useAuth } from "@/hooks/useAuth";
 
 import {
   LoginButtonContainer,
