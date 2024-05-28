@@ -1,4 +1,4 @@
-package com.lunaris;
+package com.ferbs89.lunaris;
 
 import android.os.Build;
 import android.os.Bundle;

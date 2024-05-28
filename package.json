@@ -1,14 +1,11 @@
 {
   "name": "lunaris",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "node_modules/expo/AppEntry.js",
   "scripts": {
     "start": "expo start",
     "android": "expo run:android",
-    "android:start": "npx react-native start",
-    "ios": "expo run:ios",
-    "web": "expo start --web",
-    "build": "cd android && gradlew assembleRelease"
+    "release": "expo run:android --variant release"
   },
   "dependencies": {
     "@expo-google-fonts/poppins": "^0.2.3",
@@ -42,7 +39,6 @@
   "devDependencies": {
     "@babel/core": "^7.20.0",
     "@types/react": "~18.2.14",
-    "@types/react-native": "~0.73.0",
     "react-native-dotenv": "^3.4.9",
     "typescript": "^5.1.3"
   },

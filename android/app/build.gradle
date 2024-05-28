@@ -81,9 +81,9 @@ android {
 
     compileSdkVersion rootProject.ext.compileSdkVersion
 
-    namespace 'com.lunaris'
+    namespace 'com.ferbs89.lunaris'
     defaultConfig {
-        applicationId 'com.lunaris'
+        applicationId 'com.ferbs89.lunaris'
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
