@@ -14,7 +14,7 @@ import { AuthProvider } from "@/hooks/useAuth";
 
 import Routes from "@/routes";
 
-export default function () {
+export default function App() {
   const [fontsLoaded] = useFonts({
     Poppins_400Regular,
     Poppins_500Medium,
