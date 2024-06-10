@@ -32,6 +32,8 @@
     "updates": {
       "url": "https://u.expo.dev/7a52c16c-6dd4-47cb-a7c4-804eca6872c3"
     },
-    "ios": {}
+    "plugins": [
+      "expo-font"
+    ]
   }
 }
