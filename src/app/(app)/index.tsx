@@ -3,7 +3,7 @@ import { ActivityIndicator, FlatList } from "react-native";
 import { useQuery } from "react-query";
 import dayjs from "dayjs";
 import BottomSheet from "@gorhom/bottom-sheet";
-import { useNavigation } from "@react-navigation/native";
+import { router } from "expo-router";
 
 import Container from "@/components/Container";
 import Header from "@/components/Header";
@@ -22,13 +22,12 @@ import { useRefetchOnFocus } from "@/hooks/useRefetchOnFocus";
 
 import { usePaymentsStore } from "@/store/payments";
 
-import { LoaderContainer } from "./styles";
+import { LoaderContainer } from "@/styles/index";
 
-export default function Payments() {
-  const navigation = useNavigation();
-
+export default function Home() {
   const currentDate = usePaymentsStore((state) => state.currentDate);
   const status = usePaymentsStore((state) => state.status);
+  const setPayment = usePaymentsStore((state) => state.setPayment);
 
   const menuRef = useRef<BottomSheet>(null);
   const monthYearRef = useRef<BottomSheet>(null);
@@ -86,14 +85,17 @@ export default function Payments() {
   return (
     <Container>
       <Header
-        onPressMenu={() => menuRef.current.expand()}
+        onPressMenu={() => menuRef.current?.expand()}
         titleComponent={
-          <PaymentsHeader onPress={() => monthYearRef.current.expand()} />
+          <PaymentsHeader onPress={() => monthYearRef.current?.expand()} />
         }
         rightIcon={
           <IconButton
             iconName="add"
-            onPress={() => navigation.navigate("PaymentsForm")}
+            onPress={() => {
+              setPayment(undefined);
+              router.navigate("payment");
+            }}
           />
         }
       />

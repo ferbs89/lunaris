@@ -1,6 +1,6 @@
 import React from "react";
 import { Controller, useForm } from "react-hook-form";
-import { useNavigation } from "@react-navigation/native";
+import { router } from "expo-router";
 
 import Button from "@/components/Button";
 import Container from "@/components/Container";
@@ -9,7 +9,10 @@ import ScrollView from "@/components/ScrollView";
 import { TextLG } from "@/components/Text";
 import TextInput from "@/components/TextInput";
 
-import { RegisterButtonContainer, RegisterFormContainer } from "./styles";
+import {
+  RegisterButtonContainer,
+  RegisterFormContainer,
+} from "@/styles/register";
 
 type FormData = {
   email: string;
@@ -17,8 +20,6 @@ type FormData = {
 };
 
 export default function Register() {
-  const navigation = useNavigation();
-
   const {
     control,
     handleSubmit,
@@ -74,7 +75,7 @@ export default function Register() {
             Cadastrar
           </Button>
 
-          <Button mode="outline" onPress={() => navigation.goBack()}>
+          <Button mode="outline" onPress={() => router.back()}>
             Cancelar
           </Button>
         </RegisterButtonContainer>

@@ -1,7 +1,7 @@
 import styled from "styled-components/native";
 import { warmGray800 } from "@/config/colors";
 
-export const PaymentsItemButton = styled.TouchableOpacity.attrs({
+export const PaymentButton = styled.TouchableOpacity.attrs({
   activeOpacity: 0.5,
 })`
   margin: 0 8px 8px;
@@ -10,8 +10,16 @@ export const PaymentsItemButton = styled.TouchableOpacity.attrs({
   background-color: ${warmGray800};
 `;
 
-export const PaymentsItemDescription = styled.View`
+export const PaymentContent = styled.View`
   flex-direction: row;
-  align-items: flex-end;
   justify-content: space-between;
+`;
+
+export const PaymentDescription = styled.View`
+  flex: 1;
+`;
+
+export const PaymentTag = styled.View`
+  align-items: flex-end;
+  justify-content: center;
 `;

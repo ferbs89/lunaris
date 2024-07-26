@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
-import { useNavigation } from "@react-navigation/native";
+import { router } from "expo-router";
 
 import Button from "@/components/Button";
 import Container from "@/components/Container";
@@ -19,7 +19,7 @@ import {
   LoginFormContainer,
   LoginInvalidContainer,
   LoginLogoContainer,
-} from "./styles";
+} from "@/styles/login";
 
 type FormData = {
   login: string;
@@ -30,7 +30,6 @@ export default function Login() {
   const [isLoginInvalid, setIsLoginInvalid] = useState(false);
 
   const { handleLogin, loadingLogin } = useAuth();
-  const navigation = useNavigation();
 
   const {
     control,
@@ -43,7 +42,10 @@ export default function Login() {
 
     if (!isAuthenticated) {
       setIsLoginInvalid(true);
+      return;
     }
+
+    router.replace("/");
   }
 
   return (
@@ -107,7 +109,7 @@ export default function Login() {
           <Button
             mode="outline"
             disabled={loadingLogin}
-            onPress={() => navigation.navigate("Register")}
+            onPress={() => router.navigate("register")}
           >
             Criar nova conta
           </Button>

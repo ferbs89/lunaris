@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useRef } from "react";
 import { Keyboard } from "react-native";
 import { Controller, useForm } from "react-hook-form";
 import CurrencyInput from "react-native-currency-input";
@@ -7,7 +7,7 @@ import DateTimePicker, {
 } from "@react-native-community/datetimepicker";
 import dayjs from "dayjs";
 import BottomSheet from "@gorhom/bottom-sheet";
-import { useNavigation } from "@react-navigation/native";
+import { router } from "expo-router";
 
 import Button from "@/components/Button";
 import Container from "@/components/Container";
@@ -23,6 +23,7 @@ import { danger600, success600 } from "@/config/colors";
 import { supabase } from "@/config/supabase";
 
 import { useAuth } from "@/hooks/useAuth";
+import { usePaymentsStore } from "@/store/payments";
 
 import {
   PaymentsFormBottomSheetContainer,
@@ -31,24 +32,24 @@ import {
   PaymentsFormStatusButton,
   PaymentsFormStatusButtonContainer,
   PaymentsFormStatusContainer,
-} from "./styles";
+} from "@/styles/payment";
 
 type FormData = {
   description: string;
   value: string;
 };
 
-export default function PaymentsForm({ route }) {
-  const { params } = route;
-
+export default function Payment() {
   const { user } = useAuth();
-  const navigation = useNavigation();
+  const payment = usePaymentsStore((state) => state.payment);
 
   const bottomSheetRef = useRef<BottomSheet>(null);
 
-  const [datePickerValue, setDatePickerValue] = useState(new Date());
+  const [datePickerValue, setDatePickerValue] = useState(
+    payment?.due ? new Date(dayjs(payment.due).format()) : new Date()
+  );
   const [datePickerShow, setDatePickerShow] = useState(false);
-  const [isPaid, setIsPaid] = useState(false);
+  const [isPaid, setIsPaid] = useState(payment?.is_paid || false);
   const [isLoading, setIsLoading] = useState(false);
 
   const {
@@ -56,23 +57,12 @@ export default function PaymentsForm({ route }) {
     handleSubmit,
     reset,
     formState: { errors },
-  } = useForm<FormData>();
-
-  useEffect(() => {
-    if (params?.item) {
-      reset({
-        description: params.item.description,
-        value: params.item.value.toString(),
-      });
-
-      setDatePickerValue(new Date(dayjs(params.item.due).format()));
-      setIsPaid(!!params.item.is_paid);
-    }
-
-    return () => {
-      resetFields();
-    };
-  }, [params]);
+  } = useForm<FormData>({
+    defaultValues: {
+      description: payment?.description || "",
+      value: payment?.value.toString() || "",
+    },
+  });
 
   function onChangeDatePicker(event: DateTimePickerEvent, selectedDate: Date) {
     setDatePickerShow(false);
@@ -90,23 +80,23 @@ export default function PaymentsForm({ route }) {
       is_paid: isPaid,
     };
 
-    if (params?.item.id) {
-      await supabase.from("payments").update(payload).eq("id", params.item.id);
+    if (payment?.id) {
+      await supabase.from("payments").update(payload).eq("id", payment?.id);
     } else {
       await supabase.from("payments").insert([payload]);
     }
 
     resetFields();
-    navigation.goBack();
+    router.back();
   }
 
   async function onDelete() {
     setIsLoading(true);
 
-    await supabase.from("payments").delete().eq("id", params.item.id);
+    await supabase.from("payments").delete().eq("id", payment?.id);
 
     resetFields();
-    navigation.goBack();
+    router.back();
   }
 
   function resetFields() {
@@ -123,12 +113,12 @@ export default function PaymentsForm({ route }) {
   return (
     <Container>
       <Header
-        onBack={() => navigation.goBack()}
+        onBack={() => router.back()}
         rightIcon={
-          params?.item ? (
+          payment?.id ? (
             <IconButton
               iconName="delete"
-              onPress={() => bottomSheetRef.current.expand()}
+              onPress={() => bottomSheetRef.current?.expand()}
             />
           ) : null
         }
@@ -136,9 +126,7 @@ export default function PaymentsForm({ route }) {
 
       <ScrollView>
         <PaymentsFormContainer>
-          <TextLG>
-            {params?.item.id ? "Editar pagamento" : "Novo pagamento"}
-          </TextLG>
+          <TextLG>{payment?.id ? "Editar pagamento" : "Novo pagamento"}</TextLG>
 
           <FormControl label="Valor" error={!!errors.value}>
             <Controller
@@ -235,7 +223,7 @@ export default function PaymentsForm({ route }) {
           <Button
             mode="outline"
             disabled={isLoading}
-            onPress={() => bottomSheetRef.current.close()}
+            onPress={() => bottomSheetRef.current?.close()}
           >
             Cancelar
           </Button>

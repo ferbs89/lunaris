@@ -23,8 +23,8 @@ const Menu = forwardRef((_, ref) => {
   const bottomSheetRef = useRef<BottomSheet>(null);
 
   useImperativeHandle(ref, () => ({
-    expand: () => bottomSheetRef.current.expand(),
-    close: () => bottomSheetRef.current.close(),
+    expand: () => bottomSheetRef.current?.expand(),
+    close: () => bottomSheetRef.current?.close(),
   }));
 
   function MenuItem({ title, icon, onPress }: MenuItemType) {

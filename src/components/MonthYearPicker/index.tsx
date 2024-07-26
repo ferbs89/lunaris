@@ -25,13 +25,13 @@ const MonthYearPicker = forwardRef((_, ref) => {
   const bottomSheetRef = useRef<BottomSheet>(null);
 
   useImperativeHandle(ref, () => ({
-    expand: () => bottomSheetRef.current.expand(),
-    close: () => bottomSheetRef.current.close(),
+    expand: () => bottomSheetRef.current?.expand(),
+    close: () => bottomSheetRef.current?.close(),
   }));
 
   function handleMonthSelect(value: number) {
     setCurrentDate(dayjs(currentDate).set("month", value).format("YYYY-MM-DD"));
-    bottomSheetRef.current.close();
+    bottomSheetRef.current?.close();
   }
 
   function YearSelector() {
