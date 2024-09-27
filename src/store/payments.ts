@@ -1,7 +1,7 @@
 import { create } from "zustand";
 import dayjs from "dayjs";
 
-import { PaymentItemType } from "@/types/paymentItem";
+import { PaymentItemType } from "@/types/payments";
 
 type StatusType = "ALL" | "PAID" | "NOT_PAID";
 

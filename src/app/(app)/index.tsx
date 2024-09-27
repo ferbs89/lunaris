@@ -11,12 +11,12 @@ import IconButton from "@/components/IconButton";
 import Menu from "@/components/Menu";
 import MonthYearPicker from "@/components/MonthYearPicker";
 import PaymentsHeader from "@/components/PaymentsHeader";
-import PaymentsItem from "@/components/PaymentsItem";
+import PaymentItem from "@/components/PaymentItem";
 import PaymentsListFooter from "@/components/PaymentsListFooter";
 import PaymentsListHeader from "@/components/PaymentsListHeader";
 
 import { trueGray50 } from "@/config/colors";
-import { supabase } from "@/config/supabase";
+import { selectPayments } from "@/config/supabase";
 
 import { useRefetchOnFocus } from "@/hooks/useRefetchOnFocus";
 
@@ -40,14 +40,7 @@ export default function Home() {
   useRefetchOnFocus(refetch);
 
   async function fetchData() {
-    const { data } = await supabase
-      .from("payments")
-      .select("*")
-      .gte("due", dayjs(currentDate).startOf("month").format("YYYY-MM-DD"))
-      .lte("due", dayjs(currentDate).endOf("month").format("YYYY-MM-DD"))
-      .order("due")
-      .order("description");
-
+    const { data } = await selectPayments(currentDate);
     return data;
   }
 
@@ -107,7 +100,9 @@ export default function Home() {
       ) : (
         <FlatList
           data={filterData()}
-          renderItem={({ item }) => <PaymentsItem item={item} />}
+          renderItem={({ item }) => (
+            <PaymentItem item={item} refetch={refetch} />
+          )}
           ListHeaderComponent={
             <PaymentsListHeader
               totalNotPaid={totalNotPaid}

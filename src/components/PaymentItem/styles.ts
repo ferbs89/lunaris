@@ -1,6 +1,11 @@
 import styled from "styled-components/native";
 import { warmGray800 } from "@/config/colors";
 
+type SwipeableContentType = {
+  marginLeft?: number;
+  marginRight?: number;
+};
+
 export const PaymentButton = styled.TouchableOpacity.attrs({
   activeOpacity: 0.5,
 })`
@@ -22,4 +27,14 @@ export const PaymentDescription = styled.View`
 export const PaymentTag = styled.View`
   align-items: flex-end;
   justify-content: center;
+`;
+
+export const SwipeableContent = styled.View<SwipeableContentType>`
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  margin-bottom: 8px;
+
+  ${({ marginLeft }) => marginLeft && `margin-left: ${marginLeft}px;`}
+  ${({ marginRight }) => marginRight && `margin-right: ${marginRight}px;`}
 `;

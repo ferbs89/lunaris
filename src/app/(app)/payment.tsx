@@ -20,7 +20,7 @@ import { TextLG, TextMD } from "@/components/Text";
 import TextInput from "@/components/TextInput";
 
 import { danger600, success600 } from "@/config/colors";
-import { supabase } from "@/config/supabase";
+import { deletePayment, insertPayment, updatePayment } from "@/config/supabase";
 
 import { useAuth } from "@/hooks/useAuth";
 import { usePaymentsStore } from "@/store/payments";
@@ -81,9 +81,9 @@ export default function Payment() {
     };
 
     if (payment?.id) {
-      await supabase.from("payments").update(payload).eq("id", payment?.id);
+      await updatePayment(payment.id, payload);
     } else {
-      await supabase.from("payments").insert([payload]);
+      await insertPayment(payload);
     }
 
     resetFields();
@@ -93,7 +93,7 @@ export default function Payment() {
   async function onDelete() {
     setIsLoading(true);
 
-    await supabase.from("payments").delete().eq("id", payment?.id);
+    await deletePayment(payment!.id);
 
     resetFields();
     router.back();
