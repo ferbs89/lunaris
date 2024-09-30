@@ -10,11 +10,9 @@ import {
   Poppins_700Bold,
 } from "@expo-google-fonts/poppins";
 import * as SplashScreen from "expo-splash-screen";
-import { StatusBar } from "expo-status-bar";
 
 import Container from "@/components/Container";
 
-import { warmGray900 } from "@/config/colors";
 import { queryClient } from "@/config/queryClient";
 
 import { AuthProvider } from "@/hooks/useAuth";
@@ -44,12 +42,6 @@ export default function Layout() {
       <QueryClientProvider client={queryClient}>
         <AuthProvider>
           <Container>
-            <StatusBar
-              style="light"
-              backgroundColor={warmGray900}
-              translucent={false}
-            />
-
             <Stack screenOptions={{ headerShown: false }} />
           </Container>
         </AuthProvider>
