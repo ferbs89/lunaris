@@ -1,7 +1,5 @@
 import { useEffect } from "react";
-import Stack from "expo-router/stack";
-import { QueryClientProvider } from "react-query";
-import { GestureHandlerRootView } from "react-native-gesture-handler";
+import * as SplashScreen from "expo-splash-screen";
 import {
   useFonts,
   Poppins_400Regular,
@@ -9,9 +7,9 @@ import {
   Poppins_600SemiBold,
   Poppins_700Bold,
 } from "@expo-google-fonts/poppins";
-import * as SplashScreen from "expo-splash-screen";
-
-import Container from "@/components/Container";
+import { Stack } from "expo-router";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
+import { QueryClientProvider } from "react-query";
 
 import { queryClient } from "@/config/queryClient";
 
@@ -41,9 +39,7 @@ export default function Layout() {
     <GestureHandlerRootView style={{ flex: 1 }}>
       <QueryClientProvider client={queryClient}>
         <AuthProvider>
-          <Container>
-            <Stack screenOptions={{ headerShown: false }} />
-          </Container>
+          <Stack screenOptions={{ headerShown: false }} />
         </AuthProvider>
       </QueryClientProvider>
     </GestureHandlerRootView>
