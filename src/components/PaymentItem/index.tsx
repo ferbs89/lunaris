@@ -24,12 +24,12 @@ import {
   SwipeableContent,
 } from "./styles";
 
-type PaymentItemType = {
+type ItemType = {
   item: PaymentItemType;
   refetch: () => void;
 };
 
-export default function ({ item, refetch }: PaymentItemType) {
+export default function ({ item, refetch }: ItemType) {
   const setPayment = usePaymentsStore((state) => state.setPayment);
 
   const swipeableRef = useRef<any>(null);

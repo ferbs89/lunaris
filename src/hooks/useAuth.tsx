@@ -1,21 +1,34 @@
-import React, { createContext, useContext, useEffect, useState } from "react";
+import React, {
+  createContext,
+  ReactNode,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
 import { User as UserType } from "@supabase/supabase-js";
 
 import { queryClient } from "@/config/queryClient";
 import { supabase } from "@/config/supabase";
 
+type AuthProviderType = {
+  children: ReactNode;
+};
+
 type AuthContextType = {
-  user: UserType;
+  user: UserType | null;
   loadingSession: boolean;
   loadingLogin: boolean;
-  handleLogin: (email: string, password: string) => Promise<boolean>;
+  handleLogin: (
+    email: string,
+    password: string
+  ) => Promise<boolean | undefined>;
   handleLogout: () => Promise<void>;
 };
 
 const AuthContext = createContext({} as AuthContextType);
 
-export function AuthProvider({ children }) {
-  const [user, setUser] = useState(null);
+export function AuthProvider({ children }: AuthProviderType) {
+  const [user, setUser] = useState<UserType | null>(null);
   const [loadingSession, setLoadingSession] = useState(true);
   const [loadingLogin, setLoadingLogin] = useState(false);
 

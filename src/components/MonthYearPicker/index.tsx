@@ -1,9 +1,7 @@
-import React, { forwardRef, useImperativeHandle, useRef } from "react";
-import BottomSheet from "@gorhom/bottom-sheet";
+import React from "react";
 import dayjs from "dayjs";
 
 import IconButton from "@/components/IconButton";
-import MyBottomSheet from "@/components/MyBottomSheet";
 import { TextLG, TextMD } from "@/components/Text";
 
 import { usePaymentsStore } from "@/store/payments";
@@ -18,20 +16,22 @@ import {
   YearSelectorTitle,
 } from "./styles";
 
-const MonthYearPicker = forwardRef((_, ref) => {
+type MonthYearPickerType = {
+  onClose: () => void;
+};
+
+type MonthButtonType = {
+  value: number;
+  description: string;
+};
+
+export default function ({ onClose }: MonthYearPickerType) {
   const currentDate = usePaymentsStore((state) => state.currentDate);
   const setCurrentDate = usePaymentsStore((state) => state.setCurrentDate);
 
-  const bottomSheetRef = useRef<BottomSheet>(null);
-
-  useImperativeHandle(ref, () => ({
-    expand: () => bottomSheetRef.current?.expand(),
-    close: () => bottomSheetRef.current?.close(),
-  }));
-
   function handleMonthSelect(value: number) {
     setCurrentDate(dayjs(currentDate).set("month", value).format("YYYY-MM-DD"));
-    bottomSheetRef.current?.close();
+    onClose();
   }
 
   function YearSelector() {
@@ -64,7 +64,7 @@ const MonthYearPicker = forwardRef((_, ref) => {
     );
   }
 
-  function MonthButton({ description, value }) {
+  function MonthButton({ value, description }: MonthButtonType) {
     const isSelected = dayjs(currentDate).month() === value;
 
     return (
@@ -80,16 +80,14 @@ const MonthYearPicker = forwardRef((_, ref) => {
   }
 
   return (
-    <MyBottomSheet ref={bottomSheetRef}>
+    <>
       <YearSelector />
 
       <MonthContainer>
         {months.map((item, index) => (
-          <MonthButton key={item} description={item} value={index} />
+          <MonthButton key={item} value={index} description={item} />
         ))}
       </MonthContainer>
-    </MyBottomSheet>
+    </>
   );
-});
-
-export default MonthYearPicker;
+}

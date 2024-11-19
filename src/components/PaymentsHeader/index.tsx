@@ -10,7 +10,11 @@ import { months } from "@/utils/months";
 
 import { PaymentsHeaderContainer, PaymentsHeaderTitle } from "./styles";
 
-export default function ({ onPress }) {
+type PaymentsHeaderType = {
+  onPress: () => void;
+};
+
+export default function ({ onPress }: PaymentsHeaderType) {
   const currentDate = usePaymentsStore((state) => state.currentDate);
   const setCurrentDate = usePaymentsStore((state) => state.setCurrentDate);
 

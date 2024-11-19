@@ -1,8 +1,6 @@
-import React, { forwardRef, useImperativeHandle, useRef } from "react";
-import BottomSheet from "@gorhom/bottom-sheet";
+import React from "react";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 
-import MyBottomSheet from "@/components/MyBottomSheet";
 import { TextMD } from "@/components/Text";
 
 import { trueGray50 } from "@/config/colors";
@@ -17,15 +15,8 @@ type MenuItemType = {
   onPress: () => void;
 };
 
-const Menu = forwardRef((_, ref) => {
+export default function () {
   const { handleLogout } = useAuth();
-
-  const bottomSheetRef = useRef<BottomSheet>(null);
-
-  useImperativeHandle(ref, () => ({
-    expand: () => bottomSheetRef.current?.expand(),
-    close: () => bottomSheetRef.current?.close(),
-  }));
 
   function MenuItem({ title, icon, onPress }: MenuItemType) {
     return (
@@ -37,18 +28,14 @@ const Menu = forwardRef((_, ref) => {
   }
 
   return (
-    <MyBottomSheet ref={bottomSheetRef}>
-      <MenuContainer>
-        <MenuItem title="Alterar senha" icon="account-box" onPress={() => {}} />
+    <MenuContainer>
+      <MenuItem title="Alterar senha" icon="account-box" onPress={() => {}} />
 
-        <MenuItem
-          title="Finalizar sessão"
-          icon="exit-to-app"
-          onPress={handleLogout}
-        />
-      </MenuContainer>
-    </MyBottomSheet>
+      <MenuItem
+        title="Finalizar sessão"
+        icon="exit-to-app"
+        onPress={handleLogout}
+      />
+    </MenuContainer>
   );
-});
-
-export default Menu;
+}

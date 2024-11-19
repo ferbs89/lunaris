@@ -28,12 +28,9 @@ const MyBottomSheet = forwardRef<BottomSheet, BottomSheetType>(
       <BottomSheet
         ref={ref}
         index={-1}
-        enableDynamicSizing={true}
         backdropComponent={renderBackdrop}
+        backgroundStyle={{ backgroundColor: warmGray900 }}
         enablePanDownToClose
-        backgroundStyle={{
-          backgroundColor: warmGray900,
-        }}
       >
         <BottomSheetScrollView>{children}</BottomSheetScrollView>
       </BottomSheet>

@@ -11,7 +11,7 @@ type HeaderType = {
   onPressMenu?: () => void;
 };
 
-export default function Header({
+export default function ({
   titleComponent,
   rightIcon,
   onBack,

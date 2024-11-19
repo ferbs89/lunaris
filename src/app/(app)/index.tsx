@@ -10,6 +10,7 @@ import Header from "@/components/Header";
 import IconButton from "@/components/IconButton";
 import Menu from "@/components/Menu";
 import MonthYearPicker from "@/components/MonthYearPicker";
+import MyBottomSheet from "@/components/MyBottomSheet";
 import PaymentsHeader from "@/components/PaymentsHeader";
 import PaymentItem from "@/components/PaymentItem";
 import PaymentsListFooter from "@/components/PaymentsListFooter";
@@ -113,8 +114,13 @@ export default function Home() {
         />
       )}
 
-      <Menu ref={menuRef} />
-      <MonthYearPicker ref={monthYearRef} />
+      <MyBottomSheet ref={menuRef}>
+        <Menu />
+      </MyBottomSheet>
+
+      <MyBottomSheet ref={monthYearRef}>
+        <MonthYearPicker onClose={() => monthYearRef.current?.close()} />
+      </MyBottomSheet>
     </Container>
   );
 }

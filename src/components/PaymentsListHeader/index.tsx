@@ -13,7 +13,12 @@ import {
   PaymentsListHeaderItemTitle,
 } from "./styles";
 
-export default function ({ totalNotPaid, totalPaid }) {
+type PaymentsListHeaderType = {
+  totalNotPaid: number;
+  totalPaid: number;
+};
+
+export default function ({ totalNotPaid, totalPaid }: PaymentsListHeaderType) {
   const status = usePaymentsStore((state) => state.status);
   const setStatus = usePaymentsStore((state) => state.setStatus);
 
