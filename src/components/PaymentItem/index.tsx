@@ -1,7 +1,7 @@
 import React, { useRef } from "react";
 import dayjs from "dayjs";
 import { router } from "expo-router";
-import { Swipeable } from "react-native-gesture-handler";
+import Swipeable from "react-native-gesture-handler/ReanimatedSwipeable";
 
 import IconButton from "@/components/IconButton";
 import Tag from "@/components/Tag";
@@ -51,7 +51,7 @@ export default function ({ item, refetch }: ItemType) {
     return (
       <SwipeableContent marginRight={8}>
         <IconButton
-          iconName={item.is_paid ? "close" : "check"}
+          iconName={item.is_paid ? "money-off" : "attach-money"}
           color={item.is_paid ? danger600 : success600}
           onPress={async () => {
             await updatePayment(item.id, {
@@ -71,6 +71,8 @@ export default function ({ item, refetch }: ItemType) {
       ref={swipeableRef}
       renderLeftActions={() => <SwipeableLeft />}
       renderRightActions={() => <SwipeableRight />}
+      overshootLeft={false}
+      overshootRight={false}
     >
       <PaymentButton
         onPress={() => {

@@ -7,7 +7,7 @@ type SwipeableContentType = {
 };
 
 export const PaymentButton = styled.TouchableOpacity.attrs({
-  activeOpacity: 0.5,
+  activeOpacity: 1,
 })`
   margin: 0 8px 8px;
   padding: 8px;
