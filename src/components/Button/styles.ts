@@ -17,13 +17,13 @@ export const ButtonContainer = styled.TouchableOpacity.attrs<ButtonContainerType
   border-radius: 8px;
 
   ${({ mode, color }) =>
-    mode == "default" &&
+    mode === "default" &&
     `
     background-color: ${color};
   `}
 
   ${({ mode, color }) =>
-    mode == "outline" &&
+    mode === "outline" &&
     `
     border: 1px solid ${color};
   `}

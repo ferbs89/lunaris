@@ -29,7 +29,7 @@ type ItemType = {
   refetch: () => void;
 };
 
-export default function ({ item, refetch }: ItemType) {
+export default function PaymentItem({ item, refetch }: ItemType) {
   const setPayment = usePaymentsStore((state) => state.setPayment);
 
   const swipeableRef = useRef<any>(null);

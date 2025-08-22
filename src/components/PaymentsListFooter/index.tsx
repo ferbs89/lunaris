@@ -1,5 +1,5 @@
 import { PaymentsListFooterContainer } from "./styles";
 
-export default function () {
+export default function PaymentsListFooter() {
   return <PaymentsListFooterContainer />;
 }

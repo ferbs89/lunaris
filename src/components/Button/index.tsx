@@ -17,7 +17,7 @@ type ButtonType = {
   children: ReactNode;
 };
 
-export default function ({
+export default function Button({
   onPress,
   mode = "default",
   color = primary,

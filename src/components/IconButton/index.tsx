@@ -10,7 +10,7 @@ type IconButtonType = {
   onPress: () => void;
 };
 
-export default function ({
+export default function IconButton({
   iconName,
   color = warmGray800,
   onPress,

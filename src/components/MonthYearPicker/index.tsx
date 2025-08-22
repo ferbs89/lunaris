@@ -25,7 +25,7 @@ type MonthButtonType = {
   description: string;
 };
 
-export default function ({ onClose }: MonthYearPickerType) {
+export default function MonthYearPicker({ onClose }: MonthYearPickerType) {
   const currentDate = usePaymentsStore((state) => state.currentDate);
   const setCurrentDate = usePaymentsStore((state) => state.setCurrentDate);
 

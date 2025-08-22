@@ -1,5 +1,5 @@
-import { TextInput } from "./styles";
+import { CustomTextInput } from "./styles";
 
-export default function ({ ...rest }) {
-  return <TextInput {...rest} />;
+export default function TextInput({ ...rest }) {
+  return <CustomTextInput {...rest} />;
 }

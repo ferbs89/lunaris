@@ -12,7 +12,11 @@ type FormControlType = {
   error?: boolean;
 };
 
-export default function ({ label, children, error }: FormControlType) {
+export default function FormControl({
+  label,
+  children,
+  error,
+}: FormControlType) {
   return (
     <FormControlContainer>
       <TextBoldSM color={trueGray500}>{label}</TextBoldSM>

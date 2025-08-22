@@ -7,7 +7,7 @@ type TagType = {
   children: ReactNode;
 };
 
-export default function ({ color, width, children }: TagType) {
+export default function Tag({ color, width, children }: TagType) {
   return (
     <TagContainer color={color} width={width}>
       {children}

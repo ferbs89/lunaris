@@ -73,7 +73,7 @@ export default function Payment() {
     setIsLoading(true);
 
     const payload = {
-      user_id: user.id,
+      user_id: user!.id,
       description: data.description,
       value: data.value,
       due: datePickerValue,

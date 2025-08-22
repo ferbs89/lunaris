@@ -18,7 +18,10 @@ type PaymentsListHeaderType = {
   totalPaid: number;
 };
 
-export default function ({ totalNotPaid, totalPaid }: PaymentsListHeaderType) {
+export default function PaymentsListHeader({
+  totalNotPaid,
+  totalPaid,
+}: PaymentsListHeaderType) {
   const status = usePaymentsStore((state) => state.status);
   const setStatus = usePaymentsStore((state) => state.setStatus);
 

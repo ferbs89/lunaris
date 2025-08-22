@@ -12,7 +12,7 @@ type BottomSheetType = {
 };
 
 const MyBottomSheet = forwardRef<BottomSheet, BottomSheetType>(
-  ({ children }, ref) => {
+  function MyBottomSheet({ children }, ref) {
     const renderBackdrop = useCallback(
       (props: BottomSheetBackdropProps) => (
         <BottomSheetBackdrop

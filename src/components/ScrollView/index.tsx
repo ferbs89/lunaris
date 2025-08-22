@@ -1,11 +1,11 @@
 import { ReactNode } from "react";
 
-import { ScrollView } from "./styles";
+import { CustomScrollView } from "./styles";
 
 type ScrollViewType = {
   children: ReactNode;
 };
 
-export default function ({ children }: ScrollViewType) {
-  return <ScrollView>{children}</ScrollView>;
+export default function ScrollView({ children }: ScrollViewType) {
+  return <CustomScrollView>{children}</CustomScrollView>;
 }

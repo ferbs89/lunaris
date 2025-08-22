@@ -7,7 +7,7 @@ import { trueGray50 } from "@/config/colors";
 
 import { LoaderContainer, LoaderLogoContainer } from "./styles";
 
-export default function () {
+export default function Loader() {
   return (
     <LoaderContainer>
       <LoaderLogoContainer>

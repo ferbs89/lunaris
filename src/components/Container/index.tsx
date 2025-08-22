@@ -1,18 +1,18 @@
 import React, { ReactNode } from "react";
 import { StatusBar } from "expo-status-bar";
 
-import { Container } from "./styles";
+import { Content } from "./styles";
 
 type ContainerType = {
   children?: ReactNode;
 };
 
-export default function ({ children }: ContainerType) {
+export default function Container({ children }: ContainerType) {
   return (
     <>
       <StatusBar translucent={false} />
 
-      <Container>{children}</Container>
+      <Content>{children}</Content>
     </>
   );
 }

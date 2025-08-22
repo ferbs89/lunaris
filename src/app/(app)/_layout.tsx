@@ -1,5 +1,4 @@
-import { Redirect } from "expo-router";
-import { Stack } from "expo-router";
+import { Redirect, Stack } from "expo-router";
 
 import Container from "@/components/Container";
 import Loader from "@/components/Loader";

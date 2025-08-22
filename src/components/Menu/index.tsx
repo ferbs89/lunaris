@@ -15,7 +15,7 @@ type MenuItemType = {
   onPress: () => void;
 };
 
-export default function () {
+export default function Menu() {
   const { handleLogout } = useAuth();
 
   function MenuItem({ title, icon, onPress }: MenuItemType) {
