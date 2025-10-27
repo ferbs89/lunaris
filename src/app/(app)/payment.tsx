@@ -64,9 +64,22 @@ export default function Payment() {
     },
   });
 
-  function onChangeDatePicker(event: DateTimePickerEvent, selectedDate: Date) {
+  function onChangeDatePicker(
+    event: DateTimePickerEvent,
+    date: Date | undefined
+  ) {
+    const {
+      type,
+      nativeEvent: { timestamp, utcOffset },
+    } = event;
+
+    console.log(type, timestamp, utcOffset, date);
+
     setDatePickerShow(false);
-    setDatePickerValue(selectedDate);
+
+    if (date) {
+      setDatePickerValue(date);
+    }
   }
 
   async function onSubmit(data: FormData) {
@@ -161,6 +174,7 @@ export default function Payment() {
               <DateTimePicker
                 value={datePickerValue}
                 mode="date"
+                timeZoneOffsetInMinutes={-180}
                 onChange={onChangeDatePicker}
               />
             )}

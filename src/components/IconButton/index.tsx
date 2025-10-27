@@ -7,7 +7,7 @@ import { IconButtonContainer } from "./styles";
 type IconButtonType = {
   iconName: keyof typeof MaterialIcons.glyphMap;
   color?: string;
-  onPress: () => void;
+  onPress?: () => void;
 };
 
 export default function IconButton({

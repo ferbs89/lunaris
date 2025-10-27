@@ -5,7 +5,7 @@
   "scripts": {
     "start": "expo start",
     "android": "expo run:android",
-    "release": "expo run:android --variant release",
+    "release": "cd android && gradlew assembleRelease",
     "prebuild": "expo prebuild --platform android",
     "development": "eas build --platform android --profile development",
     "preview": "eas build --platform android --profile preview",
